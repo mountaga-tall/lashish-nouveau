@@ -1,4 +1,3 @@
-
 const numeroWhatsApp = "2250140555666";
 
 const allProducts = [
@@ -8,7 +7,8 @@ const allProducts = [
   ...(window.MENU_BOISSONS || [])
 ].filter(p => p.disponible !== false).sort((a,b) => Number(a.id) - Number(b.id));
 
-let cart = [];
+// Optimisation 1 : Récupération du panier depuis le localStorage
+let cart = JSON.parse(localStorage.getItem("laShishCart")) || [];
 let activeCategory = "ALL";
 let searchTerm = "";
 let currentModalProduct = null;
@@ -30,10 +30,25 @@ const el = {
   cartPanel: document.querySelector(".cart-panel")
 };
 
+// Fonction utilitaire pour sauvegarder le panier
+function saveCart() {
+  localStorage.setItem("laShishCart", JSON.stringify(cart));
+}
+
+// Fonction utilitaire de debouncing pour la recherche
+function debounce(func, delay) {
+  let timeoutId;
+  return function(...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
 function formatPrice(n){
   return Number(n || 0).toLocaleString("fr-FR");
 }
-
 
 function getProductImageSrc(p){
   return `images/${p.id}.webp`;
@@ -355,7 +370,6 @@ function renderChoiceModal(p){
 
     let prixFinal = Number(p.prix || 0);
 
-    // Ajoute automatiquement un supplément si l'option contient un prix du type (+1500 FCFA)
     const supplementMatch = choice.match(/\+\s*([0-9\s.]+)\s*FCFA/i);
     if(supplementMatch){
       const supplement = Number(supplementMatch[1].replace(/[\s.]/g, ""));
@@ -384,6 +398,7 @@ function addToCart(item){
   } else {
     cart.push({...item, key, qty:1});
   }
+  saveCart(); // Sauvegarde locale
   renderCart();
 }
 
@@ -394,11 +409,13 @@ function changeQty(key, delta){
   if(item.qty <= 0){
     cart = cart.filter(x=>x.key !== key);
   }
+  saveCart(); // Sauvegarde locale
   renderCart();
 }
 
 function removeItem(key){
   cart = cart.filter(x=>x.key !== key);
+  saveCart(); // Sauvegarde locale
   renderCart();
 }
 
@@ -448,8 +465,16 @@ function sendWhatsApp(){
   const address = document.getElementById("clientAddress").value.trim();
   const comment = document.getElementById("clientComment").value.trim();
 
+  // Optimisation 3 : Validation du numéro de téléphone avec Regex
+  const phoneRegex = /^[0-9\s\-\+]{8,15}$/;
+
   if(!name || !phone || !zone || !address){
     alert("Merci de remplir : nom, téléphone, quartier et adresse.");
+    return;
+  }
+
+  if (!phoneRegex.test(phone)) {
+    alert("Veuillez entrer un numéro de téléphone valide.");
     return;
   }
 
@@ -524,10 +549,11 @@ el.closeModal.addEventListener("click", hideModal);
 el.closeCartMobile.addEventListener("click", () => el.cartPanel.classList.remove("open"));
 el.modal.addEventListener("click", e => { if(e.target === el.modal) hideModal(); });
 
-el.searchInput.addEventListener("input", e => {
+// Optimisation 2 : Application du debounce sur la barre de recherche
+el.searchInput.addEventListener("input", debounce((e) => {
   searchTerm = e.target.value;
   renderMenu();
-});
+}, 300));
 
 el.resetSearch.addEventListener("click", () => {
   searchTerm = "";
