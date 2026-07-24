@@ -5,25 +5,13 @@ window.MENU_PIZZAS = [
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
     "nom": "Reine",
-    "description": "Base Tomate, olive, champignon, fromage",
+    "description": "Base tomate, olive, champignon, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 6000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 8000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 10000
-      }
+      { "nom": "Petite 25cm", "prix": 6000 },
+      { "nom": "Moyenne 28cm", "prix": 8000 },
+      { "nom": "Grande 31cm", "prix": 10000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "113.jpg"
   },
@@ -32,26 +20,14 @@ window.MENU_PIZZAS = [
     "type": "pizza",
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
-    "nom": "Marguerita",
-    "description": "Base Tomate, origan, mozzarella",
+    "nom": "Margherita",
+    "description": "Base tomate, origan, mozzarella",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 6000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 8000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 10000
-      }
+      { "nom": "Petite 25cm", "prix": 6000 },
+      { "nom": "Moyenne 28cm", "prix": 8000 },
+      { "nom": "Grande 31cm", "prix": 10000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "114.jpg"
   },
@@ -60,26 +36,14 @@ window.MENU_PIZZAS = [
     "type": "pizza",
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
-    "nom": "Vegetarienne",
-    "description": "BaseTomate, ognon, champignon, olive, poivron, fromage",
+    "nom": "Végétarienne",
+    "description": "Base tomate, oignon, champignon, olive, poivron, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 6000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 8000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 10000
-      }
+      { "nom": "Petite 25cm", "prix": 6000 },
+      { "nom": "Moyenne 28cm", "prix": 8000 },
+      { "nom": "Grande 31cm", "prix": 10000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "115.jpg"
   },
@@ -89,25 +53,13 @@ window.MENU_PIZZAS = [
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
     "nom": "Royal",
-    "description": "Base Tomate, Jambon, Olive, Champignon, fromage",
+    "description": "Base tomate, jambon, olive, champignon, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 6000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 8000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 10000
-      }
+      { "nom": "Petite 25cm", "prix": 6000 },
+      { "nom": "Moyenne 28cm", "prix": 8000 },
+      { "nom": "Grande 31cm", "prix": 10000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "116.jpg"
   },
@@ -117,25 +69,13 @@ window.MENU_PIZZAS = [
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
     "nom": "Capricciosa",
-    "description": "Base Tomate, olive, poulet, champignon, fromage",
+    "description": "Base tomate, olive, poulet, champignon, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 6000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 8000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 10000
-      }
+      { "nom": "Petite 25cm", "prix": 6000 },
+      { "nom": "Moyenne 28cm", "prix": 8000 },
+      { "nom": "Grande 31cm", "prix": 10000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "117.jpg"
   },
@@ -145,25 +85,13 @@ window.MENU_PIZZAS = [
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
     "nom": "Romaine",
-    "description": "Base Tomate, Thon, Champignon, Fromage",
+    "description": "Base tomate, thon, champignon, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 6000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 8000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 10000
-      }
+      { "nom": "Petite 25cm", "prix": 6000 },
+      { "nom": "Moyenne 28cm", "prix": 8000 },
+      { "nom": "Grande 31cm", "prix": 10000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "118.jpg"
   },
@@ -173,25 +101,13 @@ window.MENU_PIZZAS = [
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
     "nom": "Calzone",
-    "description": "Base Tomate, Jambon, champignon, poivron, fromage",
+    "description": "Base tomate, jambon, champignon, poivron, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 6000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 8000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 10000
-      }
+      { "nom": "Petite 25cm", "prix": 6000 },
+      { "nom": "Moyenne 28cm", "prix": 8000 },
+      { "nom": "Grande 31cm", "prix": 10000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "119.jpg"
   },
@@ -200,26 +116,14 @@ window.MENU_PIZZAS = [
     "type": "pizza",
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
-    "nom": "Peperoni",
-    "description": "Base tomate, peperoni, origan, fromage",
+    "nom": "Pepperoni",
+    "description": "Base tomate, pepperoni, origan, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 6000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 8000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 10000
-      }
+      { "nom": "Petite 25cm", "prix": 6000 },
+      { "nom": "Moyenne 28cm", "prix": 8000 },
+      { "nom": "Grande 31cm", "prix": 10000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "120.jpg"
   },
@@ -229,25 +133,13 @@ window.MENU_PIZZAS = [
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
     "nom": "Bolognaise",
-    "description": "Base tomate, viande hachée, Œuf, Fromage",
+    "description": "Base tomate, viande hachée, œuf, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 6000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 8000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 10000
-      }
+      { "nom": "Petite 25cm", "prix": 6000 },
+      { "nom": "Moyenne 28cm", "prix": 8000 },
+      { "nom": "Grande 31cm", "prix": 10000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "121.jpg"
   },
@@ -256,26 +148,14 @@ window.MENU_PIZZAS = [
     "type": "pizza",
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
-    "nom": "Royal Cremiere",
-    "description": "Base Crème fraiche, Jambon, champignon, fromage",
+    "nom": "Royal Crémière",
+    "description": "Base crème fraîche, jambon, champignon, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 7000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 9000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 11000
-      }
+      { "nom": "Petite 25cm", "prix": 7000 },
+      { "nom": "Moyenne 28cm", "prix": 9000 },
+      { "nom": "Grande 31cm", "prix": 11000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "122.jpg"
   },
@@ -285,25 +165,13 @@ window.MENU_PIZZAS = [
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
     "nom": "Parisienne",
-    "description": "Base crème fraiche, Poulet, champignon",
+    "description": "Base crème fraîche, poulet, champignon",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 7000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 9000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 11000
-      }
+      { "nom": "Petite 25cm", "prix": 7000 },
+      { "nom": "Moyenne 28cm", "prix": 9000 },
+      { "nom": "Grande 31cm", "prix": 11000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "123.jpg"
   },
@@ -313,25 +181,13 @@ window.MENU_PIZZAS = [
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
     "nom": "Calabraise",
-    "description": "Base Tomate, crème fraiche, jambon, olive, champignon, fromage",
+    "description": "Base tomate, crème fraîche, jambon, olive, champignon, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 7000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 9000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 11000
-      }
+      { "nom": "Petite 25cm", "prix": 7000 },
+      { "nom": "Moyenne 28cm", "prix": 9000 },
+      { "nom": "Grande 31cm", "prix": 11000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "124.jpg"
   },
@@ -340,26 +196,14 @@ window.MENU_PIZZAS = [
     "type": "pizza",
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
-    "nom": "Fruit De Mer",
-    "description": "Base Tomate, crevette, thon , Ail, Fromage",
+    "nom": "Fruit de mer",
+    "description": "Base tomate, crevette, thon, ail, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 7000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 9000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 11000
-      }
+      { "nom": "Petite 25cm", "prix": 7000 },
+      { "nom": "Moyenne 28cm", "prix": 9000 },
+      { "nom": "Grande 31cm", "prix": 11000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "125.jpg"
   },
@@ -369,25 +213,13 @@ window.MENU_PIZZAS = [
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
     "nom": "Shish",
-    "description": "Base créme fraiche, Poulet paprika, poivron, olive, sauce barbecue, fromage",
+    "description": "Base crème fraîche, poulet paprika, poivron, olive, sauce barbecue, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 7000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 9000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 11000
-      }
+      { "nom": "Petite 25cm", "prix": 7000 },
+      { "nom": "Moyenne 28cm", "prix": 9000 },
+      { "nom": "Grande 31cm", "prix": 11000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "126.jpg"
   },
@@ -397,25 +229,13 @@ window.MENU_PIZZAS = [
     "categorie": "Pizza",
     "sousCategorie": "Pizzas",
     "nom": "Quatre Saisons",
-    "description": "Base Tomate, jambon, olive, thon, champignon, fromage",
+    "description": "Base tomate, jambon, olive, thon, champignon, fromage",
     "tailles": [
-      {
-        "nom": "Petite 25cm",
-        "prix": 7000
-      },
-      {
-        "nom": "Moyenne 28cm",
-        "prix": 9000
-      },
-      {
-        "nom": "Grande 31cm",
-        "prix": 11000
-      }
+      { "nom": "Petite 25cm", "prix": 7000 },
+      { "nom": "Moyenne 28cm", "prix": 9000 },
+      { "nom": "Grande 31cm", "prix": 11000 }
     ],
-    "supplement": {
-      "label": "Supplément",
-      "prix": 1000
-    },
+    "supplement": { "label": "Supplément", "prix": 1000 },
     "disponible": true,
     "photo": "127.jpg"
   }
