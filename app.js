@@ -622,6 +622,11 @@ let msg=
 
 `🏠 ${address}\n\n`;
 
+   if(comment){
+
+    msg += `📝 ${comment}\n\n`;
+
+}
 
 msg+="🛒 Commande:\n";
 
