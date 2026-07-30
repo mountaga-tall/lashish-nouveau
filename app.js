@@ -587,13 +587,15 @@ return;
 
 
 
-let name=clientName.value.trim();
+let name = el.clientName.value.trim();
 
-let phone=clientPhone.value.trim();
+let phone = el.clientPhone.value.trim();
 
-let zone=clientZone.value.trim();
+let zone = el.clientZone.value.trim();
 
-let address=clientAddress.value.trim();
+let address = el.clientAddress.value.trim();
+
+let comment = el.clientComment.value.trim();
 
 
 
