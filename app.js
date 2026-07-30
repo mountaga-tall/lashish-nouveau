@@ -40,36 +40,33 @@ let currentModalProduct=null;
 
 
 
-const el={
+const el = {
 
+    categoryTabs: document.getElementById("categoryTabs"),
+    menuContainer: document.getElementById("menuContainer"),
 
-categoryTabs:document.getElementById("categoryTabs"),
+    searchInput: document.getElementById("searchInput"),
+    resetSearch: document.getElementById("resetSearch"),
 
-menuContainer:document.getElementById("menuContainer"),
+    cartItems: document.getElementById("cartItems"),
+    cartTotal: document.getElementById("cartTotal"),
+    mobileTotal: document.getElementById("mobileTotal"),
 
-searchInput:document.getElementById("searchInput"),
+    whatsappBtn: document.getElementById("whatsappBtn"),
 
-resetSearch:document.getElementById("resetSearch"),
+    modal: document.getElementById("optionModal"),
+    modalContent: document.getElementById("modalContent"),
+    closeModal: document.getElementById("closeModal"),
 
-cartItems:document.getElementById("cartItems"),
+    mobileCartBtn: document.getElementById("mobileCartBtn"),
+    closeCartMobile: document.getElementById("closeCartMobile"),
+    cartPanel: document.querySelector(".cart-panel"),
 
-cartTotal:document.getElementById("cartTotal"),
-
-mobileTotal:document.getElementById("mobileTotal"),
-
-whatsappBtn:document.getElementById("whatsappBtn"),
-
-modal:document.getElementById("optionModal"),
-
-modalContent:document.getElementById("modalContent"),
-
-closeModal:document.getElementById("closeModal"),
-
-mobileCartBtn:document.getElementById("mobileCartBtn"),
-
-closeCartMobile:document.getElementById("closeCartMobile"),
-
-cartPanel:document.querySelector(".cart-panel")
+    clientName: document.getElementById("clientName"),
+    clientPhone: document.getElementById("clientPhone"),
+    clientZone: document.getElementById("clientZone"),
+    clientAddress: document.getElementById("clientAddress"),
+    clientComment: document.getElementById("clientComment")
 
 };
 
