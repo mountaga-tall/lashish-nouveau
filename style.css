@@ -1233,3 +1233,290 @@ transform:none;
 
 
 }
+/* =====================================================
+   LA SHISH FINAL FIX
+   Correction panier coupé + responsive
+   ===================================================== */
+
+
+/* ===== STRUCTURE PRINCIPALE ===== */
+
+.layout {
+
+  max-width:1450px;
+
+  width:92%;
+
+  margin:24px auto;
+
+  display:grid;
+
+  grid-template-columns:minmax(0,1fr) minmax(280px,310px);
+
+  gap:18px;
+
+  overflow:hidden;
+
+}
+
+
+/* Empêche le menu de pousser le panier */
+
+.menu-zone {
+
+  min-width:0;
+
+  overflow:hidden;
+
+}
+
+
+/* ===== PANIER DESKTOP ===== */
+
+
+.cart-panel {
+
+  min-width:0;
+
+  width:100%;
+
+}
+
+
+.cart-sticky {
+
+  width:100%;
+
+  max-width:100%;
+
+  overflow:hidden;
+
+  position:sticky;
+
+  top:16px;
+
+}
+
+
+
+/* ===== FORMULAIRE PANIER ===== */
+
+
+.client-form {
+
+  width:100%;
+
+}
+
+
+.client-form input,
+.client-form textarea {
+
+  width:100%;
+
+  max-width:100%;
+
+  display:block;
+
+  box-sizing:border-box;
+
+}
+
+
+
+.client-form textarea {
+
+  min-height:80px;
+
+}
+
+
+
+
+
+/* ===== PRODUITS ===== */
+
+
+.products-grid {
+
+  width:100%;
+
+  min-width:0;
+
+}
+
+
+
+/* ===== CATEGORIES ===== */
+
+
+.category-tabs {
+
+  max-width:100%;
+
+}
+
+
+
+/* ===== TABLETTE ===== */
+
+
+@media(max-width:1200px){
+
+
+.layout {
+
+  width:94%;
+
+  grid-template-columns:minmax(0,1fr) 290px;
+
+}
+
+
+}
+
+
+
+
+
+/* ===== PETIT ECRAN ===== */
+
+
+@media(max-width:900px){
+
+
+.layout {
+
+  width:94%;
+
+  display:block;
+
+  overflow:visible;
+
+}
+
+
+/* panier mobile */
+
+.cart-panel {
+
+  position:fixed;
+
+  inset:0;
+
+  width:100%;
+
+  z-index:60;
+
+}
+
+
+
+.cart-sticky {
+
+  width:100%;
+
+  max-width:100%;
+
+  border-radius:24px 24px 0 0;
+
+}
+
+
+
+.menu-zone {
+
+  width:100%;
+
+}
+
+
+
+
+}
+
+
+
+
+
+/* ===== MOBILE EXTRA ===== */
+
+
+@media(max-width:480px){
+
+
+.hero-inner {
+
+ width:94%;
+
+}
+
+
+
+.menu-zone {
+
+ padding:14px;
+
+}
+
+
+
+.toolbar {
+
+ flex-direction:column;
+
+}
+
+
+
+.toolbar button {
+
+ width:100%;
+
+}
+
+
+
+.cart-sticky {
+
+ padding:15px;
+
+}
+
+
+
+}
+
+
+
+
+
+/* ===== EVITE LES DEBORDEMENTS ===== */
+
+
+html,
+body {
+
+  max-width:100%;
+
+  overflow-x:hidden;
+
+}
+
+
+
+img {
+
+  max-width:100%;
+
+}
+
+
+
+button,
+input,
+textarea {
+
+  font-family:inherit;
+
+}
