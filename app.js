@@ -809,7 +809,19 @@ renderCart();
 
 }
 
+let remove = e.target.closest("[data-remove]");
 
+if(remove){
+
+    cart = cart.filter(item => item.key !== remove.dataset.remove);
+
+    saveCart();
+
+    renderCart();
+
+    showToast("Produit supprimé");
+
+}
 
 
 });
