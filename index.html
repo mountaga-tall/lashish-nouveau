@@ -1,85 +1,523 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>La Shish - Commande en ligne</title>
-  <link rel="icon" type="image/webp" href="images/logo.webp">
-  <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json">
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>La Shish | Commande en ligne</title>
+
+<meta name="description" content="Commandez vos plats La Shish en ligne. Pizza, tacos, plats et boissons. Paiement Wave via WhatsApp.">
+
+<link rel="icon" type="image/webp" href="images/logo.webp">
+
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#ff8c00">
+
+
+<!-- Police moderne -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="style.css">
+
+
 </head>
+
+
 <body>
-  <header class="hero">
-    <div class="hero-inner">
-      <div class="brand">
-        <img src="images/logo.webp" alt="La Shish" class="logo" />
-        <div class="subtitle">Commande en ligne</div>
-      </div>
-      <div class="notice">
-        <p><strong>🚚 Livraison :</strong> à la charge du client. Nous recommandons de commander votre coursier via Yango Livraison.</p>
-        <p><strong>💳 Paiement :</strong> un lien Wave sera envoyé sur WhatsApp après validation de votre commande.</p>
-      </div>
-    </div>
-  </header>
-  <main class="layout">
-    <section class="menu-zone">
-      <div class="toolbar">
-        <input id="searchInput" type="search" placeholder="Rechercher un plat, pizza, boisson..." autocomplete="off" />
-        <button id="resetSearch" type="button">Effacer</button>
-      </div>
 
-      <nav id="categoryTabs" class="category-tabs" aria-label="Catégories"></nav>
 
-      <div id="menuContainer" class="menu-container"></div>
-    </section>
+<!-- LOADER -->
 
-    <aside class="cart-panel">
-      <div class="cart-sticky">
-        <button id="closeCartMobile" class="close-cart-mobile" type="button">×</button>
-        <h2>🛒 Votre commande</h2>
-        <div id="cartItems" class="cart-items empty">Votre panier est vide.</div>
-        <div class="cart-total">
-          <span>Total</span>
-          <strong><span id="cartTotal">0</span> FCFA</strong>
-        </div>
+<div id="loader">
 
-        <div class="client-form">
-          <h3>Informations client</h3>
-          <input id="clientName" type="text" placeholder="Nom du client" />
-          <input id="clientPhone" type="tel" placeholder="Téléphone" />
-          <input id="clientZone" type="text" placeholder="Quartier / zone" />
-          <textarea id="clientAddress" placeholder="Adresse complète"></textarea>
-          <textarea id="clientComment" placeholder="Commentaire / précision"></textarea>
-        </div>
+<img src="images/logo.webp" alt="La Shish">
 
-        <button id="whatsappBtn" class="whatsapp-btn" type="button">Commander sur WhatsApp</button>
-      </div>
-    </aside>
-  </main>
+</div>
 
-  <footer class="footer">
-    <div class="footer-info">
-      <span>📞 07 49 02 03 02 ou 01 40 555 666</span>
-      <span>⏱ Préparation moyenne : 10 à 30 min</span>
-    </div>
-    <div>© La Shish</div>
-  </footer>
 
-  <button id="mobileCartBtn" class="mobile-cart-btn" type="button">
-    Voir panier • <span id="mobileTotal">0</span> FCFA
-  </button>
 
-  <div id="optionModal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <button id="closeModal" class="close-modal" type="button">×</button>
-      <div id="modalContent"></div>
-    </div>
-  </div>
+<!-- HEADER HERO -->
 
-  <script src="data/plats.js"></script>
-  <script src="data/pizzas.js"></script>
-  <script src="data/tacos.js"></script>
-  <script src="data/boissons.js"></script>
-  <script src="app.js"></script>
+<header class="hero">
+
+
+<div class="hero-overlay"></div>
+
+
+<div class="hero-inner">
+
+
+<div class="brand">
+
+
+<img 
+src="images/logo.webp" 
+alt="La Shish"
+class="logo"
+/>
+
+
+<h1>
+
+La Shish
+
+<span>
+Commande en ligne
+</span>
+
+</h1>
+
+
+<p class="hero-text">
+
+🍕 Vos plats préférés préparés avec passion
+
+</p>
+
+
+
+<button 
+class="scroll-btn"
+onclick="document.querySelector('.menu-zone').scrollIntoView()">
+
+Découvrir le menu ↓
+
+</button>
+
+
+
+</div>
+
+
+
+
+<div class="notice glass">
+
+
+<div>
+
+<h3>🚚 Livraison</h3>
+
+<p>
+À la charge du client.
+<br>
+Nous recommandons Yango Livraison.
+</p>
+
+</div>
+
+
+
+<div>
+
+<h3>💳 Paiement</h3>
+
+<p>
+Un lien Wave sera envoyé sur WhatsApp après validation.
+</p>
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+<!-- CONTENU -->
+
+
+<main class="layout">
+
+
+
+<section class="menu-zone">
+
+
+
+<div class="toolbar">
+
+
+<input 
+id="searchInput"
+type="search"
+placeholder="Rechercher un plat, pizza, tacos..."
+autocomplete="off"
+/>
+
+
+<button id="resetSearch">
+
+Effacer
+
+</button>
+
+
+</div>
+
+
+
+
+<nav 
+id="categoryTabs"
+class="category-tabs"
+aria-label="Catégories">
+
+</nav>
+
+
+
+
+
+<div 
+id="menuContainer"
+class="menu-container">
+
+</div>
+
+
+
+
+</section>
+
+
+
+
+
+<!-- PANIER -->
+
+
+<aside class="cart-panel">
+
+
+<div class="cart-sticky">
+
+
+
+<button 
+id="closeCartMobile"
+class="close-cart-mobile">
+
+×
+
+
+</button>
+
+
+
+<h2>
+
+🛒 Votre commande
+
+</h2>
+
+
+
+
+<div 
+id="cartItems"
+class="cart-items empty">
+
+Votre panier est vide.
+
+</div>
+
+
+
+
+<div class="cart-total">
+
+
+<span>
+
+Total
+
+</span>
+
+
+
+<strong>
+
+<span id="cartTotal">
+
+0
+
+</span>
+
+FCFA
+
+</strong>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="client-form">
+
+
+<h3>
+
+Informations client
+
+</h3>
+
+
+
+
+<input 
+id="clientName"
+type="text"
+placeholder="Nom du client"
+>
+
+
+
+<input 
+id="clientPhone"
+type="tel"
+placeholder="Téléphone"
+>
+
+
+
+<input 
+id="clientZone"
+type="text"
+placeholder="Quartier / zone"
+>
+
+
+
+<textarea 
+id="clientAddress"
+placeholder="Adresse complète">
+</textarea>
+
+
+
+<textarea 
+id="clientComment"
+placeholder="Commentaire / précision">
+</textarea>
+
+
+
+</div>
+
+
+
+
+
+<button 
+id="whatsappBtn"
+class="whatsapp-btn">
+
+Commander sur WhatsApp
+
+</button>
+
+
+
+
+</div>
+
+
+</aside>
+
+
+
+</main>
+
+
+
+
+
+
+
+<!-- FOOTER -->
+
+
+<footer class="footer">
+
+
+<div class="footer-info">
+
+
+<span>
+📞 07 49 02 03 02
+</span>
+
+
+<span>
+01 40 555 666
+</span>
+
+
+<span>
+⏱ Préparation : 10 à 30 min
+</span>
+
+
+
+</div>
+
+
+
+<p>
+
+© La Shish
+
+</p>
+
+
+
+</footer>
+
+
+
+
+
+
+
+<!-- PANIER MOBILE -->
+
+
+<button 
+id="mobileCartBtn"
+class="mobile-cart-btn">
+
+
+🛒 Voir panier •
+
+<span id="mobileTotal">
+
+0
+
+</span>
+
+FCFA
+
+
+</button>
+
+
+
+
+
+
+
+<!-- MODAL OPTIONS -->
+
+
+<div 
+id="optionModal"
+class="modal hidden"
+role="dialog"
+aria-modal="true">
+
+
+<div class="modal-card">
+
+
+<button 
+id="closeModal"
+class="close-modal">
+
+×
+
+</button>
+
+
+
+<div id="modalContent">
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- DATA -->
+
+
+<script src="data/plats.js"></script>
+
+<script src="data/pizzas.js"></script>
+
+<script src="data/tacos.js"></script>
+
+<script src="data/boissons.js"></script>
+
+
+
+<!-- APP -->
+
+
+<script src="app.js"></script>
+
+
+
+
+<script>
+
+
+window.addEventListener("load",()=>{
+
+
+document
+.getElementById("loader")
+.style.display="none";
+
+
+});
+
+
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("sw.js");
+
+}
+
+
+</script>
+
+
+
 </body>
+
 </html>
