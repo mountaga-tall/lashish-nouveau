@@ -7,24 +7,40 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>La Shish | Commande en ligne</title>
 
-<meta name="description" content="Commandez vos plats La Shish en ligne. Pizza, tacos, plats et boissons. Paiement Wave via WhatsApp.">
+<title>
+La Shish | Commande en ligne
+</title>
+
+
+<meta name="description"
+content="Commandez vos pizzas, tacos, plats et boissons La Shish en ligne. Paiement Wave et commande WhatsApp.">
+
+
+<meta name="theme-color" content="#d7a84f">
+
 
 <link rel="icon" type="image/webp" href="images/logo.webp">
 
 
-<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 
-<meta name="theme-color" content="#ff8c00">
+
+<!-- Mobile App -->
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
 
 
-<!-- Police moderne -->
+<!-- Police -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 
 
 <link rel="stylesheet" href="style.css">
@@ -33,7 +49,9 @@
 </head>
 
 
+
 <body>
+
 
 
 <!-- LOADER -->
@@ -46,54 +64,33 @@
 
 
 
-<!-- HEADER HERO -->
+
+
+<!-- HERO -->
 
 <header class="hero">
 
 
-<div class="hero-overlay"></div>
-
-
 <div class="hero-inner">
+
 
 
 <div class="brand">
 
 
 <img 
-src="images/logo.webp" 
-alt="La Shish"
+src="images/logo.webp"
 class="logo"
-/>
+alt="La Shish"
+>
 
 
-<h1>
 
-La Shish
+<div class="subtitle">
 
-<span>
 Commande en ligne
-</span>
 
-</h1>
-
-
-<p class="hero-text">
-
-🍕 Vos plats préférés préparés avec passion
-
-</p>
-
-
-
-<button 
-class="scroll-btn"
-onclick="document.querySelector('.menu-zone').scrollIntoView()">
-
-Découvrir le menu ↓
-
-</button>
-
+</div>
 
 
 </div>
@@ -101,36 +98,43 @@ Découvrir le menu ↓
 
 
 
-<div class="notice glass">
 
+<div class="notice">
 
-<div>
-
-<h3>🚚 Livraison</h3>
 
 <p>
+
+<strong>
+🚚 Livraison
+</strong>
+
+<br>
+
 À la charge du client.
 <br>
+
 Nous recommandons Yango Livraison.
+
 </p>
 
-</div>
 
-
-
-<div>
-
-<h3>💳 Paiement</h3>
 
 <p>
+
+<strong>
+💳 Paiement
+</strong>
+
+<br>
+
 Un lien Wave sera envoyé sur WhatsApp après validation.
+
 </p>
 
+
+
 </div>
 
-
-
-</div>
 
 
 
@@ -143,10 +147,15 @@ Un lien Wave sera envoyé sur WhatsApp après validation.
 
 
 
+
+
+
 <!-- CONTENU -->
 
 
 <main class="layout">
+
+
 
 
 
@@ -157,12 +166,18 @@ Un lien Wave sera envoyé sur WhatsApp après validation.
 <div class="toolbar">
 
 
-<input 
+<input
+
 id="searchInput"
+
 type="search"
+
 placeholder="Rechercher un plat, pizza, tacos..."
+
 autocomplete="off"
-/>
+
+>
+
 
 
 <button id="resetSearch">
@@ -172,14 +187,19 @@ Effacer
 </button>
 
 
+
 </div>
 
 
 
 
-<nav 
+
+<nav
+
 id="categoryTabs"
+
 class="category-tabs"
+
 aria-label="Catégories">
 
 </nav>
@@ -188,8 +208,12 @@ aria-label="Catégories">
 
 
 
-<div 
+
+
+<div
+
 id="menuContainer"
+
 class="menu-container">
 
 </div>
@@ -197,7 +221,12 @@ class="menu-container">
 
 
 
+
 </section>
+
+
+
+
 
 
 
@@ -209,18 +238,21 @@ class="menu-container">
 <aside class="cart-panel">
 
 
+
 <div class="cart-sticky">
 
 
 
-<button 
+<button
+
 id="closeCartMobile"
+
 class="close-cart-mobile">
 
 ×
 
-
 </button>
+
 
 
 
@@ -233,13 +265,17 @@ class="close-cart-mobile">
 
 
 
-<div 
+
+<div
+
 id="cartItems"
+
 class="cart-items empty">
 
 Votre panier est vide.
 
 </div>
+
 
 
 
@@ -252,7 +288,6 @@ Votre panier est vide.
 Total
 
 </span>
-
 
 
 <strong>
@@ -268,8 +303,9 @@ FCFA
 </strong>
 
 
-
 </div>
+
+
 
 
 
@@ -288,40 +324,63 @@ Informations client
 
 
 
-<input 
+<input
+
 id="clientName"
+
 type="text"
+
 placeholder="Nom du client"
+
 >
 
 
 
-<input 
+
+<input
+
 id="clientPhone"
+
 type="tel"
+
 placeholder="Téléphone"
+
 >
 
 
 
-<input 
+
+<input
+
 id="clientZone"
+
 type="text"
+
 placeholder="Quartier / zone"
+
 >
 
 
 
-<textarea 
+
+<textarea
+
 id="clientAddress"
+
 placeholder="Adresse complète">
+
 </textarea>
 
 
 
-<textarea 
+
+
+<textarea
+
 id="clientComment"
+
 placeholder="Commentaire / précision">
+
 </textarea>
 
 
@@ -332,8 +391,12 @@ placeholder="Commentaire / précision">
 
 
 
-<button 
+
+
+<button
+
 id="whatsappBtn"
+
 class="whatsapp-btn">
 
 Commander sur WhatsApp
@@ -343,14 +406,21 @@ Commander sur WhatsApp
 
 
 
+
 </div>
+
 
 
 </aside>
 
 
 
+
+
+
 </main>
+
+
 
 
 
@@ -373,7 +443,7 @@ Commander sur WhatsApp
 
 
 <span>
-01 40 555 666
+📞 01 40 555 666
 </span>
 
 
@@ -394,8 +464,9 @@ Commander sur WhatsApp
 </p>
 
 
-
 </footer>
+
+
 
 
 
@@ -406,8 +477,10 @@ Commander sur WhatsApp
 <!-- PANIER MOBILE -->
 
 
-<button 
+<button
+
 id="mobileCartBtn"
+
 class="mobile-cart-btn">
 
 
@@ -430,21 +503,28 @@ FCFA
 
 
 
+
 <!-- MODAL OPTIONS -->
 
 
-<div 
+<div
+
 id="optionModal"
+
 class="modal hidden"
+
 role="dialog"
+
 aria-modal="true">
 
 
 <div class="modal-card">
 
 
-<button 
+<button
+
 id="closeModal"
+
 class="close-modal">
 
 ×
@@ -471,7 +551,8 @@ class="close-modal">
 
 
 
-<!-- DATA -->
+
+<!-- DONNEES MENU -->
 
 
 <script src="data/plats.js"></script>
@@ -484,7 +565,9 @@ class="close-modal">
 
 
 
-<!-- APP -->
+
+
+<!-- APPLICATION -->
 
 
 <script src="app.js"></script>
@@ -492,29 +575,42 @@ class="close-modal">
 
 
 
+
+
+
 <script>
 
 
+// disparition loader
+
 window.addEventListener("load",()=>{
 
+const loader=document.getElementById("loader");
 
-document
-.getElementById("loader")
-.style.display="none";
+if(loader){
 
+loader.style.display="none";
+
+}
 
 });
 
 
 
+
+// PWA
+
 if("serviceWorker" in navigator){
 
-navigator.serviceWorker.register("sw.js");
+navigator.serviceWorker.register("sw.js")
+.catch(()=>{});
 
 }
 
 
 </script>
+
+
 
 
 
