@@ -3,10 +3,7 @@
    VERSION FINALE
 ===================================================== */
 
-
 const numeroWhatsApp = "2250140555666";
-
-
 
 const allProducts = [
 
@@ -19,26 +16,15 @@ const allProducts = [
 .filter(p => p.disponible !== false)
 .sort((a,b)=>Number(a.id)-Number(b.id));
 
-
-
-
-
 let cart = JSON.parse(localStorage.getItem("laShishCart")) || [];
 
 if(!Array.isArray(cart)){
 cart=[];
 }
 
-
-
 let activeCategory="ALL";
 let searchTerm="";
 let currentModalProduct=null;
-
-
-
-
-
 
 const el = {
 
@@ -70,12 +56,6 @@ const el = {
 
 };
 
-
-
-
-
-
-
 function saveCart(){
 
 localStorage.setItem(
@@ -85,22 +65,12 @@ JSON.stringify(cart)
 
 }
 
-
-
-
-
-
-
 function formatPrice(n){
 
 return Number(n||0)
 .toLocaleString("fr-FR");
 
 }
-
-
-
-
 
 function normalize(str){
 
@@ -110,12 +80,6 @@ return String(str||"")
 .replace(/[\u0300-\u036f]/g,"");
 
 }
-
-
-
-
-
-
 
 function debounce(fn,time){
 
@@ -131,22 +95,11 @@ timer=setTimeout(()=>fn(...args),time);
 
 }
 
-
-
-
-
-
-
-
 function getProductImageSrc(p){
 
 return `images/${p.id}.webp`;
 
 }
-
-
-
-
 
 function handleImageError(img){
 
@@ -181,13 +134,6 @@ img.src="images/no-image.webp";
 
 }
 
-
-
-
-
-
-
-
 function getCategories(){
 
 const map=new Map();
@@ -209,13 +155,6 @@ p.id
 return [...map.keys()];
 
 }
-
-
-
-
-
-
-
 
 function renderCategoryTabs(){
 
@@ -251,14 +190,6 @@ ${escapeHtml(c)}
 
 
 }
-
-
-
-
-
-
-
-
 
 function renderMenu(){
 
@@ -300,10 +231,6 @@ return true;
 
 });
 
-
-
-
-
 if(!products.length){
 
 el.menuContainer.innerHTML=
@@ -319,11 +246,6 @@ Aucun produit trouvé
 return;
 
 }
-
-
-
-
-
 
 const groups=groupBy(products,"categorie");
 
@@ -371,17 +293,7 @@ ${groups[cat].map(productCard).join("")}
 
 }
 
-
-
-
-
-
-
-
-
 function productCard(p){
-
-
 
 let prix;
 
