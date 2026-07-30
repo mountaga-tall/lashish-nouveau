@@ -8,32 +8,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<title>
-La Shish | Commande en ligne
-</title>
+<title>La Shish | Commande en ligne</title>
 
 
 <meta name="description"
 content="Commandez vos pizzas, tacos, plats et boissons La Shish en ligne. Paiement Wave et commande WhatsApp.">
 
 
-<meta name="theme-color" content="#d7a84f">
+<meta name="theme-color" content="#111111">
 
+<meta name="apple-mobile-web-app-title" content="La Shish">
+
+<meta name="application-name" content="La Shish">
+
+<meta name="robots" content="index, follow">
+
+
+
+<!-- ICONES -->
 
 <link rel="icon" type="image/webp" href="images/logo.webp">
 
+<link rel="apple-touch-icon" href="images/logo.webp">
+
+
+<!-- PWA -->
 
 <link rel="manifest" href="manifest.json">
 
-
-<!-- Mobile App -->
 
 <meta name="mobile-web-app-capable" content="yes">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 
-<!-- Police -->
+
+
+
+<!-- POLICE -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
@@ -43,7 +55,12 @@ content="Commandez vos pizzas, tacos, plats et boissons La Shish en ligne. Paiem
 
 
 
+
+
+<!-- CSS -->
+
 <link rel="stylesheet" href="style.css">
+
 
 
 </head>
@@ -60,13 +77,18 @@ content="Commandez vos pizzas, tacos, plats et boissons La Shish en ligne. Paiem
 
 <img src="images/logo.webp" alt="La Shish">
 
+<p>
+Préparation de votre commande...
+</p>
+
 </div>
 
 
 
 
 
-<!-- HERO -->
+
+<!-- HEADER -->
 
 <header class="hero">
 
@@ -78,12 +100,11 @@ content="Commandez vos pizzas, tacos, plats et boissons La Shish en ligne. Paiem
 <div class="brand">
 
 
-<img 
+<img
 src="images/logo.webp"
 class="logo"
-alt="La Shish"
+alt="Logo La Shish"
 >
-
 
 
 <div class="subtitle">
@@ -99,18 +120,18 @@ Commande en ligne
 
 
 
+
 <div class="notice">
 
 
 <p>
 
-<strong>
-🚚 Livraison
-</strong>
+<strong>🚚 Livraison</strong>
 
 <br>
 
 À la charge du client.
+
 <br>
 
 Nous recommandons Yango Livraison.
@@ -119,11 +140,10 @@ Nous recommandons Yango Livraison.
 
 
 
+
 <p>
 
-<strong>
-💳 Paiement
-</strong>
+<strong>💳 Paiement</strong>
 
 <br>
 
@@ -134,7 +154,6 @@ Un lien Wave sera envoyé sur WhatsApp après validation.
 
 
 </div>
-
 
 
 
@@ -150,8 +169,8 @@ Un lien Wave sera envoyé sur WhatsApp après validation.
 
 
 
-<!-- CONTENU -->
 
+<!-- APPLICATION -->
 
 <main class="layout">
 
@@ -179,16 +198,16 @@ autocomplete="off"
 >
 
 
-
-<button id="resetSearch">
+<button id="resetSearch" type="button">
 
 Effacer
 
 </button>
 
 
-
 </div>
+
+
 
 
 
@@ -234,9 +253,7 @@ class="menu-container">
 
 <!-- PANIER -->
 
-
 <aside class="cart-panel">
-
 
 
 <div class="cart-sticky">
@@ -247,11 +264,14 @@ class="menu-container">
 
 id="closeCartMobile"
 
-class="close-cart-mobile">
+class="close-cart-mobile"
+
+type="button">
 
 ×
 
 </button>
+
 
 
 
@@ -266,6 +286,7 @@ class="close-cart-mobile">
 
 
 
+
 <div
 
 id="cartItems"
@@ -275,6 +296,7 @@ class="cart-items empty">
 Votre panier est vide.
 
 </div>
+
 
 
 
@@ -323,7 +345,6 @@ Informations client
 
 
 
-
 <input
 
 id="clientName"
@@ -333,7 +354,6 @@ type="text"
 placeholder="Nom du client"
 
 >
-
 
 
 
@@ -349,7 +369,6 @@ placeholder="Téléphone"
 
 
 
-
 <input
 
 id="clientZone"
@@ -359,7 +378,6 @@ type="text"
 placeholder="Quartier / zone"
 
 >
-
 
 
 
@@ -393,11 +411,14 @@ placeholder="Commentaire / précision">
 
 
 
+
 <button
 
 id="whatsappBtn"
 
-class="whatsapp-btn">
+class="whatsapp-btn"
+
+type="button">
 
 Commander sur WhatsApp
 
@@ -407,8 +428,8 @@ Commander sur WhatsApp
 
 
 
-</div>
 
+</div>
 
 
 </aside>
@@ -418,7 +439,32 @@ Commander sur WhatsApp
 
 
 
+
 </main>
+
+
+
+
+
+
+
+
+
+<!-- WHATSAPP FLOTTANT -->
+
+<a
+
+href="https://wa.me/2250140555666"
+
+class="floating-whatsapp"
+
+target="_blank"
+
+aria-label="WhatsApp La Shish">
+
+💬
+
+</a>
 
 
 
@@ -438,17 +484,25 @@ Commander sur WhatsApp
 
 
 <span>
+
 📞 07 49 02 03 02
+
 </span>
 
 
+
 <span>
+
 📞 01 40 555 666
+
 </span>
 
 
+
 <span>
+
 ⏱ Préparation : 10 à 30 min
+
 </span>
 
 
@@ -481,7 +535,9 @@ Commander sur WhatsApp
 
 id="mobileCartBtn"
 
-class="mobile-cart-btn">
+class="mobile-cart-btn"
+
+type="button">
 
 
 🛒 Voir panier •
@@ -504,8 +560,8 @@ FCFA
 
 
 
-<!-- MODAL OPTIONS -->
 
+<!-- MODAL -->
 
 <div
 
@@ -521,15 +577,20 @@ aria-modal="true">
 <div class="modal-card">
 
 
+
 <button
 
 id="closeModal"
 
-class="close-modal">
+class="close-modal"
+
+type="button">
 
 ×
 
 </button>
+
+
 
 
 
@@ -539,12 +600,12 @@ class="close-modal">
 
 
 
-</div>
 
 
 </div>
 
 
+</div>
 
 
 
@@ -552,7 +613,9 @@ class="close-modal">
 
 
 
-<!-- DONNEES MENU -->
+
+
+<!-- DATA MENU -->
 
 
 <script src="data/plats.js"></script>
@@ -567,7 +630,9 @@ class="close-modal">
 
 
 
-<!-- APPLICATION -->
+
+
+<!-- APP -->
 
 
 <script src="app.js"></script>
@@ -581,31 +646,72 @@ class="close-modal">
 <script>
 
 
-// disparition loader
+// Suppression loader
 
 window.addEventListener("load",()=>{
 
+
 const loader=document.getElementById("loader");
+
 
 if(loader){
 
+
+setTimeout(()=>{
+
+
 loader.style.display="none";
 
+
+},500);
+
+
 }
+
+
 
 });
 
 
 
 
-// PWA
+
+
+
+// Activation PWA
+
 
 if("serviceWorker" in navigator){
 
-navigator.serviceWorker.register("sw.js")
-.catch(()=>{});
+
+window.addEventListener("load",()=>{
+
+
+navigator.serviceWorker.register("./sw.js")
+
+.then(()=>{
+
+
+console.log("🔥 La Shish PWA active");
+
+
+})
+
+.catch(error=>{
+
+
+console.log("Erreur PWA :",error);
+
+
+});
+
+
+
+});
+
 
 }
+
 
 
 </script>
