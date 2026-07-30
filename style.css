@@ -35,38 +35,49 @@ overflow-x:hidden;
 
 
 
+
+
 /* =====================================================
    LOADER
 ===================================================== */
 
-
 #loader{
 
 position:fixed;
-
 inset:0;
-
 background:#111;
 
 display:flex;
+flex-direction:column;
 
 align-items:center;
-
 justify-content:center;
+
+gap:20px;
 
 z-index:9999;
 
+transition:opacity .35s ease;
+
 }
-
-
 
 #loader img{
 
-width:150px;
+width:90px;
+height:90px;
 
-animation:
+object-fit:contain;
 
-logoFloat 1.5s infinite;
+animation:logoFloat 1.5s infinite;
+
+}
+
+#loader p{
+
+color:#fff;
+font-size:16px;
+font-weight:600;
+text-align:center;
 
 }
 
