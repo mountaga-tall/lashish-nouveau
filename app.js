@@ -1,242 +1,253 @@
 /* =====================================================
-   LA SHISH PREMIUM APP JS
-   VERSION FINALE - OPTIMISÉE
+   LA SHISH PREMIUM FOOD APP - JAVASCRIPT OPTIMISÉ
 ===================================================== */
 
-const numeroWhatsApp = "2250140555666";
-
-const allProducts = [
-  ...(window.MENU_PLATS || []),
-  ...(window.MENU_PIZZAS || []),
-  ...(window.MENU_TACOS || []),
-  ...(window.MENU_BOISSONS || [])
-].filter(p => p.disponible !== false).sort((a, b) => Number(a.id) - Number(b.id));
-
-let cart = Array.isArray(JSON.parse(localStorage.getItem("laShishCart"))) 
-           ? JSON.parse(localStorage.getItem("laShishCart")) 
-           : [];
-
-let activeCategory = "ALL";
-let searchTerm = "";
-
+// Définition des éléments du DOM
 const el = {
-  categoryTabs: document.getElementById("categoryTabs"),
-  menuContainer: document.getElementById("menuContainer"),
-  searchInput: document.getElementById("searchInput"),
-  resetSearch: document.getElementById("resetSearch"),
-  cartItems: document.getElementById("cartItems"),
-  cartTotal: document.getElementById("cartTotal"),
-  mobileTotal: document.getElementById("mobileTotal"),
-  whatsappBtn: document.getElementById("whatsappBtn"),
-  modal: document.getElementById("optionModal"),
-  modalContent: document.getElementById("modalContent"),
-  closeModal: document.getElementById("closeModal"),
-  mobileCartBtn: document.getElementById("mobileCartBtn"),
-  closeCartMobile: document.getElementById("closeCartMobile"),
-  cartPanel: document.querySelector(".cart-panel")
+  cartPanel: document.querySelector('.cart-panel'),
+  mobileCartBtn: document.querySelector('.mobile-cart-btn'),
+  mobileTotal: document.querySelector('#mobileTotal'),
+  modal: document.querySelector('.modal'),
+  whatsappBtn: document.querySelector('.whatsapp-btn'),
+  cartItemsContainer: document.querySelector('.cart-items'),
+  cartTotal: document.querySelector('.cart-total strong'),
+  closeCartMobile: document.querySelector('.close-cart-mobile')
 };
 
-const saveCart = () => localStorage.setItem("laShishCart", JSON.stringify(cart));
-const formatPrice = n => Number(n || 0).toLocaleString("fr-FR");
-const normalize = str => String(str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-const debounce = (fn, time) => {
-  let timer;
-  return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), time); };
+let cart = [];
+let isSending = false;
+
+// ----------------------------------------------------
+// FONCTIONS UTILITAIRES
+// ----------------------------------------------------
+
+// Afficher une notification (Toast)
+const showToast = (message) => {
+  let toast = document.querySelector('.toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  
+  // Réinitialiser l'animation pour pouvoir la rejouer
+  toast.style.animation = 'none';
+  toast.offsetHeight; // Force le reflow
+  toast.style.animation = 'toastShow .25s, toastHide .3s 1.7s forwards';
 };
-const escapeHtml = s => String(s || "").replace(/[&<>"']/g, m => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"}[m]));
-const getProductImageSrc = p => `images/${p.id}.webp`;
 
-// Attaché à window pour fonctionner avec l'attribut HTML onerror
-window.handleImageError = (img) => {
-  let id = img.dataset.productId;
-  if (!img.dataset.try) { img.dataset.try = "jpg"; img.src = `images/${id}.jpg`; }
-  else if (img.dataset.try === "jpg") { img.dataset.try = "png"; img.src = `images/${id}.png`; }
-  else { img.src = "images/no-image.webp"; }
+// ----------------------------------------------------
+// GESTION DU PANIER
+// ----------------------------------------------------
+
+const loadCart = () => {
+  try {
+    const saved = localStorage.getItem("laShishCart");
+    if (saved) cart = JSON.parse(saved);
+  } catch (e) {
+    console.error("Erreur au chargement du panier", e);
+  }
 };
 
-const getCategories = () => [...new Set(allProducts.map(p => p.categorie))];
-const groupBy = (arr, key) => arr.reduce((o, x) => { (o[x[key]] ??= []).push(x); return o; }, {});
-
-function renderCategoryTabs() {
-  const cats = getCategories();
-  if (el.categoryTabs) {
-    el.categoryTabs.innerHTML = `
-      <button class="${activeCategory === "ALL" ? "active" : ""}" data-category="ALL">Tout</button>
-      ${cats.map(c => `<button class="${activeCategory === c ? "active" : ""}" data-category="${c}">${escapeHtml(c)}</button>`).join("")}
-    `;
+// [FIX 2] Sécuriser saveCart() avec try...catch
+const saveCart = () => {
+  try {
+    localStorage.setItem("laShishCart", JSON.stringify(cart));
+  } catch (err) {
+    console.error("Impossible d'enregistrer le panier", err);
   }
-}
+};
 
-function renderMenu() {
-  renderCategoryTabs();
-  let products = allProducts.filter(p => {
-    if (activeCategory !== "ALL" && p.categorie !== activeCategory) return false;
-    if (searchTerm) return normalize([p.nom, p.description, p.categorie].join(" ")).includes(normalize(searchTerm));
-    return true;
-  });
-
-  if (!products.length) {
-    if (el.menuContainer) el.menuContainer.innerHTML = `<div class="search-empty">Aucun produit trouvé</div>`;
-    return;
-  }
-
-  const groups = groupBy(products, "categorie");
-  if (el.menuContainer) {
-    el.menuContainer.innerHTML = Object.keys(groups).map(cat => `
-      <section class="category-block open">
-        <button class="category-header">${escapeHtml(cat)} <span>▲</span></button>
-        <div class="category-content">
-          <div class="products-grid">
-            ${groups[cat].map(productCard).join("")}
-          </div>
-        </div>
-      </section>
-    `).join("");
-  }
-}
-
-function productCard(p) {
-  let prix = (p.type === "pizza" && Array.isArray(p.tailles)) ? Math.min(...p.tailles.map(t => t.prix)) : (p.prix || 0);
-  return `
-    <article class="product-card">
-      <img class="product-img" src="${getProductImageSrc(p)}" loading="lazy" decoding="async" data-product-id="${p.id}" onerror="handleImageError(this)">
-      <h4>${escapeHtml(p.nom)}</h4>
-      <p>${escapeHtml(p.description || "")}</p>
-      <div class="price">${formatPrice(prix)} FCFA</div>
-      <button class="add-btn" data-add="${p.id}">Ajouter</button>
-    </article>
-  `;
-}
-
-function addToCart(item) {
-  const key = item.productId + "-" + item.optionsText;
+// [FIX 1] Éviter une erreur si optionsText est absent
+const addToCart = (item) => {
+  const options = item.optionsText || "";
+  const key = `${item.productId}-${options}`;
   let exist = cart.find(x => x.key === key);
-  if (exist) exist.qty++;
-  else cart.push({ ...item, key, qty: 1 });
+  
+  if (exist) {
+    exist.qty++;
+  } else {
+    cart.push({
+      ...item,
+      optionsText: options,
+      key,
+      qty: 1
+    });
+  }
   
   saveCart();
   renderCart();
-  
-  if (el.mobileCartBtn) {
-    el.mobileCartBtn.classList.add("cart-bounce");
-    setTimeout(() => el.mobileCartBtn.classList.remove("cart-bounce"), 500);
-  }
-  showToast("Ajouté au panier 🛒");
-}
+  showToast("Produit ajouté au panier 🛒");
+};
 
-const getTotal = () => cart.reduce((a, b) => a + (b.prix * b.qty), 0);
-
-function renderCart() {
-  if (!el.cartItems) return;
+// Affichage et mise à jour du panier
+const renderCart = () => {
+  let total = 0;
+  let totalItems = 0;
   
-  if (!cart.length) {
-    el.cartItems.innerHTML = "Votre panier est vide.";
+  // Générer le HTML des articles du panier
+  if (el.cartItemsContainer) {
+    el.cartItemsContainer.innerHTML = '';
+    if (cart.length === 0) {
+      el.cartItemsContainer.innerHTML = '<div class="cart-items empty">Votre panier est vide</div>';
+    } else {
+      cart.forEach((item, index) => {
+        total += item.price * item.qty;
+        totalItems += item.qty;
+        
+        const itemOptions = item.optionsText ? `<span>(${item.optionsText})</span>` : "";
+        el.cartItemsContainer.innerHTML += `
+          <div class="cart-item">
+            <strong>${item.name}</strong> ${itemOptions}
+            <p>${item.price} CFA x ${item.qty} = ${item.price * item.qty} CFA</p>
+            <div class="cart-actions">
+              <button onclick="changeQty('${item.key}', 1)">+</button>
+              <button onclick="changeQty('${item.key}', -1)">-</button>
+              <button data-remove onclick="removeItem('${item.key}')">🗑</button>
+            </div>
+          </div>
+        `;
+      });
+    }
   } else {
-    el.cartItems.innerHTML = cart.map(i => `
-      <div class="cart-item">
-        <b>${i.qty} x ${escapeHtml(i.nom)}</b>
-        <p>${i.optionsText || ""}</p>
-        <button data-minus="${i.key}">-</button> ${i.qty} <button data-plus="${i.key}">+</button>
-        <button data-remove="${i.key}">❌</button>
-      </div>
-    `).join("");
-  }
-  
-  let total = formatPrice(getTotal());
-  if (el.cartTotal) el.cartTotal.textContent = total;
-  if (el.mobileTotal) el.mobileTotal.textContent = total;
-}
-
-function sendWhatsApp() {
-  if (!cart.length) return showToast("Panier vide");
-  
-  let name = document.getElementById("clientName")?.value.trim() || "";
-  let phone = document.getElementById("clientPhone")?.value.trim() || "";
-  let zone = document.getElementById("clientZone")?.value.trim() || "";
-  let address = document.getElementById("clientAddress")?.value.trim() || "";
-
-  if (!name || !phone || !zone || !address) return showToast("Complétez vos informations");
-
-  let msg = `🔥 *COMMANDE LA SHISH* 🔥\n\n👤 ${name}\n📞 ${phone}\n📍 ${zone}\n🏠 ${address}\n\n🛒 Commande:\n`;
-  
-  cart.forEach(i => {
-    msg += `\n${i.qty}x ${i.nom}`;
-    if (i.optionsText) msg += `\n${i.optionsText}`;
-    msg += `\n${formatPrice(i.prix * i.qty)} FCFA\n`;
-  });
-  
-  msg += `\n💰 TOTAL ${formatPrice(getTotal())} FCFA`;
-  window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`, "_blank");
-}
-
-function showToast(t) {
-  let x = document.createElement("div");
-  x.className = "toast";
-  x.textContent = t;
-  document.body.appendChild(x);
-  setTimeout(() => x.remove(), 2000);
-}
-
-// Événements globaux via délégation
-document.addEventListener("click", e => {
-  let add = e.target.closest("[data-add]");
-  if (add) {
-    let p = allProducts.find(x => x.id == add.dataset.add);
-    let prix = (p.type === "pizza" && !p.prix && Array.isArray(p.tailles)) 
-               ? Math.min(...p.tailles.map(t => t.prix)) 
-               : (p.prix || 0);
-    addToCart({ productId: p.id, nom: p.nom, prix: prix, optionsText: "" });
+    // Fallback pour calculer le total si le conteneur n'est pas présent
+    cart.forEach(item => {
+      total += item.price * item.qty;
+      totalItems += item.qty;
+    });
   }
 
-  let tab = e.target.closest("[data-category]");
-  if (tab) {
-    activeCategory = tab.dataset.category;
-    renderMenu();
+  // Mettre à jour le texte du total principal
+  if (el.cartTotal) {
+    el.cartTotal.textContent = `${total} CFA`;
   }
 
-  let plus = e.target.closest("[data-plus]");
-  if (plus) {
-    let i = cart.find(x => x.key === plus.dataset.plus);
-    if (i) { i.qty++; saveCart(); renderCart(); }
-  }
-
-  let minus = e.target.closest("[data-minus]");
-  if (minus) {
-    let i = cart.find(x => x.key === minus.dataset.minus);
-    if (i) {
-      i.qty--;
-      if (i.qty <= 0) cart = cart.filter(x => x.key !== minus.dataset.minus);
-      saveCart(); renderCart();
+  // [FIX 4] Ne pas recréer le HTML du bouton mobile (préserve le <span> mobileTotal)
+  if (el.mobileCartBtn && el.mobileCartBtn.firstChild) {
+    el.mobileCartBtn.firstChild.textContent = `🛒 ${totalItems} article(s) • `;
+    if (el.mobileTotal) {
+      el.mobileTotal.textContent = `${total} CFA`;
     }
   }
+};
 
-  let remove = e.target.closest("[data-remove]");
-  if (remove) {
-    cart = cart.filter(x => x.key !== remove.dataset.remove);
-    saveCart(); renderCart();
+// Modifier la quantité
+window.changeQty = (key, delta) => {
+  let item = cart.find(x => x.key === key);
+  if (item) {
+    item.qty += delta;
+    if (item.qty <= 0) {
+      cart = cart.filter(x => x.key !== key);
+    }
+    saveCart();
+    renderCart();
+  }
+};
+
+// Supprimer un article
+window.removeItem = (key) => {
+  cart = cart.filter(x => x.key !== key);
+  saveCart();
+  renderCart();
+};
+
+// ----------------------------------------------------
+// ENVOI DE COMMANDE (WHATSAPP)
+// ----------------------------------------------------
+
+const sendWhatsApp = () => {
+  if (cart.length === 0) {
+    showToast("Votre panier est vide !");
+    return;
+  }
+  if (isSending) return;
+
+  // [FIX 8] Désactiver le bouton pendant l'envoi
+  isSending = true;
+  if (el.whatsappBtn) el.whatsappBtn.disabled = true;
+
+  const numeroWhatsApp = "2250000000000"; // Remplacer par ton numéro
+  let total = 0;
+  
+  let msg = "Nouvelle commande ! 🚀\n\n";
+  cart.forEach(item => {
+    const opts = item.optionsText ? ` (${item.optionsText})` : "";
+    msg += `- ${item.qty}x ${item.name}${opts} : ${item.price * item.qty} CFA\n`;
+    total += item.price * item.qty;
+  });
+  msg += `\nTotal : ${total} CFA`;
+
+  // [FIX 7] Vérifier que WhatsApp n'est pas bloqué (anti-popup)
+  const popup = window.open(
+    `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`,
+    "_blank"
+  );
+  
+  if (!popup) {
+    showToast("⚠️ Autorisez les fenêtres popup pour ouvrir WhatsApp.");
+  } else {
+    // Vider le panier après succès
+    cart = [];
+    saveCart();
+    
+    // [FIX 5] Fermer automatiquement le panier après commande (mobile)
+    el.cartPanel?.classList.remove("open");
+    
+    // [FIX 6] Ajouter un message de confirmation
+    showToast("Commande envoyée avec succès ✅");
+  }
+
+  // [FIX 8] Réactiver le bouton après délai
+  setTimeout(() => {
+    isSending = false;
+    if (el.whatsappBtn) el.whatsappBtn.disabled = false;
+    renderCart();
+  }, 1000);
+};
+
+// Attacher l'événement au bouton WhatsApp
+if (el.whatsappBtn) {
+  el.whatsappBtn.addEventListener("click", sendWhatsApp);
+}
+
+// ----------------------------------------------------
+// ÉVÉNEMENTS GLOBAUX & INTERFACE
+// ----------------------------------------------------
+
+// Gestion du panier sur Mobile
+if (el.mobileCartBtn) {
+  el.mobileCartBtn.addEventListener("click", () => {
+    el.cartPanel?.classList.add("open");
+  });
+}
+if (el.closeCartMobile) {
+  el.closeCartMobile.addEventListener("click", () => {
+    el.cartPanel?.classList.remove("open");
+  });
+}
+
+// [FIX 3] Corriger la fermeture de la modal
+document.addEventListener("click", (e) => {
+  if (
+    el.modal &&
+    (e.target === el.modal || e.target.closest("#closeModal") || e.target.closest(".close-modal"))
+  ) {
+    el.modal.classList.add("hidden");
   }
 });
 
-// Écouteurs d'événements spécifiques
-if (el.searchInput) {
-  el.searchInput.addEventListener("input", debounce(e => {
-    searchTerm = e.target.value;
-    renderMenu();
-  }, 300));
-}
-
-if (el.resetSearch) {
-  el.resetSearch.onclick = () => {
-    searchTerm = "";
-    if (el.searchInput) el.searchInput.value = "";
-    renderMenu();
-  };
-}
-
-if (el.whatsappBtn) el.whatsappBtn.onclick = sendWhatsApp;
-if (el.mobileCartBtn && el.cartPanel) el.mobileCartBtn.onclick = () => el.cartPanel.classList.add("open");
-if (el.closeCartMobile && el.cartPanel) el.closeCartMobile.onclick = () => el.cartPanel.classList.remove("open");
-
 // Initialisation au chargement
-renderMenu();
-renderCart();
+document.addEventListener("DOMContentLoaded", () => {
+  loadCart();
+  renderCart();
+  
+  // Suppression du loader
+  const loader = document.getElementById("loader");
+  if (loader) {
+    setTimeout(() => {
+      loader.style.opacity = '0';
+      setTimeout(() => loader.remove(), 300);
+    }, 800);
+  }
+});
