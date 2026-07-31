@@ -1,253 +1,961 @@
 /* =====================================================
-   LA SHISH PREMIUM FOOD APP - JAVASCRIPT OPTIMISÉ
+   LA SHISH PREMIUM APP JS
+   VERSION FINALE
 ===================================================== */
 
-// Définition des éléments du DOM
-const el = {
-  cartPanel: document.querySelector('.cart-panel'),
-  mobileCartBtn: document.querySelector('.mobile-cart-btn'),
-  mobileTotal: document.querySelector('#mobileTotal'),
-  modal: document.querySelector('.modal'),
-  whatsappBtn: document.querySelector('.whatsapp-btn'),
-  cartItemsContainer: document.querySelector('.cart-items'),
-  cartTotal: document.querySelector('.cart-total strong'),
-  closeCartMobile: document.querySelector('.close-cart-mobile')
-};
 
-let cart = [];
-let isSending = false;
+const numeroWhatsApp = "2250140555666";
 
-// ----------------------------------------------------
-// FONCTIONS UTILITAIRES
-// ----------------------------------------------------
 
-// Afficher une notification (Toast)
-const showToast = (message) => {
-  let toast = document.querySelector('.toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.className = 'toast';
-    document.body.appendChild(toast);
-  }
-  toast.textContent = message;
-  
-  // Réinitialiser l'animation pour pouvoir la rejouer
-  toast.style.animation = 'none';
-  toast.offsetHeight; // Force le reflow
-  toast.style.animation = 'toastShow .25s, toastHide .3s 1.7s forwards';
-};
 
-// ----------------------------------------------------
-// GESTION DU PANIER
-// ----------------------------------------------------
+const allProducts = [
 
-const loadCart = () => {
-  try {
-    const saved = localStorage.getItem("laShishCart");
-    if (saved) cart = JSON.parse(saved);
-  } catch (e) {
-    console.error("Erreur au chargement du panier", e);
-  }
-};
+...(window.MENU_PLATS || []),
+...(window.MENU_PIZZAS || []),
+...(window.MENU_TACOS || []),
+...(window.MENU_BOISSONS || [])
 
-// [FIX 2] Sécuriser saveCart() avec try...catch
-const saveCart = () => {
-  try {
-    localStorage.setItem("laShishCart", JSON.stringify(cart));
-  } catch (err) {
-    console.error("Impossible d'enregistrer le panier", err);
-  }
-};
+]
+.filter(p => p.disponible !== false)
+.sort((a,b)=>Number(a.id)-Number(b.id));
 
-// [FIX 1] Éviter une erreur si optionsText est absent
-const addToCart = (item) => {
-  const options = item.optionsText || "";
-  const key = `${item.productId}-${options}`;
-  let exist = cart.find(x => x.key === key);
-  
-  if (exist) {
-    exist.qty++;
-  } else {
-    cart.push({
-      ...item,
-      optionsText: options,
-      key,
-      qty: 1
-    });
-  }
-  
-  saveCart();
-  renderCart();
-  showToast("Produit ajouté au panier 🛒");
-};
 
-// Affichage et mise à jour du panier
-const renderCart = () => {
-  let total = 0;
-  let totalItems = 0;
-  
-  // Générer le HTML des articles du panier
-  if (el.cartItemsContainer) {
-    el.cartItemsContainer.innerHTML = '';
-    if (cart.length === 0) {
-      el.cartItemsContainer.innerHTML = '<div class="cart-items empty">Votre panier est vide</div>';
-    } else {
-      cart.forEach((item, index) => {
-        total += item.price * item.qty;
-        totalItems += item.qty;
-        
-        const itemOptions = item.optionsText ? `<span>(${item.optionsText})</span>` : "";
-        el.cartItemsContainer.innerHTML += `
-          <div class="cart-item">
-            <strong>${item.name}</strong> ${itemOptions}
-            <p>${item.price} CFA x ${item.qty} = ${item.price * item.qty} CFA</p>
-            <div class="cart-actions">
-              <button onclick="changeQty('${item.key}', 1)">+</button>
-              <button onclick="changeQty('${item.key}', -1)">-</button>
-              <button data-remove onclick="removeItem('${item.key}')">🗑</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-  } else {
-    // Fallback pour calculer le total si le conteneur n'est pas présent
-    cart.forEach(item => {
-      total += item.price * item.qty;
-      totalItems += item.qty;
-    });
-  }
 
-  // Mettre à jour le texte du total principal
-  if (el.cartTotal) {
-    el.cartTotal.textContent = `${total} CFA`;
-  }
 
-  // [FIX 4] Ne pas recréer le HTML du bouton mobile (préserve le <span> mobileTotal)
-  if (el.mobileCartBtn && el.mobileCartBtn.firstChild) {
-    el.mobileCartBtn.firstChild.textContent = `🛒 ${totalItems} article(s) • `;
-    if (el.mobileTotal) {
-      el.mobileTotal.textContent = `${total} CFA`;
-    }
-  }
-};
 
-// Modifier la quantité
-window.changeQty = (key, delta) => {
-  let item = cart.find(x => x.key === key);
-  if (item) {
-    item.qty += delta;
-    if (item.qty <= 0) {
-      cart = cart.filter(x => x.key !== key);
-    }
-    saveCart();
-    renderCart();
-  }
-};
+let cart = JSON.parse(localStorage.getItem("laShishCart")) || [];
 
-// Supprimer un article
-window.removeItem = (key) => {
-  cart = cart.filter(x => x.key !== key);
-  saveCart();
-  renderCart();
-};
-
-// ----------------------------------------------------
-// ENVOI DE COMMANDE (WHATSAPP)
-// ----------------------------------------------------
-
-const sendWhatsApp = () => {
-  if (cart.length === 0) {
-    showToast("Votre panier est vide !");
-    return;
-  }
-  if (isSending) return;
-
-  // [FIX 8] Désactiver le bouton pendant l'envoi
-  isSending = true;
-  if (el.whatsappBtn) el.whatsappBtn.disabled = true;
-
-  const numeroWhatsApp = "2250000000000"; // Remplacer par ton numéro
-  let total = 0;
-  
-  let msg = "Nouvelle commande ! 🚀\n\n";
-  cart.forEach(item => {
-    const opts = item.optionsText ? ` (${item.optionsText})` : "";
-    msg += `- ${item.qty}x ${item.name}${opts} : ${item.price * item.qty} CFA\n`;
-    total += item.price * item.qty;
-  });
-  msg += `\nTotal : ${total} CFA`;
-
-  // [FIX 7] Vérifier que WhatsApp n'est pas bloqué (anti-popup)
-  const popup = window.open(
-    `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`,
-    "_blank"
-  );
-  
-  if (!popup) {
-    showToast("⚠️ Autorisez les fenêtres popup pour ouvrir WhatsApp.");
-  } else {
-    // Vider le panier après succès
-    cart = [];
-    saveCart();
-    
-    // [FIX 5] Fermer automatiquement le panier après commande (mobile)
-    el.cartPanel?.classList.remove("open");
-    
-    // [FIX 6] Ajouter un message de confirmation
-    showToast("Commande envoyée avec succès ✅");
-  }
-
-  // [FIX 8] Réactiver le bouton après délai
-  setTimeout(() => {
-    isSending = false;
-    if (el.whatsappBtn) el.whatsappBtn.disabled = false;
-    renderCart();
-  }, 1000);
-};
-
-// Attacher l'événement au bouton WhatsApp
-if (el.whatsappBtn) {
-  el.whatsappBtn.addEventListener("click", sendWhatsApp);
+if(!Array.isArray(cart)){
+cart=[];
 }
 
-// ----------------------------------------------------
-// ÉVÉNEMENTS GLOBAUX & INTERFACE
-// ----------------------------------------------------
 
-// Gestion du panier sur Mobile
-if (el.mobileCartBtn) {
-  el.mobileCartBtn.addEventListener("click", () => {
-    el.cartPanel?.classList.add("open");
-  });
-}
-if (el.closeCartMobile) {
-  el.closeCartMobile.addEventListener("click", () => {
-    el.cartPanel?.classList.remove("open");
-  });
+
+let activeCategory="ALL";
+let searchTerm="";
+let currentModalProduct=null;
+
+
+
+
+
+
+const el={
+
+
+categoryTabs:document.getElementById("categoryTabs"),
+
+menuContainer:document.getElementById("menuContainer"),
+
+searchInput:document.getElementById("searchInput"),
+
+resetSearch:document.getElementById("resetSearch"),
+
+cartItems:document.getElementById("cartItems"),
+
+cartTotal:document.getElementById("cartTotal"),
+
+mobileTotal:document.getElementById("mobileTotal"),
+
+whatsappBtn:document.getElementById("whatsappBtn"),
+
+modal:document.getElementById("optionModal"),
+
+modalContent:document.getElementById("modalContent"),
+
+closeModal:document.getElementById("closeModal"),
+
+mobileCartBtn:document.getElementById("mobileCartBtn"),
+
+closeCartMobile:document.getElementById("closeCartMobile"),
+
+cartPanel:document.querySelector(".cart-panel")
+
+};
+
+
+
+
+
+
+
+function saveCart(){
+
+localStorage.setItem(
+"laShishCart",
+JSON.stringify(cart)
+);
+
 }
 
-// [FIX 3] Corriger la fermeture de la modal
-document.addEventListener("click", (e) => {
-  if (
-    el.modal &&
-    (e.target === el.modal || e.target.closest("#closeModal") || e.target.closest(".close-modal"))
-  ) {
-    el.modal.classList.add("hidden");
-  }
+
+
+
+
+
+
+function formatPrice(n){
+
+return Number(n||0)
+.toLocaleString("fr-FR");
+
+}
+
+
+
+
+
+function normalize(str){
+
+return String(str||"")
+.toLowerCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"");
+
+}
+
+
+
+
+
+
+
+function debounce(fn,time){
+
+let timer;
+
+return (...args)=>{
+
+clearTimeout(timer);
+
+timer=setTimeout(()=>fn(...args),time);
+
+};
+
+}
+
+
+
+
+
+
+
+
+function getProductImageSrc(p){
+
+return `images/${p.id}.webp`;
+
+}
+
+
+
+
+
+function handleImageError(img){
+
+let id=img.dataset.productId;
+
+
+if(!img.dataset.try){
+
+img.dataset.try="jpg";
+
+img.src=`images/${id}.jpg`;
+
+return;
+
+}
+
+
+if(img.dataset.try==="jpg"){
+
+img.dataset.try="png";
+
+img.src=`images/${id}.png`;
+
+return;
+
+}
+
+
+
+img.src="images/no-image.webp";
+
+
+}
+
+
+
+
+
+
+
+
+function getCategories(){
+
+const map=new Map();
+
+
+allProducts.forEach(p=>{
+
+if(!map.has(p.categorie))
+
+map.set(
+p.categorie,
+p.id
+);
+
+
 });
 
-// Initialisation au chargement
-document.addEventListener("DOMContentLoaded", () => {
-  loadCart();
-  renderCart();
-  
-  // Suppression du loader
-  const loader = document.getElementById("loader");
-  if (loader) {
-    setTimeout(() => {
-      loader.style.opacity = '0';
-      setTimeout(() => loader.remove(), 300);
-    }, 800);
-  }
+
+return [...map.keys()];
+
+}
+
+
+
+
+
+
+
+
+function renderCategoryTabs(){
+
+
+const cats=getCategories();
+
+
+el.categoryTabs.innerHTML=`
+
+<button class="${activeCategory==="ALL"?"active":""}"
+data-category="ALL">
+
+Tout
+
+</button>
+
+
+${cats.map(c=>`
+
+<button
+
+class="${activeCategory===c?"active":""}"
+
+data-category="${c}">
+
+${escapeHtml(c)}
+
+</button>
+
+`).join("")}
+
+`;
+
+
+}
+
+
+
+
+
+
+
+
+
+function renderMenu(){
+
+
+renderCategoryTabs();
+
+
+let products=allProducts.filter(p=>{
+
+
+if(activeCategory!=="ALL"
+&&
+p.categorie!==activeCategory)
+
+return false;
+
+
+
+if(searchTerm){
+
+
+return normalize(
+
+[
+p.nom,
+p.description,
+p.categorie
+].join(" ")
+
+)
+.includes(normalize(searchTerm));
+
+
+}
+
+
+return true;
+
+
 });
+
+
+
+
+
+if(!products.length){
+
+el.menuContainer.innerHTML=
+
+`
+<div class="search-empty">
+
+Aucun produit trouvé
+
+</div>
+`;
+
+return;
+
+}
+
+
+
+
+
+
+const groups=groupBy(products,"categorie");
+
+
+
+el.menuContainer.innerHTML=
+
+Object.keys(groups).map(cat=>`
+
+
+<section class="category-block open">
+
+
+<button class="category-header">
+
+${escapeHtml(cat)}
+
+<span>▲</span>
+
+</button>
+
+
+
+<div class="category-content">
+
+
+<div class="products-grid">
+
+
+${groups[cat].map(productCard).join("")}
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+`).join("");
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function productCard(p){
+
+
+
+let prix;
+
+
+if(p.type==="pizza"){
+
+
+prix=
+
+Math.min(...p.tailles.map(t=>t.prix))
++
+" FCFA";
+
+}
+
+else{
+
+
+prix=
+
+formatPrice(p.prix)
++" FCFA";
+
+
+}
+
+
+
+return `
+
+
+<article class="product-card">
+
+
+<img
+
+class="product-img"
+
+src="${getProductImageSrc(p)}"
+
+loading="lazy"
+
+decoding="async"
+
+data-product-id="${p.id}"
+
+onerror="handleImageError(this)"
+
+>
+
+
+
+<h4>
+
+${escapeHtml(p.nom)}
+
+</h4>
+
+
+<p>
+
+${escapeHtml(p.description||"")}
+
+</p>
+
+
+
+<div class="price">
+
+${prix}
+
+</div>
+
+
+
+<button
+
+class="add-btn"
+
+data-add="${p.id}">
+
+Ajouter
+
+</button>
+
+
+
+</article>
+
+
+`;
+
+}
+
+
+
+
+
+
+
+
+
+
+function groupBy(arr,key){
+
+return arr.reduce((o,x)=>{
+
+(o[x[key]]??=[]).push(x);
+
+return o;
+
+},{});
+
+}
+
+
+
+
+
+
+
+
+
+
+function addToCart(item){
+
+
+const key=item.productId+"-"+item.optionsText;
+
+
+let exist=cart.find(x=>x.key===key);
+
+
+
+if(exist){
+
+exist.qty++;
+
+}
+
+else{
+
+
+cart.push({
+
+...item,
+
+key,
+
+qty:1
+
+});
+
+
+}
+
+
+
+saveCart();
+
+renderCart();
+
+
+el.mobileCartBtn.classList.add("cart-bounce");
+
+
+setTimeout(()=>{
+
+el.mobileCartBtn.classList.remove("cart-bounce");
+
+},500);
+
+
+showToast("Ajouté au panier 🛒");
+
+
+}
+
+
+
+
+
+
+
+
+
+function getTotal(){
+
+return cart.reduce(
+(a,b)=>a+(b.prix*b.qty),
+0
+);
+
+}
+
+
+
+
+
+
+
+
+function renderCart(){
+
+
+if(!cart.length){
+
+
+el.cartItems.innerHTML=
+
+"Votre panier est vide.";
+
+
+}
+
+else{
+
+
+el.cartItems.innerHTML=
+
+cart.map(i=>`
+
+<div class="cart-item">
+
+
+<b>
+
+${i.qty} x ${escapeHtml(i.nom)}
+
+</b>
+
+
+<p>
+
+${i.optionsText||""}
+
+</p>
+
+
+<button data-minus="${i.key}">-</button>
+
+${i.qty}
+
+<button data-plus="${i.key}">+</button>
+
+
+<button data-remove="${i.key}">
+
+❌
+
+</button>
+
+
+</div>
+
+
+`).join("");
+
+}
+
+
+let total=formatPrice(getTotal());
+
+
+el.cartTotal.textContent=total;
+
+el.mobileTotal.textContent=total;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+function sendWhatsApp(){
+
+
+if(!cart.length){
+
+showToast("Panier vide");
+
+return;
+
+}
+
+
+
+let name=clientName.value.trim();
+
+let phone=clientPhone.value.trim();
+
+let zone=clientZone.value.trim();
+
+let address=clientAddress.value.trim();
+
+
+
+if(!name||!phone||!zone||!address){
+
+showToast("Complétez vos informations");
+
+return;
+
+}
+
+
+
+
+let msg=
+
+`🔥 *COMMANDE LA SHISH* 🔥\n\n`+
+
+`👤 ${name}\n`+
+
+`📞 ${phone}\n`+
+
+`📍 ${zone}\n`+
+
+`🏠 ${address}\n\n`;
+
+
+msg+="🛒 Commande:\n";
+
+
+
+cart.forEach(i=>{
+
+
+msg+=
+
+`\n${i.qty}x ${i.nom}`;
+
+if(i.optionsText)
+
+msg+=`\n${i.optionsText}`;
+
+
+msg+=`\n${i.prix*i.qty} FCFA\n`;
+
+
+});
+
+
+
+msg+=
+
+`\n💰 TOTAL ${formatPrice(getTotal())} FCFA`;
+
+
+
+window.open(
+
+`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`,
+
+"_blank"
+
+);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+function showToast(t){
+
+
+let x=document.createElement("div");
+
+
+x.className="toast";
+
+
+x.textContent=t;
+
+
+document.body.appendChild(x);
+
+
+setTimeout(()=>x.remove(),2000);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+function escapeHtml(s){
+
+return String(s||"")
+.replace(/[&<>"']/g,m=>({
+
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+
+}[m]));
+
+
+}
+
+
+
+
+
+
+
+
+
+
+document.addEventListener("click",e=>{
+
+
+let add=e.target.closest("[data-add]");
+
+if(add){
+
+let p=allProducts.find(
+x=>x.id==add.dataset.add
+);
+
+
+addToCart({
+
+productId:p.id,
+
+nom:p.nom,
+
+prix:p.prix,
+
+optionsText:""
+
+});
+
+
+}
+
+
+
+
+let tab=e.target.closest("[data-category]");
+
+
+if(tab){
+
+activeCategory=tab.dataset.category;
+
+renderMenu();
+
+}
+
+
+
+let plus=e.target.closest("[data-plus]");
+
+if(plus){
+
+let i=cart.find(x=>x.key===plus.dataset.plus);
+
+i.qty++;
+
+saveCart();
+
+renderCart();
+
+}
+
+
+
+let minus=e.target.closest("[data-minus]");
+
+if(minus){
+
+let i=cart.find(x=>x.key===minus.dataset.minus);
+
+i.qty--;
+
+if(i.qty<=0)
+
+cart=cart.filter(x=>x!==i);
+
+
+saveCart();
+
+renderCart();
+
+}
+
+
+
+
+});
+
+
+
+
+
+
+
+el.searchInput.addEventListener(
+
+"input",
+
+debounce(e=>{
+
+searchTerm=e.target.value;
+
+renderMenu();
+
+},300)
+
+);
+
+
+
+el.resetSearch.onclick=()=>{
+
+searchTerm="";
+
+el.searchInput.value="";
+
+renderMenu();
+
+};
+
+
+
+
+
+el.whatsappBtn.onclick=sendWhatsApp;
+
+
+
+el.mobileCartBtn.onclick=()=>{
+
+el.cartPanel.classList.add("open");
+
+};
+
+
+
+el.closeCartMobile.onclick=()=>{
+
+el.cartPanel.classList.remove("open");
+
+};
+
+
+
+
+
+renderMenu();
+
+renderCart();
