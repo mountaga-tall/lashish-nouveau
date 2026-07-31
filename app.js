@@ -1,5 +1,5 @@
 /* =====================================================
-   LA SHISH PREMIUM APP JS - VERSION FINALE ANTI-BUGS
+   LA SHISH PREMIUM APP JS - VERSION FINALE (ULTRA ROBUSTE)
 ===================================================== */
 
 const numeroWhatsApp = "2250140555666";
@@ -14,25 +14,24 @@ const allProducts = [
 .filter(p => p.disponible !== false)
 .sort((a, b) => Number(a.id) - Number(b.id));
 
-// 🛡️ FONCTION MAGIQUE : Nettoie les prix (enlève les espaces, lettres, FCFA, etc.)
-// Transforme "5 000 FCFA" ou "5000" en chiffre mathématique pur 5000
+// 🛡️ Fonction de nettoyage des prix (transforme "5 000 FCFA" en 5000)
 function parsePrice(val) {
     if (typeof val === 'number') return val;
     if (!val) return 0;
-    let str = String(val).replace(/[^\d]/g, ''); // Garde uniquement les chiffres
+    let str = String(val).replace(/[^\d]/g, '');
     return parseInt(str, 10) || 0;
 }
 
-// Initialisation et NETTOYAGE DU PANIER
+// Initialisation du panier
 let cart = JSON.parse(localStorage.getItem("laShishCart")) || [];
 if (!Array.isArray(cart)) cart = [];
 
-// On nettoie la mémoire des anciens bugs (supprime les articles à 0 FCFA)
+// Nettoyage sécurisé des données du panier au chargement
 cart = cart.map(item => {
     item.prix = parsePrice(item.prix);
     item.qty = parseInt(item.qty, 10) || 1;
     return item;
-}).filter(item => item.prix > 0);
+});
 
 let activeCategory = "ALL";
 let searchTerm = "";
@@ -50,7 +49,6 @@ const el = {
     whatsappBtn: document.getElementById("whatsappBtn"),
     modal: document.getElementById("optionModal"),
     modalContent: document.getElementById("modalContent"),
-    closeModal: document.getElementById("closeModal"),
     mobileCartBtn: document.getElementById("mobileCartBtn"),
     closeCartMobile: document.getElementById("closeCartMobile"),
     cartPanel: document.querySelector(".cart-panel"),
@@ -71,10 +69,7 @@ function formatPrice(n) {
 }
 
 function normalize(str) {
-    return String(str || "")
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
+    return String(str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 function debounce(fn, time) {
@@ -106,11 +101,7 @@ function handleImageError(img) {
 
 function escapeHtml(s) {
     return String(s || "").replace(/[&<>"']/g, m => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
     }[m]));
 }
 
@@ -140,8 +131,7 @@ function renderMenu() {
     let products = allProducts.filter(p => {
         if (activeCategory !== "ALL" && p.categorie !== activeCategory) return false;
         if (searchTerm) {
-            return normalize([p.nom, p.description, p.categorie].join(" "))
-                .includes(normalize(searchTerm));
+            return normalize([p.nom, p.description, p.categorie].join(" ")).includes(normalize(searchTerm));
         }
         return true;
     });
@@ -154,9 +144,7 @@ function renderMenu() {
     const groups = groupBy(products, "categorie");
     el.menuContainer.innerHTML = Object.keys(groups).map(cat => `
         <section class="category-block open">
-            <button class="category-header">
-                ${escapeHtml(cat)} <span>▲</span>
-            </button>
+            <button class="category-header">${escapeHtml(cat)} <span>▲</span></button>
             <div class="category-content">
                 <div class="products-grid">
                     ${groups[cat].map(productCard).join("")}
@@ -169,10 +157,9 @@ function renderMenu() {
 function productCard(p) {
     let prixDisplay = "0 FCFA";
     
-    // Si c'est une pizza (ou un produit avec des tailles), on affiche le prix minimum
     if (p.tailles && p.tailles.length > 0) {
         let minPrice = Math.min(...p.tailles.map(t => parsePrice(t.prix)));
-        prixDisplay = formatPrice(minPrice) + " FCFA";
+        prixDisplay = `À partir de ${formatPrice(minPrice)} FCFA`;
     } else {
         prixDisplay = formatPrice(parsePrice(p.prix)) + " FCFA";
     }
@@ -189,67 +176,39 @@ function productCard(p) {
 }
 
 function groupBy(arr, key) {
-    return arr.reduce((o, x) => {
-        (o[x[key]] ??= []).push(x);
-        return o;
-    }, {});
+    return arr.reduce((o, x) => { (o[x[key]] ??= []).push(x); return o; }, {});
 }
 
-// Modale (Options / Tailles pour Pizzas)
+// Fenêtre Modale (Choix des tailles)
 function openModal(p) {
     currentModalProduct = p;
-    
     let optionsHtml = "";
+    
     if (p.tailles && p.tailles.length > 0) {
         optionsHtml = `
             <div class="options-list">
                 <h4>Choisissez la taille :</h4>
                 ${p.tailles.map((t, idx) => `
-                    <label style="display: flex; gap: 10px; margin-bottom: 10px; cursor: pointer;">
+                    <label style="display: flex; gap: 10px; margin-bottom: 10px; cursor: pointer; align-items: center;">
                         <input type="radio" name="modalOption" value="${idx}" ${idx === 0 ? "checked" : ""}>
-                        <span>${escapeHtml(t.nom)} - ${formatPrice(parsePrice(t.prix))} FCFA</span>
+                        <span>${escapeHtml(t.nom)} - <strong>${formatPrice(parsePrice(t.prix))} FCFA</strong></span>
                     </label>
                 `).join("")}
             </div>
         `;
     }
 
-    let modalHtml = `
+    el.modalContent.innerHTML = `
         <div style="text-align: center; margin-bottom: 15px;">
             <img src="${getProductImageSrc(p)}" style="max-width: 100px; border-radius: 8px;" onerror="handleImageError(this)">
             <h3 style="margin: 10px 0 5px 0;">${escapeHtml(p.nom)}</h3>
             <p style="font-size: 0.9em; color: #666;">${escapeHtml(p.description || "")}</p>
         </div>
         ${optionsHtml}
-        <button id="confirmModalAdd" class="add-btn" style="width: 100%; margin-top: 15px; padding: 12px;">Ajouter au panier</button>
+        <button id="confirmModalAdd" class="add-btn" style="width: 100%; margin-top: 15px; padding: 12px; font-weight: bold;">Ajouter au panier 🛒</button>
     `;
-
-    el.modalContent.innerHTML = modalHtml;
+    
     el.modal.classList.remove("hidden");
-
-    document.getElementById("confirmModalAdd").onclick = () => {
-        let prix = parsePrice(p.prix);
-        let optionText = "";
-        
-        if (p.tailles && p.tailles.length > 0) {
-            let selectedRadio = document.querySelector('input[name="modalOption"]:checked');
-            if (selectedRadio) {
-                let selectedIdx = parseInt(selectedRadio.value, 10);
-                let selectedTaille = p.tailles[selectedIdx];
-                prix = parsePrice(selectedTaille.prix);
-                optionText = selectedTaille.nom || "";
-            }
-        }
-
-        addToCart({
-            productId: p.id,
-            nom: p.nom,
-            prix: prix,
-            optionsText: optionText
-        });
-        
-        closeModal();
-    };
 }
 
 function closeModal() {
@@ -258,7 +217,7 @@ function closeModal() {
     currentModalProduct = null;
 }
 
-// Panier
+// Gestion du Panier
 function addToCart(item) {
     const key = item.productId + "-" + item.optionsText;
     let exist = cart.find(x => x.key === key);
@@ -278,10 +237,7 @@ function addToCart(item) {
 }
 
 function getTotal() {
-    // Calcul sécurisé des totaux
-    return cart.reduce((total, item) => {
-        return total + (parsePrice(item.prix) * (parseInt(item.qty, 10) || 1));
-    }, 0);
+    return cart.reduce((total, item) => total + (parsePrice(item.prix) * item.qty), 0);
 }
 
 function renderCart() {
@@ -289,14 +245,17 @@ function renderCart() {
         el.cartItems.innerHTML = "Votre panier est vide.";
     } else {
         el.cartItems.innerHTML = cart.map(i => `
-            <div class="cart-item">
+            <div class="cart-item" style="border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px;">
                 <b>${i.qty} x ${escapeHtml(i.nom)}</b>
-                <p style="font-size:0.8em; color:gray;">${i.optionsText || ""}</p>
-                <div style="margin-top:5px;">
-                    <button data-minus="${i.key}">-</button>
-                    ${i.qty}
-                    <button data-plus="${i.key}">+</button>
-                    <button data-remove="${i.key}" style="margin-left:10px;">❌</button>
+                <p style="font-size:0.85em; color:#e74c3c; margin: 2px 0;">${i.optionsText || ""}</p>
+                <div style="margin-top:5px; display: flex; align-items: center; gap: 10px;">
+                    <button data-minus="${i.key}" style="padding: 2px 8px;">-</button>
+                    <span>${i.qty}</span>
+                    <button data-plus="${i.key}" style="padding: 2px 8px;">+</button>
+                    <button data-remove="${i.key}" style="margin-left:auto; color: red; background: none; border: none; cursor: pointer;">❌ Supprimer</button>
+                </div>
+                <div style="text-align: right; font-weight: bold; font-size: 0.9em;">
+                    ${formatPrice(parsePrice(i.prix) * i.qty)} FCFA
                 </div>
             </div>
         `).join("");
@@ -306,6 +265,108 @@ function renderCart() {
     el.cartTotal.textContent = total;
     el.mobileTotal.textContent = total;
 }
+
+// 🛡️ DÉLÉGATION D'ÉVÉNEMENTS GLOBALE (Le cœur du système anti-bug)
+document.addEventListener("click", e => {
+    
+    // 1. Fermer la modale
+    if (e.target.closest("#closeModal") || e.target.classList.contains("close-modal") || e.target === el.modal) {
+        closeModal();
+        return;
+    }
+
+    // 2. Clic sur "Ajouter au panier" DANS LA FENÊTRE DES PIZZAS
+    let confirmModalAdd = e.target.closest("#confirmModalAdd");
+    if (confirmModalAdd) {
+        if (!currentModalProduct) return;
+        let p = currentModalProduct;
+        
+        let finalPrice = parsePrice(p.prix);
+        let finalOption = "";
+        
+        if (p.tailles && p.tailles.length > 0) {
+            let selectedRadio = document.querySelector('input[name="modalOption"]:checked');
+            if (selectedRadio) {
+                let selectedIdx = parseInt(selectedRadio.value, 10);
+                let selectedTaille = p.tailles[selectedIdx];
+                if (selectedTaille) {
+                    finalPrice = parsePrice(selectedTaille.prix);
+                    finalOption = selectedTaille.nom || "";
+                }
+            }
+        }
+
+        addToCart({
+            productId: p.id,
+            nom: p.nom,
+            prix: finalPrice,
+            optionsText: finalOption
+        });
+        
+        closeModal();
+        return;
+    }
+
+    // 3. Clic sur "Ajouter" sur la page d'accueil
+    let add = e.target.closest("[data-add]");
+    if (add) {
+        let p = allProducts.find(x => String(x.id) === String(add.dataset.add));
+        if (!p) return;
+        
+        if (p.tailles && p.tailles.length > 0) {
+            openModal(p);
+        } else {
+            addToCart({
+                productId: p.id,
+                nom: p.nom,
+                prix: parsePrice(p.prix),
+                optionsText: ""
+            });
+        }
+        return;
+    }
+
+    // 4. Clic sur les onglets catégories
+    let tab = e.target.closest("[data-category]");
+    if (tab) {
+        activeCategory = tab.dataset.category;
+        renderMenu();
+        return;
+    }
+    
+    // 5. Clic sur le + du panier
+    let plus = e.target.closest("[data-plus]");
+    if (plus) {
+        let i = cart.find(x => x.key === plus.dataset.plus);
+        if (i) i.qty++;
+        saveCart();
+        renderCart();
+        return;
+    }
+    
+    // 6. Clic sur le - du panier
+    let minus = e.target.closest("[data-minus]");
+    if (minus) {
+        let i = cart.find(x => x.key === minus.dataset.minus);
+        if (i) {
+            i.qty--;
+            if (i.qty <= 0) cart = cart.filter(x => x !== i);
+        }
+        saveCart();
+        renderCart();
+        return;
+    }
+    
+    // 7. Clic sur supprimer (❌) dans le panier
+    let remove = e.target.closest("[data-remove]");
+    if (remove) {
+        cart = cart.filter(item => item.key !== remove.dataset.remove);
+        saveCart();
+        renderCart();
+        showToast("Produit supprimé");
+        return;
+    }
+});
 
 // Envoi WhatsApp
 function sendWhatsApp() {
@@ -326,9 +387,7 @@ function sendWhatsApp() {
     }
     
     let msg = `🔥 *COMMANDE LA SHISH* 🔥\n\n👤 ${name}\n📞 ${phone}\n📍 ${zone}\n🏠 ${address}\n\n`;
-    if (comment) {
-        msg += `📝 ${comment}\n\n`;
-    }
+    if (comment) msg += `📝 ${comment}\n\n`;
     
     msg += "🛒 Commande:\n";
     cart.forEach(i => {
@@ -338,7 +397,6 @@ function sendWhatsApp() {
     });
     
     msg += `\n💰 TOTAL : ${formatPrice(getTotal())} FCFA`;
-    
     window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
@@ -349,68 +407,6 @@ function showToast(t) {
     document.body.appendChild(x);
     setTimeout(() => x.remove(), 2000);
 }
-
-// Événements globaux
-document.addEventListener("click", e => {
-    // Bouton Ajouter
-    let add = e.target.closest("[data-add]");
-    if (add) {
-        let p = allProducts.find(x => x.id == add.dataset.add);
-        if (p.tailles && p.tailles.length > 0) {
-            openModal(p);
-        } else {
-            addToCart({
-                productId: p.id,
-                nom: p.nom,
-                prix: parsePrice(p.prix),
-                optionsText: ""
-            });
-        }
-    }
-    
-    // Onglets catégories
-    let tab = e.target.closest("[data-category]");
-    if (tab) {
-        activeCategory = tab.dataset.category;
-        renderMenu();
-    }
-    
-    // Bouton + panier
-    let plus = e.target.closest("[data-plus]");
-    if (plus) {
-        let i = cart.find(x => x.key === plus.dataset.plus);
-        if (i) i.qty++;
-        saveCart();
-        renderCart();
-    }
-    
-    // Bouton - panier
-    let minus = e.target.closest("[data-minus]");
-    if (minus) {
-        let i = cart.find(x => x.key === minus.dataset.minus);
-        if (i) {
-            i.qty--;
-            if (i.qty <= 0) cart = cart.filter(x => x !== i);
-        }
-        saveCart();
-        renderCart();
-    }
-    
-    // Bouton Supprimer
-    let remove = e.target.closest("[data-remove]");
-    if (remove) {
-        cart = cart.filter(item => item.key !== remove.dataset.remove);
-        saveCart();
-        renderCart();
-        showToast("Produit supprimé");
-    }
-});
-
-// Événements modale
-el.closeModal.onclick = closeModal;
-el.modal.addEventListener("click", e => {
-    if (e.target === el.modal) closeModal();
-});
 
 // Barre de recherche
 el.searchInput.addEventListener("input", debounce(e => {
@@ -424,11 +420,11 @@ el.resetSearch.onclick = () => {
     renderMenu();
 };
 
-// Actions principales
+// Menu Mobile
 el.whatsappBtn.onclick = sendWhatsApp;
 el.mobileCartBtn.onclick = () => el.cartPanel.classList.add("open");
 el.closeCartMobile.onclick = () => el.cartPanel.classList.remove("open");
 
-// Initialisation au chargement
+// Démarrage
 renderMenu();
 renderCart();
