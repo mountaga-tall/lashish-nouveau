@@ -1,5 +1,5 @@
 /* =====================================================
-   LA SHISH PREMIUM APP JS - VERSION FINALE (CORRIGEE)
+   LA SHISH PREMIUM APP JS - VERSION FINALE ANTI-BUGS
 ===================================================== */
 
 const numeroWhatsApp = "2250140555666";
@@ -14,15 +14,23 @@ const allProducts = [
 .filter(p => p.disponible !== false)
 .sort((a, b) => Number(a.id) - Number(b.id));
 
+// 🛡️ FONCTION MAGIQUE : Nettoie les prix (enlève les espaces, lettres, FCFA, etc.)
+// Transforme "5 000 FCFA" ou "5000" en chiffre mathématique pur 5000
+function parsePrice(val) {
+    if (typeof val === 'number') return val;
+    if (!val) return 0;
+    let str = String(val).replace(/[^\d]/g, ''); // Garde uniquement les chiffres
+    return parseInt(str, 10) || 0;
+}
+
 // Initialisation et NETTOYAGE DU PANIER
 let cart = JSON.parse(localStorage.getItem("laShishCart")) || [];
-if (!Array.isArray(cart)) {
-    cart = [];
-}
-// 🛡️ CORRECTION : On nettoie la mémoire des anciens bugs (supprime les articles à 0 FCFA)
+if (!Array.isArray(cart)) cart = [];
+
+// On nettoie la mémoire des anciens bugs (supprime les articles à 0 FCFA)
 cart = cart.map(item => {
-    item.prix = Number(item.prix) || 0;
-    item.qty = Number(item.qty) || 1;
+    item.prix = parsePrice(item.prix);
+    item.qty = parseInt(item.qty, 10) || 1;
     return item;
 }).filter(item => item.prix > 0);
 
@@ -161,12 +169,12 @@ function renderMenu() {
 function productCard(p) {
     let prixDisplay = "0 FCFA";
     
-    // Si c'est une pizza (ou un produit avec des tailles), on affiche le prix "À partir de"
+    // Si c'est une pizza (ou un produit avec des tailles), on affiche le prix minimum
     if (p.tailles && p.tailles.length > 0) {
-        let minPrice = Math.min(...p.tailles.map(t => Number(t.prix) || 0));
+        let minPrice = Math.min(...p.tailles.map(t => parsePrice(t.prix)));
         prixDisplay = formatPrice(minPrice) + " FCFA";
     } else {
-        prixDisplay = formatPrice(p.prix) + " FCFA";
+        prixDisplay = formatPrice(parsePrice(p.prix)) + " FCFA";
     }
         
     return `
@@ -199,7 +207,7 @@ function openModal(p) {
                 ${p.tailles.map((t, idx) => `
                     <label style="display: flex; gap: 10px; margin-bottom: 10px; cursor: pointer;">
                         <input type="radio" name="modalOption" value="${idx}" ${idx === 0 ? "checked" : ""}>
-                        <span>${escapeHtml(t.nom)} - ${formatPrice(t.prix)} FCFA</span>
+                        <span>${escapeHtml(t.nom)} - ${formatPrice(parsePrice(t.prix))} FCFA</span>
                     </label>
                 `).join("")}
             </div>
@@ -219,9 +227,8 @@ function openModal(p) {
     el.modalContent.innerHTML = modalHtml;
     el.modal.classList.remove("hidden");
 
-    // 🛡️ CORRECTION : Forcer la récupération du prix en format Nombre
     document.getElementById("confirmModalAdd").onclick = () => {
-        let prix = Number(p.prix) || 0;
+        let prix = parsePrice(p.prix);
         let optionText = "";
         
         if (p.tailles && p.tailles.length > 0) {
@@ -229,7 +236,7 @@ function openModal(p) {
             if (selectedRadio) {
                 let selectedIdx = parseInt(selectedRadio.value, 10);
                 let selectedTaille = p.tailles[selectedIdx];
-                prix = Number(selectedTaille.prix) || 0;
+                prix = parsePrice(selectedTaille.prix);
                 optionText = selectedTaille.nom || "";
             }
         }
@@ -271,11 +278,9 @@ function addToCart(item) {
 }
 
 function getTotal() {
-    // 🛡️ CORRECTION : Calcul du total sécurisé avec des Nombres
+    // Calcul sécurisé des totaux
     return cart.reduce((total, item) => {
-        let p = Number(item.prix) || 0;
-        let q = Number(item.qty) || 1;
-        return total + (p * q);
+        return total + (parsePrice(item.prix) * (parseInt(item.qty, 10) || 1));
     }, 0);
 }
 
@@ -329,7 +334,7 @@ function sendWhatsApp() {
     cart.forEach(i => {
         msg += `\n${i.qty}x ${i.nom}`;
         if (i.optionsText) msg += `\n   ${i.optionsText}`;
-        msg += `\n   ${formatPrice((Number(i.prix) || 0) * i.qty)} FCFA\n`;
+        msg += `\n   ${formatPrice(parsePrice(i.prix) * i.qty)} FCFA\n`;
     });
     
     msg += `\n💰 TOTAL : ${formatPrice(getTotal())} FCFA`;
@@ -357,7 +362,7 @@ document.addEventListener("click", e => {
             addToCart({
                 productId: p.id,
                 nom: p.nom,
-                prix: Number(p.prix) || 0,
+                prix: parsePrice(p.prix),
                 optionsText: ""
             });
         }
