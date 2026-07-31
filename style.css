@@ -1,5 +1,5 @@
 /* =====================================================
-   LA SHISH PREMIUM FOOD APP - FINAL CSS OPTIMISÉ
+   LA SHISH PREMIUM FOOD APP - FINAL CSS OPTIMISÉ (V3)
 ===================================================== */
 
 /* RESET & BASE */
@@ -45,25 +45,37 @@ button, input, textarea { font-family: inherit; }
 .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; width: 100%; min-width: 0; }
 .product-card { position: relative; overflow: hidden; padding: 15px; border-radius: 22px; background: linear-gradient(145deg, #ffffff, #fff7e8); border: 1px solid #eee; transition: .35s; }
 .product-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 25px 50px rgba(0,0,0,.18); }
-.product-img { width: 100%; height: 180px; object-fit: cover; border-radius: 18px; transition: .5s; }
+.product-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 18px; transition: .5s; }
 .product-card:hover .product-img { transform: scale(1.08); }
 .product-card h4 { font-size: 17px; margin-top: 10px; }
 .product-card p { color: #666; font-size: 14px; }
 .price { font-size: 20px; font-weight: 900; color: #078d39; margin-top: 10px; }
 .add-btn { width: 100%; padding: 14px; margin-top: 10px; border: 0; border-radius: 15px; font-weight: 900; background: linear-gradient(135deg, #d7a84f, #ffcc66); cursor: pointer; transition: .3s; }
 .add-btn:hover { transform: scale(1.05); }
+.add-btn:active { transform: scale(.96); }
 
-/* PANIER */
+/* PANIER & ELEMENTS PANIER */
 .cart-panel { min-width: 0; width: 100%; }
 .cart-sticky { background: rgba(255,255,255,.92); backdrop-filter: blur(15px); border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,.08); padding: 20px; position: sticky; top: 16px; width: 100%; max-width: 100%; overflow: hidden; }
 .cart-total { display: flex; justify-content: space-between; margin: 15px 0; font-size: 20px; }
 .cart-total strong { font-size: 25px; color: #078d39; }
-.whatsapp-btn { width: 100%; padding: 16px; border: 0; border-radius: 18px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; font-size: 17px; font-weight: 900; cursor: pointer; animation: whatsappPulse 2.5s infinite; }
+
+.cart-item { padding: 14px; margin-bottom: 12px; border-radius: 15px; background: #fff8ed; border: 1px solid #eadfce; }
+.cart-item p { margin: 8px 0; color: #666; font-size: 14px; }
+.cart-item button { width: 34px; height: 34px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin: 3px; background: #111; color: white; transition: .2s; }
+.cart-item button:hover { transform: scale(1.1); }
+.cart-item button[data-remove] { background: #ffebeb; color: #ff3333; }
+
+.whatsapp-btn { width: 100%; padding: 16px; border: 0; border-radius: 18px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; font-size: 17px; font-weight: 900; cursor: pointer; animation: whatsappPulse 2.5s infinite; transition: .3s; }
+.whatsapp-btn:disabled { opacity: .45; cursor: not-allowed; animation: none; }
 
 /* FORMULAIRE PANIER */
 .client-form { width: 100%; }
-.client-form input, .client-form textarea { width: 100%; max-width: 100%; display: block; box-sizing: border-box; margin-bottom: 10px; }
-.client-form textarea { min-height: 80px; }
+.client-form input, .client-form textarea { width: 100%; max-width: 100%; display: block; box-sizing: border-box; margin-bottom: 10px; padding: 14px; border-radius: 14px; border: 1px solid #ddd; }
+.client-form textarea { min-height: 80px; resize: vertical; }
+
+/* TOAST NOTIFICATION */
+.toast { position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%); background: #111; color: white; padding: 15px 22px; border-radius: 14px; z-index: 9999; animation: toastShow .25s; }
 
 /* MODAL */
 .modal { position: fixed; inset: 0; background: rgba(0,0,0,.65); display: flex; justify-content: center; align-items: center; z-index: 100; padding: 20px; }
@@ -87,10 +99,17 @@ button, input, textarea { font-family: inherit; }
   .layout { width: 94%; display: block; overflow: visible; margin-bottom: 100px; grid-template-columns: 1fr; }
   .menu-zone { width: 100%; }
   .products-grid { grid-template-columns: 1fr; }
+  
   .mobile-cart-btn { display: block; position: fixed; bottom: 15px; left: 15px; right: 15px; padding: 16px; border: 0; border-radius: 20px; background: #25D366; color: white; font-weight: 900; z-index: 90; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+  .cart-bounce { animation: cartBounce .45s; }
+  
   .logo { width: 170px; }
-  .cart-panel { position: fixed; inset: 0; width: 100%; z-index: 60; pointer-events: none; } /* Caché par défaut via JS .open */
-  .cart-sticky { width: 100%; max-width: 100%; border-radius: 24px 24px 0 0; }
+  
+  /* Panier Mobile Overlay */
+  .cart-panel { position: fixed; inset: 0; background: rgba(0,0,0,.45); opacity: 0; visibility: hidden; transition: .3s; pointer-events: none; z-index: 60; }
+  .cart-panel .cart-sticky { position: absolute; left: 0; right: 0; bottom: -100%; width: 100%; max-width: 100%; border-radius: 24px 24px 0 0; transition: .35s; padding: 20px; }
+  .cart-panel.open { opacity: 1; visibility: visible; pointer-events: auto; }
+  .cart-panel.open .cart-sticky { bottom: 0; }
 }
 
 @media(max-width: 480px) {
@@ -98,10 +117,12 @@ button, input, textarea { font-family: inherit; }
   .menu-zone { padding: 14px; }
   .toolbar { flex-direction: column; }
   .toolbar button { width: 100%; }
-  .cart-sticky { padding: 15px; }
+  .cart-panel .cart-sticky { padding: 15px; }
 }
 
 /* ANIMATIONS */
 @keyframes logoFloat { 50% { transform: translateY(-12px); } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
 @keyframes whatsappPulse { 70% { box-shadow: 0 0 0 20px transparent; } }
+@keyframes cartBounce { 0% { transform: scale(1); } 30% { transform: scale(1.18); } 60% { transform: scale(.92); } 100% { transform: scale(1); } }
+@keyframes toastShow { from { opacity: 0; transform: translate(-50%,20px); } to { opacity: 1; transform: translate(-50%,0); } }
