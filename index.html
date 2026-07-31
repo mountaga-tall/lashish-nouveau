@@ -1,162 +1,41 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Shish | Commande en ligne</title>
-    <meta name="description" content="Commandez vos pizzas, tacos, plats et boissons La Shish en ligne. Paiement Wave et commande WhatsApp.">
-    <meta name="theme-color" content="#111111">
-    <meta name="apple-mobile-web-app-title" content="La Shish">
-    <meta name="application-name" content="La Shish">
-    <meta name="robots" content="index, follow">
+/* =====================================================
+   LA SHISH - CSS OPTIMISÉ ET CORRIGÉ (VERSION FINALE)
+===================================================== */
 
-    <!-- ICONES -->
-    <link rel="icon" type="image/webp" href="images/logo.webp">
-    <link rel="apple-touch-icon" href="images/logo.webp">
+/* 1. RESET & BASE */
+* { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; font-family: 'Poppins', sans-serif; }
+body { background: radial-gradient(circle at top, #fff1d6, transparent 40%), #f5f1ea; color: #1f1f1f; overflow-x: hidden; }
 
-    <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+/* 2. LAYOUT & PANIER */
+.layout { width: 92%; max-width: 1450px; margin: 25px auto; display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
+.menu-zone, .cart-sticky { background: rgba(255,255,255,.92); backdrop-filter: blur(15px); border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,.08); padding: 20px; }
 
-    <!-- POLICE -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+/* 3. OVERLAY PANIER (FIX POUR MOBILE) */
+.cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 9998; }
+.cart-panel.open .cart-overlay { display: block; }
+.cart-panel { position: relative; }
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+/* 4. FORMULAIRE & BOUTONS */
+.client-form input, .client-form textarea { width: 100%; padding: 14px; border-radius: 15px !important; border: 1px solid #ddd; margin-bottom: 12px; }
+.add-btn { width: 100%; padding: 14px; border: 0; border-radius: 15px; background: linear-gradient(135deg, #d7a84f, #ffcc66); font-weight: 900; cursor: pointer; }
+.whatsapp-btn { width: 100%; padding: 16px; border: 0; border-radius: 18px; background: #25D366; color: white; font-weight: 900; }
 
-    <!-- LOADER -->
-    <div id="loader">
-        <img src="images/logo.webp" alt="La Shish">
-        <p>Préparation de votre commande...</p>
-    </div>
+/* 5. CATEGORIES & PRODUITS */
+.category-block { border-radius: 20px; border: 1px solid #eadfce; margin-bottom: 15px; }
+.category-header { width: 100%; padding: 18px; background: #141414; color: #d7a84f; border: 0; font-size: 20px; font-weight: 900; display: flex; justify-content: space-between; cursor: pointer; }
+.category-content { max-height: 5000px; overflow: hidden; transition: max-height 0.5s ease; padding: 15px; }
+.category-block.closed .category-content { max-height: 0; padding: 0; }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
+.product-card { padding: 15px; border-radius: 22px; background: #fff; border: 1px solid #eee; }
 
-    <!-- HEADER -->
-    <header class="hero">
-        <div class="hero-inner">
-            <div class="brand">
-                <img src="images/logo.webp" class="logo" alt="Logo La Shish">
-                <div class="subtitle">Commande en ligne</div>
-            </div>
-            <div class="notice">
-                <p><strong>🚚 Livraison</strong><br>À la charge du client.<br>Nous recommandons Yango Livraison.</p>
-                <p><strong>💳 Paiement</strong><br>Un lien Wave sera envoyé sur WhatsApp après validation.</p>
-            </div>
-        </div>
-    </header>
+/* 6. MOBILE RESPONSIVE */
+@media(max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .cart-panel { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; z-index: 9999; transition: right 0.4s; }
+    .cart-panel.open { right: 0; }
+    .cart-sticky { height: 100vh; overflow-y: auto; border-radius: 0; }
+    .mobile-cart-btn { display: block; position: fixed; bottom: 15px; left: 15px; right: 15px; padding: 18px; border-radius: 20px; background: #111; color: #d7a84f; font-weight: 900; z-index: 90; }
+}
 
-    <!-- APPLICATION -->
-    <main class="layout">
-        <section class="menu-zone">
-            <div class="toolbar">
-                <input id="searchInput" type="search" placeholder="Rechercher un plat, pizza, tacos..." autocomplete="off">
-                <button id="resetSearch" type="button">Effacer</button>
-            </div>
-
-            <nav id="categoryTabs" class="category-tabs" aria-label="Catégories"></nav>
-
-            <div id="menuContainer" class="menu-container"></div>
-        </section>
-
-        <!-- PANIER -->
-        <aside class="cart-panel">
-            <div class="cart-sticky">
-                <button id="closeCartMobile" class="close-cart-mobile" type="button">×</button>
-                
-                <h2>🛒 Votre commande</h2>
-                
-                <div id="cartItems" class="cart-items empty">
-                    Votre panier est vide.
-                </div>
-
-                <div class="cart-total">
-                    <span>Total</span>
-                    <strong><span id="cartTotal">0</span> FCFA</strong>
-                </div>
-
-                <div class="client-form">
-                    <h3>Informations client</h3>
-                    <input id="clientName" type="text" placeholder="Nom du client">
-                    <input id="clientPhone" type="tel" placeholder="Téléphone">
-                    <input id="clientZone" type="text" placeholder="Quartier / zone">
-                    <textarea id="clientAddress" placeholder="Adresse complète"></textarea>
-                    <textarea id="clientComment" placeholder="Commentaire / précision"></textarea>
-                </div>
-
-                <button id="whatsappBtn" class="whatsapp-btn" type="button">Commander sur WhatsApp</button>
-            </div>
-        </aside>
-    </main>
-
-    <!-- WHATSAPP FLOTTANT -->
-    <a href="https://wa.me/2250140555666" class="floating-whatsapp" target="_blank" aria-label="WhatsApp La Shish">💬</a>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-info">
-            <span>📞 07 49 02 03 02</span>
-            <span>📞 01 40 555 666</span>
-            <span>⏱ Préparation : 10 à 30 min</span>
-        </div>
-        <p>© La Shish</p>
-    </footer>
-
-    <!-- PANIER MOBILE -->
-    <button id="mobileCartBtn" class="mobile-cart-btn" type="button">
-        🛒 Voir panier • <span id="mobileTotal">0</span> FCFA
-    </button>
-
-    <!-- MODAL (Corrigé avec le bouton de confirmation) -->
-    <div id="optionModal" class="modal hidden" role="dialog" aria-modal="true">
-        <div class="modal-card">
-            <button id="closeModal" class="close-modal" type="button">×</button>
-            
-            <div id="modalContent"></div>
-            
-            <!-- BOUTON AJOUTÉ POUR PERMETTRE L'AJOUT DE LA PIZZA -->
-            <button id="confirmModal" class="add-btn" style="width: 100%; margin-top: 15px;">
-                Ajouter au panier
-            </button>
-        </div>
-    </div>
-
-    <!-- DATA MENU -->
-    <script src="data/plats.js"></script>
-    <script src="data/pizzas.js"></script>
-    <script src="data/tacos.js"></script>
-    <script src="data/boissons.js"></script>
-
-    <!-- APP -->
-    <script src="app.js"></script>
-
-    <script>
-        // Suppression loader
-        window.addEventListener("load", () => {
-            const loader = document.getElementById("loader");
-            if(loader) {
-                setTimeout(() => {
-                    loader.style.display = "none";
-                }, 500);
-            }
-        });
-
-        // Activation PWA
-        if("serviceWorker" in navigator) {
-            window.addEventListener("load", () => {
-                navigator.serviceWorker.register("./sw.js")
-                .then(() => {
-                    console.log("🔥 La Shish PWA active");
-                })
-                .catch(error => {
-                    console.log("Erreur PWA :", error);
-                });
-            });
-        }
-    </script>
-
-</body>
-</html>
+/* 7. ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
