@@ -1,41 +1,1522 @@
 /* =====================================================
-   LA SHISH - CSS OPTIMISÉ ET CORRIGÉ (VERSION FINALE)
+   LA SHISH PREMIUM FOOD APP
+   FINAL CSS
 ===================================================== */
 
-/* 1. RESET & BASE */
-* { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; font-family: 'Poppins', sans-serif; }
-body { background: radial-gradient(circle at top, #fff1d6, transparent 40%), #f5f1ea; color: #1f1f1f; overflow-x: hidden; }
 
-/* 2. LAYOUT & PANIER */
-.layout { width: 92%; max-width: 1450px; margin: 25px auto; display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
-.menu-zone, .cart-sticky { background: rgba(255,255,255,.92); backdrop-filter: blur(15px); border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,.08); padding: 20px; }
+/* RESET */
 
-/* 3. OVERLAY PANIER (FIX POUR MOBILE) */
-.cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 9998; }
-.cart-panel.open .cart-overlay { display: block; }
-.cart-panel { position: relative; }
-
-/* 4. FORMULAIRE & BOUTONS */
-.client-form input, .client-form textarea { width: 100%; padding: 14px; border-radius: 15px !important; border: 1px solid #ddd; margin-bottom: 12px; }
-.add-btn { width: 100%; padding: 14px; border: 0; border-radius: 15px; background: linear-gradient(135deg, #d7a84f, #ffcc66); font-weight: 900; cursor: pointer; }
-.whatsapp-btn { width: 100%; padding: 16px; border: 0; border-radius: 18px; background: #25D366; color: white; font-weight: 900; }
-
-/* 5. CATEGORIES & PRODUITS */
-.category-block { border-radius: 20px; border: 1px solid #eadfce; margin-bottom: 15px; }
-.category-header { width: 100%; padding: 18px; background: #141414; color: #d7a84f; border: 0; font-size: 20px; font-weight: 900; display: flex; justify-content: space-between; cursor: pointer; }
-.category-content { max-height: 5000px; overflow: hidden; transition: max-height 0.5s ease; padding: 15px; }
-.category-block.closed .category-content { max-height: 0; padding: 0; }
-.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
-.product-card { padding: 15px; border-radius: 22px; background: #fff; border: 1px solid #eee; }
-
-/* 6. MOBILE RESPONSIVE */
-@media(max-width: 900px) {
-    .layout { grid-template-columns: 1fr; }
-    .cart-panel { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; z-index: 9999; transition: right 0.4s; }
-    .cart-panel.open { right: 0; }
-    .cart-sticky { height: 100vh; overflow-y: auto; border-radius: 0; }
-    .mobile-cart-btn { display: block; position: fixed; bottom: 15px; left: 15px; right: 15px; padding: 18px; border-radius: 20px; background: #111; color: #d7a84f; font-weight: 900; z-index: 90; }
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+scroll-behavior:smooth;
 }
 
-/* 7. ANIMATIONS */
-@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+
+body{
+
+font-family:
+"Poppins",
+Arial,
+sans-serif;
+
+
+background:
+radial-gradient(circle at top,#fff1d6,transparent 40%),
+#f5f1ea;
+
+
+color:#1f1f1f;
+
+overflow-x:hidden;
+
+}
+
+
+
+/* =====================================================
+   LOADER
+===================================================== */
+
+
+#loader{
+
+position:fixed;
+
+inset:0;
+
+background:#111;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+z-index:9999;
+
+}
+
+
+
+#loader img{
+
+width:150px;
+
+animation:
+
+logoFloat 1.5s infinite;
+
+}
+
+
+
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+
+.hero{
+
+
+position:relative;
+
+min-height:300px;
+
+
+background:
+
+
+linear-gradient(
+135deg,
+rgba(0,0,0,.75),
+rgba(0,0,0,.35)
+),
+
+url("images/banner.webp");
+
+
+background-size:cover;
+
+background-position:center;
+
+
+color:white;
+
+padding:20px;
+
+
+overflow:hidden;
+
+}
+
+
+
+.hero-inner{
+
+
+width:92%;
+
+max-width:1450px;
+
+
+margin:auto;
+
+
+min-height:260px;
+
+
+display:flex;
+
+
+align-items:center;
+
+
+justify-content:space-between;
+
+
+gap:30px;
+
+
+position:relative;
+
+
+z-index:2;
+
+}
+
+
+
+
+.brand{
+
+
+text-align:center;
+
+
+animation:
+
+fadeUp .8s ease;
+
+}
+
+
+
+.logo{
+
+
+width:210px;
+
+
+max-width:80%;
+
+
+filter:
+
+drop-shadow(
+0 0 25px #d7a84f
+);
+
+
+animation:
+
+logoFloat 4s infinite ease-in-out;
+
+
+}
+
+
+
+
+@keyframes logoFloat{
+
+
+50%{
+
+transform:translateY(-12px);
+
+}
+
+}
+
+
+
+
+
+.subtitle{
+
+
+font-size:18px;
+
+
+font-weight:900;
+
+
+letter-spacing:2px;
+
+
+color:#f5dfad;
+
+
+text-transform:uppercase;
+
+}
+
+
+
+
+
+.notice{
+
+
+max-width:700px;
+
+
+padding:25px;
+
+
+border-radius:25px;
+
+
+background:
+
+rgba(255,255,255,.12);
+
+
+backdrop-filter:
+
+blur(20px);
+
+
+border:
+
+1px solid rgba(255,255,255,.25);
+
+
+box-shadow:
+
+0 20px 50px rgba(0,0,0,.4);
+
+
+animation:
+
+fadeUp 1s ease;
+
+
+}
+
+
+
+
+
+.notice p+p{
+
+
+margin-top:15px;
+
+
+padding-top:15px;
+
+
+border-top:
+
+1px solid rgba(255,255,255,.2);
+
+}
+
+
+
+
+
+/* =====================================================
+   LAYOUT
+===================================================== */
+
+
+.layout{
+
+
+width:92%;
+
+
+max-width:1450px;
+
+
+margin:25px auto;
+
+
+display:grid;
+
+
+grid-template-columns:
+
+1fr 320px;
+
+
+gap:20px;
+
+
+}
+
+
+
+
+
+.menu-zone,
+.cart-sticky{
+
+
+background:
+
+rgba(255,255,255,.92);
+
+
+backdrop-filter:
+
+blur(15px);
+
+
+border-radius:25px;
+
+
+box-shadow:
+
+0 15px 40px rgba(0,0,0,.08);
+
+
+}
+
+
+
+
+
+.menu-zone{
+
+
+padding:20px;
+
+}
+
+
+
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+
+.toolbar{
+
+
+display:flex;
+
+
+gap:10px;
+
+
+position:sticky;
+
+
+top:0;
+
+
+background:white;
+
+
+padding-bottom:15px;
+
+
+z-index:5;
+
+
+}
+
+
+
+
+.toolbar input{
+
+
+flex:1;
+
+
+padding:15px;
+
+
+border-radius:15px;
+
+
+border:1px solid #ddd;
+
+
+font-size:16px;
+
+
+}
+
+
+
+
+.toolbar button{
+
+
+border:0;
+
+
+background:#111;
+
+
+color:white;
+
+
+padding:0 20px;
+
+
+border-radius:15px;
+
+
+font-weight:900;
+
+
+cursor:pointer;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   CATEGORIES
+===================================================== */
+
+
+.category-tabs{
+
+
+display:flex;
+
+
+gap:10px;
+
+
+overflow-x:auto;
+
+
+padding-bottom:15px;
+
+
+}
+
+
+
+
+.category-tabs button{
+
+
+border:1px solid #e5d7c1;
+
+
+background:#fff8ed;
+
+
+padding:12px 18px;
+
+
+border-radius:50px;
+
+
+font-weight:900;
+
+
+cursor:pointer;
+
+
+transition:.3s;
+
+
+}
+
+
+
+.category-tabs button:hover{
+
+
+transform:translateY(-4px);
+
+
+box-shadow:
+
+0 10px 25px rgba(215,168,79,.4);
+
+
+}
+
+
+
+.category-tabs .active{
+
+
+background:#111;
+
+
+color:#d7a84f;
+
+
+}
+
+
+
+
+.category-block{
+
+
+border-radius:20px;
+
+
+overflow:hidden;
+
+
+border:1px solid #eadfce;
+
+
+margin-bottom:15px;
+
+
+animation:
+
+fadeUp .5s ease;
+
+
+}
+
+
+
+
+.category-header{
+
+
+width:100%;
+
+
+padding:18px;
+
+
+background:#141414;
+
+
+color:#d7a84f;
+
+
+border:0;
+
+
+font-size:20px;
+
+
+font-weight:900;
+
+
+display:flex;
+
+
+justify-content:space-between;
+
+
+cursor:pointer;
+
+
+}
+
+
+
+
+
+.category-content{
+
+
+display:none;
+
+
+padding:15px;
+
+
+}
+
+
+
+.category-block.open .category-content{
+
+
+display:block;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   PRODUITS
+===================================================== */
+
+
+.products-grid{
+
+
+display:grid;
+
+
+grid-template-columns:
+
+repeat(auto-fill,minmax(250px,1fr));
+
+
+gap:18px;
+
+
+}
+
+
+
+
+
+.product-card{
+
+
+position:relative;
+
+
+overflow:hidden;
+
+
+padding:15px;
+
+
+border-radius:22px;
+
+
+background:
+
+linear-gradient(
+145deg,
+#ffffff,
+#fff7e8
+);
+
+
+border:1px solid #eee;
+
+
+transition:.35s;
+
+
+}
+
+
+
+.product-card:hover{
+
+
+transform:
+
+
+translateY(-10px)
+scale(1.03);
+
+
+box-shadow:
+
+0 25px 50px rgba(0,0,0,.18);
+
+
+}
+
+
+
+.product-img{
+
+
+width:100%;
+
+
+height:180px;
+
+
+object-fit:cover;
+
+
+border-radius:18px;
+
+
+transition:.5s;
+
+
+}
+
+
+
+
+.product-card:hover .product-img{
+
+
+transform:scale(1.08);
+
+
+}
+
+
+
+
+
+.product-card h4{
+
+
+font-size:17px;
+
+
+margin-top:10px;
+
+
+}
+
+
+
+
+
+.product-card p{
+
+
+color:#666;
+
+
+font-size:14px;
+
+
+}
+
+
+
+.price{
+
+
+font-size:20px;
+
+
+font-weight:900;
+
+
+color:#078d39;
+
+
+margin-top:10px;
+
+
+}
+
+
+
+
+.add-btn{
+
+
+width:100%;
+
+
+padding:14px;
+
+
+margin-top:10px;
+
+
+border:0;
+
+
+border-radius:15px;
+
+
+font-weight:900;
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#d7a84f,
+#ffcc66
+);
+
+
+cursor:pointer;
+
+
+transition:.3s;
+
+
+}
+
+
+
+
+.add-btn:hover{
+
+
+transform:scale(1.05);
+
+
+}
+
+
+
+
+/* =====================================================
+   PANIER
+===================================================== */
+
+
+.cart-sticky{
+
+
+padding:20px;
+
+
+position:sticky;
+
+
+top:20px;
+
+
+}
+
+
+
+
+
+.cart-total{
+
+
+display:flex;
+
+
+justify-content:space-between;
+
+
+margin:15px 0;
+
+
+font-size:20px;
+
+
+}
+
+
+
+.cart-total strong{
+
+
+font-size:25px;
+
+
+color:#078d39;
+
+
+}
+
+
+
+
+.whatsapp-btn{
+
+
+width:100%;
+
+
+padding:16px;
+
+
+border:0;
+
+
+border-radius:18px;
+
+
+background:
+
+
+linear-gradient(
+135deg,
+#25D366,
+#128C7E
+);
+
+
+color:white;
+
+
+font-size:17px;
+
+
+font-weight:900;
+
+
+cursor:pointer;
+
+
+animation:
+
+whatsappPulse 2.5s infinite;
+
+
+}
+
+
+
+
+@keyframes whatsappPulse{
+
+
+70%{
+
+box-shadow:
+
+0 0 0 20px transparent;
+
+}
+
+}
+
+
+
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+
+.modal{
+
+
+position:fixed;
+
+
+inset:0;
+
+
+background:
+
+rgba(0,0,0,.65);
+
+
+display:flex;
+
+
+justify-content:center;
+
+
+align-items:center;
+
+
+z-index:100;
+
+
+padding:20px;
+
+
+}
+
+
+
+.modal.hidden{
+
+
+display:none;
+
+
+}
+
+
+
+.modal-card{
+
+
+background:white;
+
+
+border-radius:25px;
+
+
+padding:25px;
+
+
+max-width:520px;
+
+
+width:100%;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+
+.footer{
+
+
+width:92%;
+
+
+max-width:1450px;
+
+
+margin:30px auto;
+
+
+text-align:center;
+
+
+}
+
+
+
+.footer-info{
+
+
+display:flex;
+
+
+justify-content:center;
+
+
+gap:25px;
+
+
+flex-wrap:wrap;
+
+
+font-weight:700;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+.mobile-cart-btn{
+
+
+display:none;
+
+
+}
+
+
+
+@media(max-width:900px){
+
+
+.hero-inner{
+
+
+display:block;
+
+
+}
+
+
+
+.notice{
+
+
+margin-top:20px;
+
+
+}
+
+
+
+.layout{
+
+
+grid-template-columns:1fr;
+
+
+margin-bottom:100px;
+
+
+}
+
+
+
+.products-grid{
+
+
+grid-template-columns:1fr;
+
+
+}
+
+
+
+.mobile-cart-btn{
+
+
+display:block;
+
+
+position:fixed;
+
+
+bottom:15px;
+
+
+left:15px;
+
+
+right:15px;
+
+
+padding:16px;
+
+
+border:0;
+
+
+border-radius:20px;
+
+
+background:#25D366;
+
+
+color:white;
+
+
+font-weight:900;
+
+
+z-index:90;
+
+
+box-shadow:
+
+0 10px 30px rgba(0,0,0,.3);
+
+
+}
+
+
+
+.logo{
+
+
+width:170px;
+
+
+}
+
+
+}
+
+
+
+
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+
+@keyframes fadeUp{
+
+
+from{
+
+
+opacity:0;
+
+
+transform:translateY(30px);
+
+
+}
+
+
+to{
+
+
+opacity:1;
+
+
+transform:none;
+
+
+}
+
+
+}
+/* =====================================================
+   LA SHISH FINAL FIX
+   Correction panier coupé + responsive
+   ===================================================== */
+
+
+/* ===== STRUCTURE PRINCIPALE ===== */
+
+.layout {
+
+  max-width:1450px;
+
+  width:92%;
+
+  margin:24px auto;
+
+  display:grid;
+
+  grid-template-columns:minmax(0,1fr) minmax(280px,310px);
+
+  gap:18px;
+
+  overflow:hidden;
+
+}
+
+
+/* Empêche le menu de pousser le panier */
+
+.menu-zone {
+
+  min-width:0;
+
+  overflow:hidden;
+
+}
+
+
+/* ===== PANIER DESKTOP ===== */
+
+
+.cart-panel {
+
+  min-width:0;
+
+  width:100%;
+
+}
+
+
+.cart-sticky {
+
+  width:100%;
+
+  max-width:100%;
+
+  overflow:hidden;
+
+  position:sticky;
+
+  top:16px;
+
+}
+
+
+
+/* ===== FORMULAIRE PANIER ===== */
+
+
+.client-form {
+
+  width:100%;
+
+}
+
+
+.client-form input,
+.client-form textarea {
+
+  width:100%;
+
+  max-width:100%;
+
+  display:block;
+
+  box-sizing:border-box;
+
+}
+
+
+
+.client-form textarea {
+
+  min-height:80px;
+
+}
+
+
+
+
+
+/* ===== PRODUITS ===== */
+
+
+.products-grid {
+
+  width:100%;
+
+  min-width:0;
+
+}
+
+
+
+/* ===== CATEGORIES ===== */
+
+
+.category-tabs {
+
+  max-width:100%;
+
+}
+
+
+
+/* ===== TABLETTE ===== */
+
+
+@media(max-width:1200px){
+
+
+.layout {
+
+  width:94%;
+
+  grid-template-columns:minmax(0,1fr) 290px;
+
+}
+
+
+}
+
+
+
+
+
+/* ===== PETIT ECRAN ===== */
+
+
+@media(max-width:900px){
+
+
+.layout {
+
+  width:94%;
+
+  display:block;
+
+  overflow:visible;
+
+}
+
+
+/* panier mobile */
+
+.cart-panel {
+
+  position:fixed;
+
+  inset:0;
+
+  width:100%;
+
+  z-index:60;
+
+}
+
+
+
+.cart-sticky {
+
+  width:100%;
+
+  max-width:100%;
+
+  border-radius:24px 24px 0 0;
+
+}
+
+
+
+.menu-zone {
+
+  width:100%;
+
+}
+
+
+
+
+}
+
+
+
+
+
+/* ===== MOBILE EXTRA ===== */
+
+
+@media(max-width:480px){
+
+
+.hero-inner {
+
+ width:94%;
+
+}
+
+
+
+.menu-zone {
+
+ padding:14px;
+
+}
+
+
+
+.toolbar {
+
+ flex-direction:column;
+
+}
+
+
+
+.toolbar button {
+
+ width:100%;
+
+}
+
+
+
+.cart-sticky {
+
+ padding:15px;
+
+}
+
+
+
+}
+
+
+
+
+
+/* ===== EVITE LES DEBORDEMENTS ===== */
+
+
+html,
+body {
+
+  max-width:100%;
+
+  overflow-x:hidden;
+
+}
+
+
+
+img {
+
+  max-width:100%;
+
+}
+
+
+
+button,
+input,
+textarea {
+
+  font-family:inherit;
+
+}
