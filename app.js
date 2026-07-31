@@ -815,38 +815,35 @@ return String(s||"")
 
 
 
+// --- 1. Écouteurs isolés (pour les boutons qui existent toujours) ---
+el.whatsappBtn.addEventListener("click", sendWhatsApp);
+el.mobileCartBtn.addEventListener("click", () => el.cartPanel.classList.add("open"));
+el.closeCartMobile.addEventListener("click", () => el.cartPanel.classList.remove("open"));
+
+// --- 2. Délégation d'événements (pour les éléments générés dynamiquement) ---
 document.addEventListener("click", e => {
-    // --- 1. Ajouter au panier ---
+    
+    // Ajouter au panier
     let add = e.target.closest("[data-add]");
     if (add) {
         let p = allProducts.find(x => x.id == add.dataset.add);
         addToCart({ productId: p.id, nom: p.nom, prix: p.prix, optionsText: "" });
     }
 
-    // --- 2. Toggle Catégories (Accordion) ---
+    // Toggle Catégories
     let catHeader = e.target.closest(".category-header");
     if (catHeader) {
         catHeader.parentElement.classList.toggle("open");
     }
 
-    // --- 3. Fermer le Panier Mobile ---
-    if (e.target.closest("#closeCartMobile")) {
-        el.cartPanel.classList.remove("open");
-    }
-
-    // --- 4. Ouvrir le Panier Mobile ---
-    if (e.target.closest("#mobileCartBtn")) {
-        el.cartPanel.classList.add("open");
-    }
-
-    // --- 5. Changer de catégorie (Onglets) ---
+    // Changer de catégorie
     let tab = e.target.closest("[data-category]");
     if (tab) {
         activeCategory = tab.dataset.category;
         renderMenu();
     }
 
-    // --- 6. Plus / Moins dans le panier ---
+    // Plus / Moins / Supprimer dans le panier
     let plus = e.target.closest("[data-plus]");
     if (plus) {
         let i = cart.find(x => x.key === plus.dataset.plus);
@@ -863,10 +860,15 @@ document.addEventListener("click", e => {
             renderCart();
         }
     }
+    
+    let remove = e.target.closest("[data-remove]");
+    if (remove) {
+        cart = cart.filter(x => x.key !== remove.dataset.remove);
+        saveCart();
+        renderCart();
+        showToast("Article supprimé 🗑️");
+    }
 });
-
-
-
 
 
 
