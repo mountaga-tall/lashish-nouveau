@@ -41,12 +41,39 @@ const el = {
 };
 
 // Fonctions Utilitaires
-function saveCart() { localStorage.setItem("laShishCart", JSON.stringify(cart)); }
-function formatPrice(n) { return Number(n || 0).toLocaleString("fr-FR"); }
-function escapeHtml(s) { return String(s || "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m])); }
+function saveCart() { 
+    localStorage.setItem("laShishCart", JSON.stringify(cart)); 
+}
 
-// Rendu du Menu (avec prise en compte de la recherche et des catégories)
+function formatPrice(n) { 
+    return Number(n || 0).toLocaleString("fr-FR"); 
+}
+
+function escapeHtml(s) { 
+    return String(s || "").replace(/[&<>"']/g, m => ({ 
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" 
+    }[m])); 
+}
+
+// 1. Rendu dynamique des Onglets de Catégories
+function renderCategoryTabs() {
+    if (!el.categoryTabs) return;
+
+    const categories = ["ALL", ...new Set(allProducts.map(p => p.categorie))];
+
+    el.categoryTabs.innerHTML = categories.map(cat => `
+        <button type="button" 
+                class="category-tab ${cat === activeCategory ? 'active' : ''}" 
+                data-category="${escapeHtml(cat)}">
+            ${cat === "ALL" ? "Tous les produits" : escapeHtml(cat)}
+        </button>
+    `).join("");
+}
+
+// 2. Rendu du Menu
 function renderMenu() {
+    if (!el.menuContainer) return;
+
     let products = allProducts.filter(p => {
         const matchesCategory = (activeCategory === "ALL" || p.categorie === activeCategory);
         const searchLower = searchTerm.toLowerCase().trim();
@@ -58,11 +85,17 @@ function renderMenu() {
     });
 
     if (products.length === 0) {
-        el.menuContainer.innerHTML = `<div class="no-results"><p>Aucun produit trouvé.</p></div>`;
+        el.menuContainer.innerHTML = `
+            <div class="no-results" style="text-align:center; padding: 40px 20px; color: #888;">
+                <p>Aucun produit ne correspond à votre recherche.</p>
+            </div>`;
         return;
     }
 
-    const groups = products.reduce((o, x) => { (o[x.categorie] ??= []).push(x); return o; }, {});
+    const groups = products.reduce((o, x) => { 
+        (o[x.categorie] ??= []).push(x); 
+        return o; 
+    }, {});
     
     el.menuContainer.innerHTML = Object.keys(groups).map(cat => `
         <section class="category-block open">
@@ -87,7 +120,7 @@ function productCard(p) {
             <h4>${escapeHtml(p.nom)}</h4>
             <p>${escapeHtml(p.description || "")}</p>
             <div class="price">${priceLabel}</div>
-            <button class="add-btn" data-id="${p.id}">Ajouter</button>
+            <button type="button" class="add-btn" data-id="${p.id}">Ajouter</button>
         </article>
     `;
 }
@@ -96,7 +129,7 @@ function productCard(p) {
 document.addEventListener("click", e => {
     // 1. Clic "Ajouter" sur la carte produit
     let btn = e.target.closest(".add-btn");
-    if (btn && !btn.id) { // s'assure qu'il ne s'agit pas du bouton de la modale
+    if (btn && !btn.id) {
         let p = allProducts.find(x => String(x.id) === String(btn.dataset.id));
         if (p) {
             if (p.tailles && p.tailles.length > 0) {
@@ -111,7 +144,7 @@ document.addEventListener("click", e => {
     if (e.target.id === "confirmModalAdd") {
         let selected = document.querySelector('input[name="modalOption"]:checked');
         if (selected && currentModalProduct) {
-            let index = selected.value;
+            let index = Number(selected.value);
             let taille = currentModalProduct.tailles[index];
             
             addToCart({
@@ -125,7 +158,7 @@ document.addEventListener("click", e => {
     }
 
     // 3. Fermer modale
-    if (e.target.classList.contains("close-modal") || e.target.id === "optionModal") {
+    if (e.target.classList.contains("close-modal") || e.target.id === "optionModal" || e.target.id === "closeModal") {
         el.modal.classList.add("hidden");
     }
 
@@ -151,13 +184,17 @@ function openModal(p) {
     currentModalProduct = p;
     el.modalContent.innerHTML = `
         <h3>${escapeHtml(p.nom)}</h3>
+        <p style="font-size:0.9em; color:#666; margin-bottom:15px;">Choisissez votre option :</p>
         ${p.tailles.map((t, i) => `
-            <label style="display:block; margin: 10px 0; cursor:pointer;">
-                <input type="radio" name="modalOption" value="${i}" ${i === 0 ? 'checked' : ''}>
-                ${escapeHtml(t.nom)} - ${formatPrice(t.prix)} FCFA
+            <label style="display:flex; justify-content:space-between; align-items:center; margin:10px 0; padding:10px; border:1px solid #ddd; border-radius:8px; cursor:pointer;">
+                <span>
+                    <input type="radio" name="modalOption" value="${i}" ${i === 0 ? 'checked' : ''}>
+                    <strong style="margin-left:8px;">${escapeHtml(t.nom)}</strong>
+                </span>
+                <span style="font-weight:bold; color:#e67e22;">${formatPrice(t.prix)} FCFA</span>
             </label>
         `).join('')}
-        <button id="confirmModalAdd" class="add-btn" style="width:100%; padding:15px; margin-top:10px;">Valider</button>
+        <button type="button" id="confirmModalAdd" class="add-btn" style="width:100%; padding:14px; margin-top:10px;">Valider</button>
     `;
     el.modal.classList.remove("hidden");
 }
@@ -198,27 +235,29 @@ function renderCart() {
     if (!el.cartItems) return;
 
     if (cart.length === 0) {
+        el.cartItems.classList.add("empty");
         el.cartItems.innerHTML = `<p class="empty-cart-msg">Votre panier est vide.</p>`;
     } else {
+        el.cartItems.classList.remove("empty");
         el.cartItems.innerHTML = cart.map(i => `
             <div class="cart-item" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <div class="cart-item-info">
                     <strong>${escapeHtml(i.nom)}</strong>
                     ${i.options ? `<small style="display:block; color:#666;">${escapeHtml(i.options)}</small>` : ''}
-                    <span>${formatPrice(i.prix * i.qty)} FCFA</span>
+                    <span style="color:#078d39; font-weight:bold;">${formatPrice(i.prix * i.qty)} FCFA</span>
                 </div>
                 <div class="cart-item-controls" style="display:flex; align-items:center; gap:5px;">
-                    <button class="cart-qty-btn" data-key="${i.key}" data-action="decrease">-</button>
+                    <button type="button" class="cart-qty-btn" data-key="${i.key}" data-action="decrease">-</button>
                     <span>${i.qty}</span>
-                    <button class="cart-qty-btn" data-key="${i.key}" data-action="increase">+</button>
-                    <button class="cart-qty-btn" data-key="${i.key}" data-action="remove" style="color:red; margin-left:5px;">&times;</button>
+                    <button type="button" class="cart-qty-btn" data-key="${i.key}" data-action="increase">+</button>
+                    <button type="button" class="cart-qty-btn" data-key="${i.key}" data-action="remove" style="color:red; margin-left:5px;">&times;</button>
                 </div>
             </div>
         `).join("");
     }
 
     const grandTotal = cart.reduce((a, b) => a + (b.prix * b.qty), 0);
-    const totalFormatted = formatPrice(grandTotal) + " FCFA";
+    const totalFormatted = formatPrice(grandTotal);
 
     if (el.cartTotal) el.cartTotal.textContent = totalFormatted;
     if (el.mobileTotal) el.mobileTotal.textContent = totalFormatted;
@@ -229,7 +268,7 @@ if (el.searchInput) {
     el.searchInput.addEventListener("input", e => {
         searchTerm = e.target.value;
         if (el.resetSearch) {
-            el.resetSearch.style.display = searchTerm ? "block" : "none";
+            el.resetSearch.style.display = searchTerm ? "inline-block" : "none";
         }
         renderMenu();
     });
@@ -295,5 +334,6 @@ if (el.whatsappBtn) {
 }
 
 // Lancement initial
+renderCategoryTabs();
 renderMenu();
 renderCart();
