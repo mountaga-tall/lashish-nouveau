@@ -901,23 +901,7 @@ renderMenu();
 
 
 
-el.whatsappBtn.onclick=sendWhatsApp;
 
-
-
-el.mobileCartBtn.onclick=()=>{
-
-el.cartPanel.classList.add("open");
-
-};
-
-
-
-el.closeCartMobile.onclick=()=>{
-
-el.cartPanel.classList.remove("open");
-
-};
 
 
 
