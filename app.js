@@ -815,87 +815,54 @@ return String(s||"")
 
 
 
-document.addEventListener("click",e=>{
+document.addEventListener("click", e => {
+    // --- 1. Ajouter au panier ---
+    let add = e.target.closest("[data-add]");
+    if (add) {
+        let p = allProducts.find(x => x.id == add.dataset.add);
+        addToCart({ productId: p.id, nom: p.nom, prix: p.prix, optionsText: "" });
+    }
 
+    // --- 2. Toggle Catégories (Accordion) ---
+    let catHeader = e.target.closest(".category-header");
+    if (catHeader) {
+        catHeader.parentElement.classList.toggle("open");
+    }
 
-let add=e.target.closest("[data-add]");
+    // --- 3. Fermer le Panier Mobile ---
+    if (e.target.closest("#closeCartMobile")) {
+        el.cartPanel.classList.remove("open");
+    }
 
-if(add){
+    // --- 4. Ouvrir le Panier Mobile ---
+    if (e.target.closest("#mobileCartBtn")) {
+        el.cartPanel.classList.add("open");
+    }
 
-let p=allProducts.find(
-x=>x.id==add.dataset.add
-);
+    // --- 5. Changer de catégorie (Onglets) ---
+    let tab = e.target.closest("[data-category]");
+    if (tab) {
+        activeCategory = tab.dataset.category;
+        renderMenu();
+    }
 
+    // --- 6. Plus / Moins dans le panier ---
+    let plus = e.target.closest("[data-plus]");
+    if (plus) {
+        let i = cart.find(x => x.key === plus.dataset.plus);
+        if(i) { i.qty++; saveCart(); renderCart(); }
+    }
 
-addToCart({
-
-productId:p.id,
-
-nom:p.nom,
-
-prix:p.prix,
-
-optionsText:""
-
-});
-
-
-}
-
-
-
-
-let tab=e.target.closest("[data-category]");
-
-
-if(tab){
-
-activeCategory=tab.dataset.category;
-
-renderMenu();
-
-}
-
-
-
-let plus=e.target.closest("[data-plus]");
-
-if(plus){
-
-let i=cart.find(x=>x.key===plus.dataset.plus);
-
-i.qty++;
-
-saveCart();
-
-renderCart();
-
-}
-
-
-
-let minus=e.target.closest("[data-minus]");
-
-if(minus){
-
-let i=cart.find(x=>x.key===minus.dataset.minus);
-
-i.qty--;
-
-if(i.qty<=0)
-
-cart=cart.filter(x=>x!==i);
-
-
-saveCart();
-
-renderCart();
-
-}
-
-
-
-
+    let minus = e.target.closest("[data-minus]");
+    if (minus) {
+        let i = cart.find(x => x.key === minus.dataset.minus);
+        if(i) {
+            i.qty--;
+            if (i.qty <= 0) cart = cart.filter(x => x.key !== i.key);
+            saveCart();
+            renderCart();
+        }
+    }
 });
 
 
