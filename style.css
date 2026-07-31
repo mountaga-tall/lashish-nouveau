@@ -1,91 +1,41 @@
 /* =====================================================
-   LA SHISH - VERSION 10/10 FINALE
+   LA SHISH - CSS OPTIMISÉ ET CORRIGÉ (VERSION FINALE)
 ===================================================== */
-const numeroWhatsApp = "2250140555666";
 
-// ... (allProducts, cart initialisation, etc. restent identiques) ...
+/* 1. RESET & BASE */
+* { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; font-family: 'Poppins', sans-serif; }
+body { background: radial-gradient(circle at top, #fff1d6, transparent 40%), #f5f1ea; color: #1f1f1f; overflow-x: hidden; }
 
-function renderCart() {
-    if (!el.cartItems) return;
+/* 2. LAYOUT & PANIER */
+.layout { width: 92%; max-width: 1450px; margin: 25px auto; display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
+.menu-zone, .cart-sticky { background: rgba(255,255,255,.92); backdrop-filter: blur(15px); border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,.08); padding: 20px; }
 
-    if (!cart.length) {
-        el.cartItems.innerHTML = "Votre panier est vide.";
-        el.cartItems.classList.add("empty");
-    } else {
-        el.cartItems.classList.remove("empty");
-        el.cartItems.innerHTML = cart.map(i => `
-            <div class="cart-item">
-                <b>${i.qty} x ${escapeHtml(i.nom)}</b>
-                <p>${i.optionsText || ""}</p>
-                <button data-minus="${i.key}">-</button>
-                ${i.qty}
-                <button data-plus="${i.key}">+</button>
-                <button data-remove="${i.key}">❌</button>
-            </div>
-        `).join("");
-    }
-    let total = formatPrice(getTotal());
-    if (el.cartTotal) el.cartTotal.textContent = total;
-    if (el.mobileTotal) el.mobileTotal.textContent = total;
+/* 3. OVERLAY PANIER (FIX POUR MOBILE) */
+.cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 9998; }
+.cart-panel.open .cart-overlay { display: block; }
+.cart-panel { position: relative; }
+
+/* 4. FORMULAIRE & BOUTONS */
+.client-form input, .client-form textarea { width: 100%; padding: 14px; border-radius: 15px !important; border: 1px solid #ddd; margin-bottom: 12px; }
+.add-btn { width: 100%; padding: 14px; border: 0; border-radius: 15px; background: linear-gradient(135deg, #d7a84f, #ffcc66); font-weight: 900; cursor: pointer; }
+.whatsapp-btn { width: 100%; padding: 16px; border: 0; border-radius: 18px; background: #25D366; color: white; font-weight: 900; }
+
+/* 5. CATEGORIES & PRODUITS */
+.category-block { border-radius: 20px; border: 1px solid #eadfce; margin-bottom: 15px; }
+.category-header { width: 100%; padding: 18px; background: #141414; color: #d7a84f; border: 0; font-size: 20px; font-weight: 900; display: flex; justify-content: space-between; cursor: pointer; }
+.category-content { max-height: 5000px; overflow: hidden; transition: max-height 0.5s ease; padding: 15px; }
+.category-block.closed .category-content { max-height: 0; padding: 0; }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
+.product-card { padding: 15px; border-radius: 22px; background: #fff; border: 1px solid #eee; }
+
+/* 6. MOBILE RESPONSIVE */
+@media(max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .cart-panel { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; z-index: 9999; transition: right 0.4s; }
+    .cart-panel.open { right: 0; }
+    .cart-sticky { height: 100vh; overflow-y: auto; border-radius: 0; }
+    .mobile-cart-btn { display: block; position: fixed; bottom: 15px; left: 15px; right: 15px; padding: 18px; border-radius: 20px; background: #111; color: #d7a84f; font-weight: 900; z-index: 90; }
 }
 
-function addToCart(item) {
-    // Correction clé sécurisée (item.optionsText || "")
-    const key = item.productId + "-" + (item.optionsText || "");
-    let exist = cart.find(x => x.key === key);
-    if (exist) {
-        exist.qty++;
-    } else {
-        cart.push({ ...item, key, qty: 1 });
-    }
-    saveCart();
-    renderCart();
-    // ... animation ...
-}
-
-document.addEventListener("click", e => {
-    const target = e.target;
-
-    // 1. Ouvrir/Fermer catégories
-    let header = target.closest(".category-header");
-    if (header) {
-        const block = header.closest(".category-block");
-        if (block) {
-            block.classList.toggle("closed");
-            const arrow = header.querySelector("span");
-            if (arrow) arrow.textContent = block.classList.contains("closed") ? "▼" : "▲";
-        }
-    }
-
-    // 2. Gestion panier (Plus/Minus/Remove)
-    let plus = target.closest("[data-plus]");
-    if (plus) {
-        let i = cart.find(x => x.key === plus.dataset.plus);
-        if (i) { i.qty++; saveCart(); renderCart(); }
-    }
-    
-    let minus = target.closest("[data-minus]");
-    if (minus) {
-        let i = cart.find(x => x.key === minus.dataset.minus);
-        if (i) {
-            i.qty--;
-            if (i.qty <= 0) cart = cart.filter(x => x !== i);
-            saveCart();
-            renderCart();
-        }
-    }
-
-    let remove = target.closest("[data-remove]");
-    if (remove) {
-        cart = cart.filter(x => x.key !== remove.dataset.remove);
-        saveCart();
-        renderCart();
-    }
-    
-    // ... (reste de la logique click)
-});
-
-// Fermeture Overlay
-document.getElementById("cartOverlay")?.addEventListener("click", () => {
-    el.cartPanel?.classList.remove("open");
-});
+/* 7. ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
