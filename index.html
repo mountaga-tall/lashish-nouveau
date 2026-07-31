@@ -1,344 +1,160 @@
-/* =====================================================
-   LA SHISH - VERSION FINALE HARMONISÉE AVEC INDEX.HTML
-===================================================== */
-
-const numeroWhatsApp = "2250140555666";
-
-// Consolidation globale des produits
-const allProducts = [
-    ...(window.MENU_PLATS || []),
-    ...(window.MENU_PIZZAS || []),
-    ...(window.MENU_TACOS || []),
-    ...(window.MENU_BOISSONS || [])
-].filter(p => p.disponible !== false);
-
-let cart = JSON.parse(localStorage.getItem("laShishCart")) || [];
-if (!Array.isArray(cart)) cart = [];
-
-let activeCategory = "ALL";
-let searchTerm = "";
-let currentModalProduct = null;
-
-// Éléments du DOM (stricte correspondance avec index.html)
-const el = {
-    categoryTabs: document.getElementById("categoryTabs"),
-    menuContainer: document.getElementById("menuContainer"),
-    searchInput: document.getElementById("searchInput"),
-    resetSearch: document.getElementById("resetSearch"),
-    cartItems: document.getElementById("cartItems"),
-    cartTotal: document.getElementById("cartTotal"),
-    mobileTotal: document.getElementById("mobileTotal"),
-    whatsappBtn: document.getElementById("whatsappBtn"),
-    modal: document.getElementById("optionModal"),
-    modalContent: document.getElementById("modalContent"),
-    mobileCartBtn: document.getElementById("mobileCartBtn"),
-    closeCartMobile: document.getElementById("closeCartMobile"),
-    cartPanel: document.querySelector(".cart-panel"),
-    clientName: document.getElementById("clientName"),
-    clientPhone: document.getElementById("clientPhone"),
-    clientZone: document.getElementById("clientZone"),
-    clientAddress: document.getElementById("clientAddress"),
-    clientComment: document.getElementById("clientComment")
-};
-
-// Fonctions Utilitaires
-function saveCart() { 
-    localStorage.setItem("laShishCart", JSON.stringify(cart)); 
-}
-
-function formatPrice(n) { 
-    return Number(n || 0).toLocaleString("fr-FR"); 
-}
-
-function escapeHtml(s) { 
-    return String(s || "").replace(/[&<>"']/g, m => ({ 
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" 
-    }[m])); 
-}
-
-// 1. Rendu dynamique des onglets de catégories
-function renderCategoryTabs() {
-    if (!el.categoryTabs) return;
-
-    // Récupération des catégories uniques
-    const categories = ["ALL", ...new Set(allProducts.map(p => p.categorie))];
-
-    el.categoryTabs.innerHTML = categories.map(cat => `
-        <button type="button" 
-                class="category-tab ${cat === activeCategory ? 'active' : ''}" 
-                data-category="${escapeHtml(cat)}">
-            ${cat === "ALL" ? "Tous les produits" : escapeHtml(cat)}
-        </button>
-    `).join("");
-}
-
-// 2. Rendu du Menu
-function renderMenu() {
-    if (!el.menuContainer) return;
-
-    let products = allProducts.filter(p => {
-        const matchesCategory = (activeCategory === "ALL" || p.categorie === activeCategory);
-        const searchLower = searchTerm.toLowerCase().trim();
-        const matchesSearch = !searchLower || 
-            (p.nom && p.nom.toLowerCase().includes(searchLower)) || 
-            (p.description && p.description.toLowerCase().includes(searchLower));
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Shish - Restaurant & Fast Food</title>
+    <style>
+        /* Styles de base et mise en page responsive */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
+        header { background-color: #1a1a1a; color: #fff; padding: 20px; text-align: center; }
+        header h1 { color: #e67e22; margin-bottom: 10px; }
         
-        return matchesCategory && matchesSearch;
-    });
+        .search-bar { display: flex; justify-content: center; margin-top: 15px; max-width: 500px; margin-left: auto; margin-right: auto; position: relative; }
+        .search-bar input { width: 100%; padding: 10px 35px 10px 15px; border-radius: 20px; border: none; font-size: 16px; outline: none; }
+        .search-bar button { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; display: none; font-size: 16px; color: #888; }
+        
+        .container { display: flex; gap: 20px; max-width: 1200px; margin: 20px auto; padding: 0 15px; }
+        .main-content { flex: 1; }
+        
+        .category-tabs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; }
+        .category-tab { padding: 8px 16px; background: #e0e0e0; border: none; border-radius: 20px; cursor: pointer; white-space: nowrap; font-weight: bold; }
+        .category-tab.active { background: #e67e22; color: #fff; }
 
-    if (products.length === 0) {
-        el.menuContainer.innerHTML = `
-            <div class="no-results" style="text-align:center; padding: 40px 20px; color: #888;">
-                <p>Aucun produit ne correspond à votre recherche.</p>
-            </div>`;
-        return;
-    }
+        .category-block { margin-bottom: 30px; }
+        .category-block h3 { margin-bottom: 15px; color: #1a1a1a; border-bottom: 2px solid #e67e22; padding-bottom: 5px; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+        .product-card { background: #fff; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between; }
+        .product-card h4 { font-size: 1.1em; margin-bottom: 5px; }
+        .product-card p { font-size: 0.85em; color: #666; margin-bottom: 10px; flex-grow: 1; }
+        .product-card .price { font-weight: bold; color: #e67e22; margin-bottom: 10px; }
+        .add-btn { background: #e67e22; color: #fff; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .add-btn:hover { background: #d35400; }
 
-    const groups = products.reduce((o, x) => { 
-        (o[x.categorie] ??= []).push(x); 
-        return o; 
-    }, {});
-    
-    el.menuContainer.innerHTML = Object.keys(groups).map(cat => `
-        <section class="category-block open">
-            <h3>${escapeHtml(cat)}</h3>
-            <div class="products-grid">
-                ${groups[cat].map(productCard).join("")}
+        /* Sidebar / Panier */
+        .cart-panel { width: 340px; background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); align-self: flex-start; }
+        .cart-panel h3 { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .cart-items { max-height: 300px; overflow-y: auto; margin-bottom: 15px; }
+        
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 0.85em; font-weight: bold; margin-bottom: 3px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.9em; }
+        
+        .whatsapp-btn { width: 100%; background: #25D366; color: #fff; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 1em; }
+        .whatsapp-btn:hover { background: #1ebd56; }
+
+        /* Modale */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal.hidden { display: none; }
+        .modal-body { background: #fff; width: 90%; max-width: 400px; border-radius: 10px; padding: 20px; position: relative; }
+        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; background: none; border: none; }
+
+        /* Support Mobile */
+        .mobile-cart-btn { display: none; position: fixed; bottom: 20px; right: 20px; background: #e67e22; color: #fff; padding: 12px 20px; border-radius: 30px; border: none; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 99; cursor: pointer; }
+        .close-cart-mobile { display: none; background: none; border: none; font-size: 20px; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .cart-panel { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; z-index: 999; overflow-y: auto; transition: right 0.3s ease; border-radius: 0; }
+            .cart-panel.open { right: 0; }
+            .mobile-cart-btn { display: block; }
+            .close-cart-mobile { display: inline-block; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>LA SHISH</h1>
+        <p>Commandez vos meilleurs plats en quelques clics</p>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher un produit...">
+            <button id="resetSearch" type="button">&times;</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Zone Principale : Catégories et Menu -->
+        <main class="main-content">
+            <nav class="category-tabs" id="categoryTabs">
+                <!-- Les onglets s'affichent dynamiquement ici -->
+            </nav>
+
+            <div id="menuContainer">
+                <!-- Les cartes produits s'affichent dynamiquement ici -->
             </div>
-        </section>
-    `).join("");
-}
+        </main>
 
-function productCard(p) {
-    let priceLabel = "";
-    if (p.tailles && p.tailles.length > 0) {
-        let min = Math.min(...p.tailles.map(t => t.prix));
-        priceLabel = `À partir de ${formatPrice(min)} FCFA`;
-    } else {
-        priceLabel = formatPrice(p.prix) + " FCFA";
-    }
+        <!-- Sidebar Panier & Formulaire Client -->
+        <aside class="cart-panel">
+            <h3>
+                <span>Votre Panier</span>
+                <button type="button" class="close-cart-mobile" id="closeCartMobile">&times;</button>
+            </h3>
 
-    return `
-        <article class="product-card">
-            <h4>${escapeHtml(p.nom)}</h4>
-            <p>${escapeHtml(p.description || "")}</p>
-            <div class="price">${priceLabel}</div>
-            <button type="button" class="add-btn" data-id="${p.id}">Ajouter</button>
-        </article>
-    `;
-}
-
-// 3. Gestion des clics et événements
-document.addEventListener("click", e => {
-    // A. Clic sur "Ajouter" d'un produit
-    let btn = e.target.closest(".add-btn");
-    if (btn && !btn.id) {
-        let p = allProducts.find(x => String(x.id) === String(btn.dataset.id));
-        if (p) {
-            if (p.tailles && p.tailles.length > 0) {
-                openModal(p);
-            } else {
-                addToCart({ productId: p.id, nom: p.nom, prix: p.prix, options: "" });
-            }
-        }
-    }
-
-    // B. Clic "Valider" dans la modale de taille/option
-    if (e.target.id === "confirmModalAdd") {
-        let selected = document.querySelector('input[name="modalOption"]:checked');
-        if (selected && currentModalProduct) {
-            let index = Number(selected.value);
-            let taille = currentModalProduct.tailles[index];
-            
-            addToCart({
-                productId: currentModalProduct.id,
-                nom: currentModalProduct.nom,
-                prix: taille.prix,
-                options: taille.nom
-            });
-            el.modal.classList.add("hidden");
-        }
-    }
-
-    // C. Fermer la modale
-    if (e.target.classList.contains("close-modal") || e.target.id === "optionModal" || e.target.id === "closeModal") {
-        el.modal.classList.add("hidden");
-    }
-
-    // D. Gestion des quantités (+ / - / Supprimer) dans le panier
-    if (e.target.classList.contains("cart-qty-btn")) {
-        const key = e.target.dataset.key;
-        const action = e.target.dataset.action;
-        updateQuantity(key, action);
-    }
-
-    // E. Filtre par Onglet de Catégorie
-    let catTab = e.target.closest(".category-tab");
-    if (catTab) {
-        document.querySelectorAll(".category-tab").forEach(tab => tab.classList.remove("active"));
-        catTab.classList.add("active");
-        activeCategory = catTab.dataset.category || "ALL";
-        renderMenu();
-    }
-});
-
-// Modale d'options
-function openModal(p) {
-    currentModalProduct = p;
-    el.modalContent.innerHTML = `
-        <h3>${escapeHtml(p.nom)}</h3>
-        <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">Choisissez votre option :</p>
-        ${p.tailles.map((t, i) => `
-            <label style="display:flex; justify-content:space-between; align-items:center; margin: 12px 0; padding: 10px; border: 1px solid #ddd; border-radius: 8px; cursor:pointer;">
-                <span>
-                    <input type="radio" name="modalOption" value="${i}" ${i === 0 ? 'checked' : ''}>
-                    <strong style="margin-left:8px;">${escapeHtml(t.nom)}</strong>
-                </span>
-                <span style="font-weight:bold; color:#e67e22;">${formatPrice(t.prix)} FCFA</span>
-            </label>
-        `).join('')}
-        <button type="button" id="confirmModalAdd" class="add-btn" style="width:100%; padding:14px; margin-top:10px;">Ajouter au panier</button>
-    `;
-    el.modal.classList.remove("hidden");
-}
-
-// 4. Gestion du Panier
-function addToCart(item) {
-    let key = item.productId + (item.options ? "-" + item.options : "");
-    let exist = cart.find(x => x.key === key);
-    
-    if (exist) { 
-        exist.qty++; 
-    } else { 
-        cart.push({ ...item, key, qty: 1 }); 
-    }
-    
-    saveCart();
-    renderCart();
-}
-
-function updateQuantity(key, action) {
-    let item = cart.find(x => x.key === key);
-    if (!item) return;
-
-    if (action === "increase") {
-        item.qty++;
-    } else if (action === "decrease") {
-        item.qty--;
-        if (item.qty <= 0) {
-            cart = cart.filter(x => x.key !== key);
-        }
-    } else if (action === "remove") {
-        cart = cart.filter(x => x.key !== key);
-    }
-
-    saveCart();
-    renderCart();
-}
-
-function renderCart() {
-    if (!el.cartItems) return;
-
-    if (cart.length === 0) {
-        el.cartItems.classList.add("empty");
-        el.cartItems.innerHTML = `<p class="empty-cart-msg">Votre panier est vide.</p>`;
-    } else {
-        el.cartItems.classList.remove("empty");
-        el.cartItems.innerHTML = cart.map(i => `
-            <div class="cart-item" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid #eee;">
-                <div class="cart-item-info">
-                    <strong style="display:block;">${escapeHtml(i.nom)}</strong>
-                    ${i.options ? `<small style="color:#666;">Option: ${escapeHtml(i.options)}</small><br>` : ''}
-                    <span style="color:#e67e22; font-weight:bold;">${formatPrice(i.prix * i.qty)} FCFA</span>
-                </div>
-                <div class="cart-item-controls" style="display:flex; align-items:center; gap:6px;">
-                    <button type="button" class="cart-qty-btn" data-key="${i.key}" data-action="decrease" style="width:28px; height:28px;">-</button>
-                    <span style="font-weight:bold; min-width:18px; text-align:center;">${i.qty}</span>
-                    <button type="button" class="cart-qty-btn" data-key="${i.key}" data-action="increase" style="width:28px; height:28px;">+</button>
-                    <button type="button" class="cart-qty-btn" data-key="${i.key}" data-action="remove" style="color:#e74c3c; background:none; border:none; font-size:18px; cursor:pointer; margin-left:4px;">&times;</button>
-                </div>
+            <div id="cartItems" class="cart-items">
+                <p class="empty-cart-msg">Votre panier est vide.</p>
             </div>
-        `).join("");
-    }
 
-    const grandTotal = cart.reduce((a, b) => a + (b.prix * b.qty), 0);
-    const totalFormatted = formatPrice(grandTotal);
+            <div style="font-size: 1.1em; font-weight: bold; margin-bottom: 15px; text-align: right;">
+                Total: <span id="cartTotal" style="color:#e67e22;">0</span> FCFA
+            </div>
 
-    if (el.cartTotal) el.cartTotal.textContent = totalFormatted;
-    if (el.mobileTotal) el.mobileTotal.textContent = totalFormatted;
-}
+            <!-- Formulaire de Livraison -->
+            <form id="checkoutForm" onsubmit="return false;">
+                <div class="form-group">
+                    <label for="clientName">Nom & Prénom</label>
+                    <input type="text" id="clientName" placeholder="Ex: Jean Dupont" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientPhone">Numéro de Téléphone</label>
+                    <input type="tel" id="clientPhone" placeholder="Ex: 0700000000" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientZone">Zone / Quartier</label>
+                    <input type="text" id="clientZone" placeholder="Ex: Cocody Angré" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientAddress">Adresse de livraison</label>
+                    <input type="text" id="clientAddress" placeholder="Ex: Rue L80, Villa 12">
+                </div>
+                <div class="form-group">
+                    <label for="clientComment">Instructions particulières</label>
+                    <textarea id="clientComment" rows="2" placeholder="Ex: Sans piment, sauce à part..."></textarea>
+                </div>
 
-// 5. Recherche en temps réel
-if (el.searchInput) {
-    el.searchInput.addEventListener("input", e => {
-        searchTerm = e.target.value;
-        if (el.resetSearch) {
-            el.resetSearch.style.display = searchTerm ? "inline-block" : "none";
-        }
-        renderMenu();
-    });
-}
+                <button type="button" id="whatsappBtn" class="whatsapp-btn">
+                    Commander via WhatsApp
+                </button>
+            </form>
+        </aside>
+    </div>
 
-if (el.resetSearch) {
-    el.resetSearch.addEventListener("click", () => {
-        searchTerm = "";
-        if (el.searchInput) el.searchInput.value = "";
-        el.resetSearch.style.display = "none";
-        renderMenu();
-    });
-}
+    <!-- Bouton Panier Flottant pour Mobile -->
+    <button type="button" class="mobile-cart-btn" id="mobileCartBtn">
+        🛒 Panier (<span id="mobileTotal">0 FCFA</span>)
+    </button>
 
-// 6. Tiroir Panier Mobile
-if (el.mobileCartBtn && el.cartPanel) {
-    el.mobileCartBtn.addEventListener("click", () => {
-        el.cartPanel.classList.add("open");
-    });
-}
+    <!-- Modale d'options (Choix de taille / portions) -->
+    <div id="optionModal" class="modal hidden">
+        <div class="modal-body">
+            <button type="button" class="close-modal" id="closeModal">&times;</button>
+            <div id="modalContent">
+                <!-- Le contenu dynamique de la modale s'insère ici -->
+            </div>
+        </div>
+    </div>
 
-if (el.closeCartMobile && el.cartPanel) {
-    el.closeCartMobile.addEventListener("click", () => {
-        el.cartPanel.classList.remove("open");
-    });
-}
+    <!-- Chargement des fichiers de données des produits -->
+    <script src="data/plats.js"></script>
+    <script src="data/pizzas.js"></script>
+    <script src="data/tacos.js"></script>
+    <script src="data/boissons.js"></script>
 
-// 7. Envoi de la Commande via WhatsApp
-if (el.whatsappBtn) {
-    el.whatsappBtn.addEventListener("click", () => {
-        if (cart.length === 0) {
-            alert("Votre panier est vide ! Veuillez ajouter des articles.");
-            return;
-        }
+    <!-- Chargement du script principal -->
+    <script src="app.js"></script>
 
-        const nom = el.clientName?.value.trim() || "Non spécifié";
-        const phone = el.clientPhone?.value.trim() || "Non spécifié";
-        const zone = el.clientZone?.value.trim() || "Non spécifiée";
-        const adresse = el.clientAddress?.value.trim() || "Non spécifiée";
-        const commentaire = el.clientComment?.value.trim() || "Aucun";
-
-        let text = `*NOUVELLE COMMANDE - LA SHISH*\n`;
-        text += `--------------------------------\n`;
-        text += `👤 *Nom:* ${nom}\n`;
-        text += `📞 *Téléphone:* ${phone}\n`;
-        text += `📍 *Zone/Quartier:* ${zone}\n`;
-        text += `🏠 *Adresse:* ${adresse}\n`;
-        if (commentaire !== "Aucun") text += `💬 *Note:* ${commentaire}\n`;
-        text += `--------------------------------\n\n`;
-        text += `🛒 *DÉTAIL DE LA COMMANDE :*\n`;
-
-        cart.forEach(item => {
-            const opt = item.options ? ` (${item.options})` : "";
-            text += `• ${item.qty}x ${item.nom}${opt} - ${formatPrice(item.prix * item.qty)} FCFA\n`;
-        });
-
-        const total = cart.reduce((a, b) => a + (b.prix * b.qty), 0);
-        text += `\n💰 *TOTAL À PAYER:* ${formatPrice(total)} FCFA`;
-
-        const encodedUrl = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(text)}`;
-        window.open(encodedUrl, "_blank");
-    });
-}
-
-// Initialisation au chargement
-renderCategoryTabs();
-renderMenu();
-renderCart();
+</body>
+</html>
