@@ -1,168 +1,344 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>La Shish | Commande en ligne</title>
-  <meta name="description" content="Commandez vos pizzas, tacos, plats et boissons La Shish en ligne. Paiement Wave et commande WhatsApp.">
-  <meta name="theme-color" content="#111111">
-  <meta name="apple-mobile-web-app-title" content="La Shish">
-  <meta name="application-name" content="La Shish">
-  <meta name="robots" content="index, follow">
+/* =====================================================
+   LA SHISH - VERSION FINALE HARMONISÉE AVEC INDEX.HTML
+===================================================== */
 
-  <!-- ICONES -->
-  <link rel="icon" type="image/webp" href="images/logo.webp">
-  <link rel="apple-touch-icon" href="images/logo.webp">
+const numeroWhatsApp = "2250140555666";
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
+// Consolidation globale des produits
+const allProducts = [
+    ...(window.MENU_PLATS || []),
+    ...(window.MENU_PIZZAS || []),
+    ...(window.MENU_TACOS || []),
+    ...(window.MENU_BOISSONS || [])
+].filter(p => p.disponible !== false);
 
-  <!-- POLICE -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+let cart = JSON.parse(localStorage.getItem("laShishCart")) || [];
+if (!Array.isArray(cart)) cart = [];
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+let activeCategory = "ALL";
+let searchTerm = "";
+let currentModalProduct = null;
 
-  <!-- LOADER -->
-  <div id="loader">
-    <img src="images/logo.webp" alt="La Shish">
-    <p>Préparation de votre commande...</p>
-  </div>
+// Éléments du DOM (stricte correspondance avec index.html)
+const el = {
+    categoryTabs: document.getElementById("categoryTabs"),
+    menuContainer: document.getElementById("menuContainer"),
+    searchInput: document.getElementById("searchInput"),
+    resetSearch: document.getElementById("resetSearch"),
+    cartItems: document.getElementById("cartItems"),
+    cartTotal: document.getElementById("cartTotal"),
+    mobileTotal: document.getElementById("mobileTotal"),
+    whatsappBtn: document.getElementById("whatsappBtn"),
+    modal: document.getElementById("optionModal"),
+    modalContent: document.getElementById("modalContent"),
+    mobileCartBtn: document.getElementById("mobileCartBtn"),
+    closeCartMobile: document.getElementById("closeCartMobile"),
+    cartPanel: document.querySelector(".cart-panel"),
+    clientName: document.getElementById("clientName"),
+    clientPhone: document.getElementById("clientPhone"),
+    clientZone: document.getElementById("clientZone"),
+    clientAddress: document.getElementById("clientAddress"),
+    clientComment: document.getElementById("clientComment")
+};
 
-  <!-- HEADER -->
-  <header class="hero">
-    <div class="hero-inner">
-      <div class="brand">
-        <img src="images/logo.webp" class="logo" alt="Logo La Shish">
-        <div class="subtitle">Commande en ligne</div>
-      </div>
+// Fonctions Utilitaires
+function saveCart() { 
+    localStorage.setItem("laShishCart", JSON.stringify(cart)); 
+}
 
-      <div class="notice">
-        <p>
-          <strong>🚚 Livraison</strong><br>
-          À la charge du client.<br>
-          Nous recommandons Yango Livraison.
-        </p>
-        <p>
-          <strong>💳 Paiement</strong><br>
-          Un lien Wave sera envoyé sur WhatsApp après validation.
-        </p>
-      </div>
-    </div>
-  </header>
+function formatPrice(n) { 
+    return Number(n || 0).toLocaleString("fr-FR"); 
+}
 
-  <!-- APPLICATION -->
-  <main class="layout">
-    
-    <section class="menu-zone">
-      <div class="toolbar">
-        <input id="searchInput" type="search" placeholder="Rechercher un plat, pizza, tacos..." autocomplete="off">
-        <button id="resetSearch" type="button">Effacer</button>
-      </div>
+function escapeHtml(s) { 
+    return String(s || "").replace(/[&<>"']/g, m => ({ 
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" 
+    }[m])); 
+}
 
-      <nav id="categoryTabs" class="category-tabs" aria-label="Catégories"></nav>
-      
-      <div id="menuContainer" class="menu-container"></div>
-    </section>
+// 1. Rendu dynamique des onglets de catégories
+function renderCategoryTabs() {
+    if (!el.categoryTabs) return;
 
-    <!-- PANIER -->
-    <aside class="cart-panel">
-      <div class="cart-sticky">
-        <button id="closeCartMobile" class="close-cart-mobile" type="button">×</button>
-        
-        <h2>🛒 Votre commande</h2>
-        
-        <div id="cartItems" class="cart-items empty">
-          Votre panier est vide.
-        </div>
+    // Récupération des catégories uniques
+    const categories = ["ALL", ...new Set(allProducts.map(p => p.categorie))];
 
-        <div class="cart-total">
-          <span>Total</span>
-          <strong><span id="cartTotal">0</span> FCFA</strong>
-        </div>
-
-        <div class="client-form">
-          <h3>Informations client</h3>
-          <input id="clientName" type="text" placeholder="Nom du client">
-          <input id="clientPhone" type="tel" placeholder="Téléphone">
-          <input id="clientZone" type="text" placeholder="Quartier / zone">
-          <textarea id="clientAddress" placeholder="Adresse complète"></textarea>
-          <textarea id="clientComment" placeholder="Commentaire / précision"></textarea>
-        </div>
-
-        <button id="whatsappBtn" class="whatsapp-btn" type="button">
-          Commander sur WhatsApp
+    el.categoryTabs.innerHTML = categories.map(cat => `
+        <button type="button" 
+                class="category-tab ${cat === activeCategory ? 'active' : ''}" 
+                data-category="${escapeHtml(cat)}">
+            ${cat === "ALL" ? "Tous les produits" : escapeHtml(cat)}
         </button>
-      </div>
-    </aside>
+    `).join("");
+}
 
-  </main>
+// 2. Rendu du Menu
+function renderMenu() {
+    if (!el.menuContainer) return;
 
-  <!-- WHATSAPP FLOTTANT -->
-  <a href="https://wa.me/2250140555666" class="floating-whatsapp" target="_blank" aria-label="WhatsApp La Shish">💬</a>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-info">
-      <span>📞 07 49 02 03 02</span>
-      <span>📞 01 40 555 666</span>
-      <span>⏱ Préparation : 10 à 30 min</span>
-    </div>
-    <p>© La Shish</p>
-  </footer>
-
-  <!-- PANIER MOBILE -->
-  <button id="mobileCartBtn" class="mobile-cart-btn" type="button">
-    🛒 Voir panier • <span id="mobileTotal">0</span> FCFA
-  </button>
-
-  <!-- MODAL -->
-  <div id="optionModal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <button id="closeModal" class="close-modal" type="button">×</button>
-      <div id="modalContent"></div>
-    </div>
-  </div>
-
-  <!-- DATA MENU -->
-  <script src="data/plats.js"></script>
-  <script src="data/pizzas.js"></script>
-  <script src="data/tacos.js"></script>
-  <script src="data/boissons.js"></script>
-
-  <!-- APP -->
-  <script src="app.js"></script>
-
-  <script>
-    // Suppression loader
-    window.addEventListener("load", () => {
-      const loader = document.getElementById("loader");
-      if (loader) {
-        setTimeout(() => {
-          loader.style.display = "none";
-        }, 500);
-      }
+    let products = allProducts.filter(p => {
+        const matchesCategory = (activeCategory === "ALL" || p.categorie === activeCategory);
+        const searchLower = searchTerm.toLowerCase().trim();
+        const matchesSearch = !searchLower || 
+            (p.nom && p.nom.toLowerCase().includes(searchLower)) || 
+            (p.description && p.description.toLowerCase().includes(searchLower));
+        
+        return matchesCategory && matchesSearch;
     });
 
-    // Activation PWA
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js")
-          .then(() => {
-            console.log("🔥 La Shish PWA active");
-          })
-          .catch(error => {
-            console.log("Erreur PWA :", error);
-          });
-      });
+    if (products.length === 0) {
+        el.menuContainer.innerHTML = `
+            <div class="no-results" style="text-align:center; padding: 40px 20px; color: #888;">
+                <p>Aucun produit ne correspond à votre recherche.</p>
+            </div>`;
+        return;
     }
-  </script>
 
-</body>
-</html>
+    const groups = products.reduce((o, x) => { 
+        (o[x.categorie] ??= []).push(x); 
+        return o; 
+    }, {});
+    
+    el.menuContainer.innerHTML = Object.keys(groups).map(cat => `
+        <section class="category-block open">
+            <h3>${escapeHtml(cat)}</h3>
+            <div class="products-grid">
+                ${groups[cat].map(productCard).join("")}
+            </div>
+        </section>
+    `).join("");
+}
+
+function productCard(p) {
+    let priceLabel = "";
+    if (p.tailles && p.tailles.length > 0) {
+        let min = Math.min(...p.tailles.map(t => t.prix));
+        priceLabel = `À partir de ${formatPrice(min)} FCFA`;
+    } else {
+        priceLabel = formatPrice(p.prix) + " FCFA";
+    }
+
+    return `
+        <article class="product-card">
+            <h4>${escapeHtml(p.nom)}</h4>
+            <p>${escapeHtml(p.description || "")}</p>
+            <div class="price">${priceLabel}</div>
+            <button type="button" class="add-btn" data-id="${p.id}">Ajouter</button>
+        </article>
+    `;
+}
+
+// 3. Gestion des clics et événements
+document.addEventListener("click", e => {
+    // A. Clic sur "Ajouter" d'un produit
+    let btn = e.target.closest(".add-btn");
+    if (btn && !btn.id) {
+        let p = allProducts.find(x => String(x.id) === String(btn.dataset.id));
+        if (p) {
+            if (p.tailles && p.tailles.length > 0) {
+                openModal(p);
+            } else {
+                addToCart({ productId: p.id, nom: p.nom, prix: p.prix, options: "" });
+            }
+        }
+    }
+
+    // B. Clic "Valider" dans la modale de taille/option
+    if (e.target.id === "confirmModalAdd") {
+        let selected = document.querySelector('input[name="modalOption"]:checked');
+        if (selected && currentModalProduct) {
+            let index = Number(selected.value);
+            let taille = currentModalProduct.tailles[index];
+            
+            addToCart({
+                productId: currentModalProduct.id,
+                nom: currentModalProduct.nom,
+                prix: taille.prix,
+                options: taille.nom
+            });
+            el.modal.classList.add("hidden");
+        }
+    }
+
+    // C. Fermer la modale
+    if (e.target.classList.contains("close-modal") || e.target.id === "optionModal" || e.target.id === "closeModal") {
+        el.modal.classList.add("hidden");
+    }
+
+    // D. Gestion des quantités (+ / - / Supprimer) dans le panier
+    if (e.target.classList.contains("cart-qty-btn")) {
+        const key = e.target.dataset.key;
+        const action = e.target.dataset.action;
+        updateQuantity(key, action);
+    }
+
+    // E. Filtre par Onglet de Catégorie
+    let catTab = e.target.closest(".category-tab");
+    if (catTab) {
+        document.querySelectorAll(".category-tab").forEach(tab => tab.classList.remove("active"));
+        catTab.classList.add("active");
+        activeCategory = catTab.dataset.category || "ALL";
+        renderMenu();
+    }
+});
+
+// Modale d'options
+function openModal(p) {
+    currentModalProduct = p;
+    el.modalContent.innerHTML = `
+        <h3>${escapeHtml(p.nom)}</h3>
+        <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">Choisissez votre option :</p>
+        ${p.tailles.map((t, i) => `
+            <label style="display:flex; justify-content:space-between; align-items:center; margin: 12px 0; padding: 10px; border: 1px solid #ddd; border-radius: 8px; cursor:pointer;">
+                <span>
+                    <input type="radio" name="modalOption" value="${i}" ${i === 0 ? 'checked' : ''}>
+                    <strong style="margin-left:8px;">${escapeHtml(t.nom)}</strong>
+                </span>
+                <span style="font-weight:bold; color:#e67e22;">${formatPrice(t.prix)} FCFA</span>
+            </label>
+        `).join('')}
+        <button type="button" id="confirmModalAdd" class="add-btn" style="width:100%; padding:14px; margin-top:10px;">Ajouter au panier</button>
+    `;
+    el.modal.classList.remove("hidden");
+}
+
+// 4. Gestion du Panier
+function addToCart(item) {
+    let key = item.productId + (item.options ? "-" + item.options : "");
+    let exist = cart.find(x => x.key === key);
+    
+    if (exist) { 
+        exist.qty++; 
+    } else { 
+        cart.push({ ...item, key, qty: 1 }); 
+    }
+    
+    saveCart();
+    renderCart();
+}
+
+function updateQuantity(key, action) {
+    let item = cart.find(x => x.key === key);
+    if (!item) return;
+
+    if (action === "increase") {
+        item.qty++;
+    } else if (action === "decrease") {
+        item.qty--;
+        if (item.qty <= 0) {
+            cart = cart.filter(x => x.key !== key);
+        }
+    } else if (action === "remove") {
+        cart = cart.filter(x => x.key !== key);
+    }
+
+    saveCart();
+    renderCart();
+}
+
+function renderCart() {
+    if (!el.cartItems) return;
+
+    if (cart.length === 0) {
+        el.cartItems.classList.add("empty");
+        el.cartItems.innerHTML = `<p class="empty-cart-msg">Votre panier est vide.</p>`;
+    } else {
+        el.cartItems.classList.remove("empty");
+        el.cartItems.innerHTML = cart.map(i => `
+            <div class="cart-item" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid #eee;">
+                <div class="cart-item-info">
+                    <strong style="display:block;">${escapeHtml(i.nom)}</strong>
+                    ${i.options ? `<small style="color:#666;">Option: ${escapeHtml(i.options)}</small><br>` : ''}
+                    <span style="color:#e67e22; font-weight:bold;">${formatPrice(i.prix * i.qty)} FCFA</span>
+                </div>
+                <div class="cart-item-controls" style="display:flex; align-items:center; gap:6px;">
+                    <button type="button" class="cart-qty-btn" data-key="${i.key}" data-action="decrease" style="width:28px; height:28px;">-</button>
+                    <span style="font-weight:bold; min-width:18px; text-align:center;">${i.qty}</span>
+                    <button type="button" class="cart-qty-btn" data-key="${i.key}" data-action="increase" style="width:28px; height:28px;">+</button>
+                    <button type="button" class="cart-qty-btn" data-key="${i.key}" data-action="remove" style="color:#e74c3c; background:none; border:none; font-size:18px; cursor:pointer; margin-left:4px;">&times;</button>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    const grandTotal = cart.reduce((a, b) => a + (b.prix * b.qty), 0);
+    const totalFormatted = formatPrice(grandTotal);
+
+    if (el.cartTotal) el.cartTotal.textContent = totalFormatted;
+    if (el.mobileTotal) el.mobileTotal.textContent = totalFormatted;
+}
+
+// 5. Recherche en temps réel
+if (el.searchInput) {
+    el.searchInput.addEventListener("input", e => {
+        searchTerm = e.target.value;
+        if (el.resetSearch) {
+            el.resetSearch.style.display = searchTerm ? "inline-block" : "none";
+        }
+        renderMenu();
+    });
+}
+
+if (el.resetSearch) {
+    el.resetSearch.addEventListener("click", () => {
+        searchTerm = "";
+        if (el.searchInput) el.searchInput.value = "";
+        el.resetSearch.style.display = "none";
+        renderMenu();
+    });
+}
+
+// 6. Tiroir Panier Mobile
+if (el.mobileCartBtn && el.cartPanel) {
+    el.mobileCartBtn.addEventListener("click", () => {
+        el.cartPanel.classList.add("open");
+    });
+}
+
+if (el.closeCartMobile && el.cartPanel) {
+    el.closeCartMobile.addEventListener("click", () => {
+        el.cartPanel.classList.remove("open");
+    });
+}
+
+// 7. Envoi de la Commande via WhatsApp
+if (el.whatsappBtn) {
+    el.whatsappBtn.addEventListener("click", () => {
+        if (cart.length === 0) {
+            alert("Votre panier est vide ! Veuillez ajouter des articles.");
+            return;
+        }
+
+        const nom = el.clientName?.value.trim() || "Non spécifié";
+        const phone = el.clientPhone?.value.trim() || "Non spécifié";
+        const zone = el.clientZone?.value.trim() || "Non spécifiée";
+        const adresse = el.clientAddress?.value.trim() || "Non spécifiée";
+        const commentaire = el.clientComment?.value.trim() || "Aucun";
+
+        let text = `*NOUVELLE COMMANDE - LA SHISH*\n`;
+        text += `--------------------------------\n`;
+        text += `👤 *Nom:* ${nom}\n`;
+        text += `📞 *Téléphone:* ${phone}\n`;
+        text += `📍 *Zone/Quartier:* ${zone}\n`;
+        text += `🏠 *Adresse:* ${adresse}\n`;
+        if (commentaire !== "Aucun") text += `💬 *Note:* ${commentaire}\n`;
+        text += `--------------------------------\n\n`;
+        text += `🛒 *DÉTAIL DE LA COMMANDE :*\n`;
+
+        cart.forEach(item => {
+            const opt = item.options ? ` (${item.options})` : "";
+            text += `• ${item.qty}x ${item.nom}${opt} - ${formatPrice(item.prix * item.qty)} FCFA\n`;
+        });
+
+        const total = cart.reduce((a, b) => a + (b.prix * b.qty), 0);
+        text += `\n💰 *TOTAL À PAYER:* ${formatPrice(total)} FCFA`;
+
+        const encodedUrl = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(text)}`;
+        window.open(encodedUrl, "_blank");
+    });
+}
+
+// Initialisation au chargement
+renderCategoryTabs();
+renderMenu();
+renderCart();
