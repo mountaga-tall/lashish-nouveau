@@ -400,7 +400,7 @@ window.MENU_PLATS = [
     "disponible": true,
     "photo": "34.jpg"
   },
- {
+  {
     "id": 35,
     "type": "normal",
     "categorie": "Entrée froide",
@@ -804,7 +804,7 @@ window.MENU_PLATS = [
       ]
     }
   },
- {
+  {
     "id": 69,
     "type": "normal",
     "categorie": "Nos plats",
@@ -1230,7 +1230,7 @@ window.MENU_PLATS = [
       ]
     }
   },
- {
+  {
     "id": 90,
     "type": "normal",
     "categorie": "Spécialités",
