@@ -1,5 +1,5 @@
 /* =====================================================
-   LA SHISH PREMIUM APP JS - VERSION FINALE COMPLETE
+   LA SHISH PREMIUM APP JS - VERSION FINALE (CORRIGEE)
 ===================================================== */
 
 const numeroWhatsApp = "2250140555666";
@@ -14,11 +14,17 @@ const allProducts = [
 .filter(p => p.disponible !== false)
 .sort((a, b) => Number(a.id) - Number(b.id));
 
-// Initialisation du panier
+// Initialisation et NETTOYAGE DU PANIER
 let cart = JSON.parse(localStorage.getItem("laShishCart")) || [];
 if (!Array.isArray(cart)) {
     cart = [];
 }
+// 🛡️ CORRECTION : On nettoie la mémoire des anciens bugs (supprime les articles à 0 FCFA)
+cart = cart.map(item => {
+    item.prix = Number(item.prix) || 0;
+    item.qty = Number(item.qty) || 1;
+    return item;
+}).filter(item => item.prix > 0);
 
 let activeCategory = "ALL";
 let searchTerm = "";
@@ -153,16 +159,22 @@ function renderMenu() {
 }
 
 function productCard(p) {
-    let prix = (p.type === "pizza" || p.tailles) 
-        ? Math.min(...p.tailles.map(t => t.prix)) + " FCFA" 
-        : formatPrice(p.prix) + " FCFA";
+    let prixDisplay = "0 FCFA";
+    
+    // Si c'est une pizza (ou un produit avec des tailles), on affiche le prix "À partir de"
+    if (p.tailles && p.tailles.length > 0) {
+        let minPrice = Math.min(...p.tailles.map(t => Number(t.prix) || 0));
+        prixDisplay = formatPrice(minPrice) + " FCFA";
+    } else {
+        prixDisplay = formatPrice(p.prix) + " FCFA";
+    }
         
     return `
         <article class="product-card">
             <img class="product-img" src="${getProductImageSrc(p)}" loading="lazy" decoding="async" data-product-id="${p.id}" onerror="handleImageError(this)">
             <h4>${escapeHtml(p.nom)}</h4>
             <p>${escapeHtml(p.description || "")}</p>
-            <div class="price">${prix}</div>
+            <div class="price">${prixDisplay}</div>
             <button class="add-btn" data-add="${p.id}">Ajouter</button>
         </article>
     `;
@@ -180,7 +192,7 @@ function openModal(p) {
     currentModalProduct = p;
     
     let optionsHtml = "";
-    if (p.type === "pizza" || p.tailles) {
+    if (p.tailles && p.tailles.length > 0) {
         optionsHtml = `
             <div class="options-list">
                 <h4>Choisissez la taille :</h4>
@@ -207,15 +219,19 @@ function openModal(p) {
     el.modalContent.innerHTML = modalHtml;
     el.modal.classList.remove("hidden");
 
+    // 🛡️ CORRECTION : Forcer la récupération du prix en format Nombre
     document.getElementById("confirmModalAdd").onclick = () => {
-        let prix = p.prix;
+        let prix = Number(p.prix) || 0;
         let optionText = "";
         
-        if (p.type === "pizza" || p.tailles) {
-            let selectedIdx = document.querySelector('input[name="modalOption"]:checked').value;
-            let selectedTaille = p.tailles[selectedIdx];
-            prix = selectedTaille.prix;
-            optionText = selectedTaille.nom;
+        if (p.tailles && p.tailles.length > 0) {
+            let selectedRadio = document.querySelector('input[name="modalOption"]:checked');
+            if (selectedRadio) {
+                let selectedIdx = parseInt(selectedRadio.value, 10);
+                let selectedTaille = p.tailles[selectedIdx];
+                prix = Number(selectedTaille.prix) || 0;
+                optionText = selectedTaille.nom || "";
+            }
         }
 
         addToCart({
@@ -255,7 +271,12 @@ function addToCart(item) {
 }
 
 function getTotal() {
-    return cart.reduce((a, b) => a + (b.prix * b.qty), 0);
+    // 🛡️ CORRECTION : Calcul du total sécurisé avec des Nombres
+    return cart.reduce((total, item) => {
+        let p = Number(item.prix) || 0;
+        let q = Number(item.qty) || 1;
+        return total + (p * q);
+    }, 0);
 }
 
 function renderCart() {
@@ -308,7 +329,7 @@ function sendWhatsApp() {
     cart.forEach(i => {
         msg += `\n${i.qty}x ${i.nom}`;
         if (i.optionsText) msg += `\n   ${i.optionsText}`;
-        msg += `\n   ${formatPrice(i.prix * i.qty)} FCFA\n`;
+        msg += `\n   ${formatPrice((Number(i.prix) || 0) * i.qty)} FCFA\n`;
     });
     
     msg += `\n💰 TOTAL : ${formatPrice(getTotal())} FCFA`;
@@ -330,13 +351,13 @@ document.addEventListener("click", e => {
     let add = e.target.closest("[data-add]");
     if (add) {
         let p = allProducts.find(x => x.id == add.dataset.add);
-        if (p.type === "pizza" || p.tailles) {
+        if (p.tailles && p.tailles.length > 0) {
             openModal(p);
         } else {
             addToCart({
                 productId: p.id,
                 nom: p.nom,
-                prix: p.prix,
+                prix: Number(p.prix) || 0,
                 optionsText: ""
             });
         }
