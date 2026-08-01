@@ -155,20 +155,31 @@ function groupBy(arr, key) {
 function addToCart(item) {
     const key = item.productId + "-" + item.optionsText;
     let exist = cart.find(x => x.key === key);
-    if(exist) {
+
+    if (exist) {
         exist.qty++;
     } else {
-        cart.push({ ...item, key, qty: 1 });
+        cart.push({
+            ...item,
+            prix: Number(item.prix),
+            key,
+            qty: 1
+        });
     }
+
     saveCart();
     renderCart();
+
     el.mobileCartBtn.classList.add("cart-bounce");
-    setTimeout(() => el.mobileCartBtn.classList.remove("cart-bounce"), 500);
+    setTimeout(() => {
+        el.mobileCartBtn.classList.remove("cart-bounce");
+    }, 500);
+
     showToast("Ajouté au panier 🛒");
 }
 
-function getTotal() {
-    return cart.reduce((a, b) => a + (b.prix * b.qty), 0);
+function getTotal() {  return cart.reduce((total, item) => { return total + ((Number(item.prix) || 0) * item.qty); }, 0);
+
 }
 
 function renderCart() {

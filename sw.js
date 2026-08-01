@@ -1,126 +1,79 @@
-/* =====================================================
-   LA SHISH PWA SERVICE WORKER
-===================================================== */
-
-const CACHE_NAME = "la-shish-v2";
+const CACHE_NAME = "lashish-v3";
 
 const FILES_TO_CACHE = [
+    "./",
+    "./index.html",
+    "./style.css",
+    "./app.js",
+    "./manifest.json",
 
-"./",
-"./index.html",
-"./style.css",
-"./app.js",
-"./manifest.json",
+    "./data/plats.js",
+    "./data/pizzas.js",
+    "./data/tacos.js",
+    "./data/boissons.js",
 
-"./data/plats.js",
-"./data/pizzas.js",
-"./data/tacos.js",
-"./data/boissons.js",
-
-"./images/logo.webp",
-"./images/banner.webp",
-"./images/no-image.webp"
-
+    "./images/logo.webp",
+    "./images/banner.webp",
+    "./images/no-image.webp"
 ];
 
+// Installation
+self.addEventListener("install", event => {
+    self.skipWaiting();
 
-
-/* INSTALLATION */
-
-self.addEventListener(
-"install",
-event => {
-
-event.waitUntil(
-
-caches.open(CACHE_NAME)
-
-.then(cache => {
-
-return cache.addAll(FILES_TO_CACHE);
-
-})
-
-);
-
-self.skipWaiting();
-
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then(cache => cache.addAll(FILES_TO_CACHE))
+    );
 });
 
-
-
-
-
-/* ACTIVATION */
-
-self.addEventListener(
-"activate",
-event => {
-
-event.waitUntil(
-
-caches.keys()
-
-.then(keys => {
-
-return Promise.all(
-
-keys.map(key => {
-
-return caches.delete(key);
-
-})
-
-);
-
-})
-
-);
-
-self.clients.claim();
-
+// Activation
+self.addEventListener("activate", event => {
+    event.waitUntil(
+        caches.keys().then(keys =>
+            Promise.all(
+                keys
+                    .filter(key => key !== CACHE_NAME)
+                    .map(key => caches.delete(key))
+            )
+        ).then(() => self.clients.claim())
+    );
 });
 
+// Fetch
+self.addEventListener("fetch", event => {
 
+    if (event.request.method !== "GET") return;
 
+    event.respondWith(
 
+        caches.match(event.request).then(cacheResponse => {
 
+            const networkFetch = fetch(event.request)
+                .then(networkResponse => {
 
+                    if (
+                        networkResponse &&
+                        networkResponse.status === 200 &&
+                        networkResponse.type === "basic"
+                    ) {
 
-/* CACHE + RESEAU */
+                        const clone = networkResponse.clone();
 
-self.addEventListener(
-"fetch",
-event => {
+                        caches.open(CACHE_NAME)
+                            .then(cache => cache.put(event.request, clone));
 
-event.respondWith(
+                    }
 
-fetch(event.request)
+                    return networkResponse;
 
-.then(response => {
+                })
+                .catch(() => cacheResponse);
 
-const responseClone = response.clone();
+            return cacheResponse || networkFetch;
 
+        })
 
-caches.open(CACHE_NAME)
-
-.then(cache => {
-
-cache.put(event.request, responseClone);
-
-});
-
-
-return response;
-
-})
-
-.catch(() => {
-
-return caches.match(event.request);
-
-})
-
-);
+    );
 
 });
