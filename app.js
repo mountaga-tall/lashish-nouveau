@@ -158,8 +158,12 @@ function addToCart(item) {
     if(exist) {
         exist.qty++;
     } else {
-        cart.push({ ...item, key, qty: 1 });
-    }
+        cart.push({
+    ...item,
+    prix: Number(item.prix),
+    key,
+    qty: 1
+});
     saveCart();
     renderCart();
     el.mobileCartBtn.classList.add("cart-bounce");
@@ -167,8 +171,8 @@ function addToCart(item) {
     showToast("Ajouté au panier 🛒");
 }
 
-function getTotal() {
-    return cart.reduce((a, b) => a + (b.prix * b.qty), 0);
+function getTotal() {  return cart.reduce((total, item) => { return total + ((Number(item.prix) || 0) * item.qty); }, 0);
+
 }
 
 function renderCart() {
