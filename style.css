@@ -68,12 +68,12 @@ button, input, textarea {
 
 #loader img{
 
-    width:130px;
-    max-width:70vw;
+    width:70px;
+    max-width:22vw;
     height:auto;
     display:block;
     object-fit:contain;
-    animation:logoFloat 2s ease-in-out infinite;
+    animation:logoFloat 5s ease-in-out infinite;
 
 }
 
