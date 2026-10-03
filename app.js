@@ -165,6 +165,12 @@ function renderHeader(){
     toggle.setAttribute("aria-label",t("language"));
     toggle.setAttribute("aria-pressed",String(lang==="en"));
   }
+  const mobileToggle=$("mobileMenuToggle");
+  if(mobileToggle){
+    const open=document.querySelector(".site-header")?.classList.contains("menu-open");
+    mobileToggle.setAttribute("aria-label",open?t("closeMenu"):t("openMenu"));
+    mobileToggle.setAttribute("aria-expanded",String(!!open));
+  }
   if(document.body.dataset.page==="category"){
     const category=categoryConfig[document.body.dataset.category];
     if(category){
@@ -363,6 +369,7 @@ function initEvents(){
   document.querySelectorAll(".site-nav a").forEach(link=>link.addEventListener("click",()=>setMobileMenu(false)));
   window.addEventListener("resize",()=>{if(window.innerWidth>900)setMobileMenu(false);});
   document.addEventListener("click",e=>{
+    if(!e.target.closest(".site-header"))setMobileMenu(false);
     const add=e.target.closest("[data-add]");if(add){const p=getProduct(add.dataset.add);if(p)openOptions(p);return;}
     const plus=e.target.closest("[data-plus]");if(plus){const i=cart.find(x=>x.key===decodeURIComponent(plus.dataset.plus));if(i){i.qty++;saveCart();renderCart();}return;}
     const minus=e.target.closest("[data-minus]");if(minus){const i=cart.find(x=>x.key===decodeURIComponent(minus.dataset.minus));if(i){i.qty--;if(i.qty<=0)cart=cart.filter(x=>x.key!==i.key);saveCart();renderCart();}return;}
