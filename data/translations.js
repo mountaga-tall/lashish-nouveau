@@ -1,0 +1,77 @@
+/* La Shish — English catalog translations */
+window.MENU_TRANSLATIONS = {
+  names: {
+    "1":"Express Combo","2":"LA SHISH Combo","3":"Croque Combo","4":"Plain Omelette or Fried Egg","5":"Tomato & Onion Omelette","6":"Ham & Cheese Omelette","7":"Croque Monsieur","8":"Croque Madame","9":"Ham Club Sandwich","10":"Chicken Club Sandwich","11":"Zaatar Mana'ish (Thyme)","12":"Zaatar Mana'ish with Vegetables","13":"Vegetable Mana'ish (Tomato & Onion)","14":"Cheese Mana'ish","15":"Meat Mana'ish","16":"Cocktail Mana'ish","17":"Ham & Cheese Mana'ish",
+    "18":"Hummus","19":"Hummus with Meat","20":"M'tabal","21":"M'tabal with Meat","22":"Chicken Nuggets (6 pcs)","23":"Mozzarella Sticks (6 pcs)","24":"Crispy Tenders (6 pcs)","25":"Wings (6 pcs)","26":"Fried Plantains with Hard-Boiled Eggs","27":"Fried Plantains","28":"Fries","29":"Tabbouleh","30":"Fattoush","31":"Cabbage Salad","32":"Niçoise Salad","33":"Chef's Chicken Salad","34":"Tuna Salad with Hard-Boiled Eggs","35":"Tuna & Avocado","36":"Avocado & Shrimp Cocktail","37":"Shish Salad","38":"Avocado & Shrimp Salad",
+    "39":"Cheeseburger Sandwich","40":"Chicken Cheeseburger Sandwich","41":"Cheeseburger + Fries","42":"Chicken Cheeseburger + Fries","43":"Burger with Egg + Fries","44":"Crispy Chicken Burger","45":"Sweet Chili Tender Chicken Burger","46":"Barbecue Burger","47":"Super King Burger","48":"SHISH Burger","49":"Chicago Hot Dog","50":"New York Hot Dog","51":"Chili Hot Dog","52":"Beef Kebab","53":"Chicken Kebab","54":"Shawarma Sandwich","55":"Francisco Sandwich","56":"Fajitas Sandwich","57":"Chicken Tacos","58":"Beef Tacos","59":"Crispy Tacos",
+    "60":"Spaghetti Bolognese","61":"Chicken Tagliatelle","62":"Shrimp Tagliatelle","63":"Vegetable Rice","64":"Cantonese Chicken Rice","65":"Cantonese Shrimp Rice","66":"Cantonese Ham Rice","67":"Cantonese Beef Rice","68":"Shish Taouk Skewers","69":"Beef Tenderloin Skewers","70":"Kafta Skewers","71":"Mixed Skewers","72":"Lamb Skewers","73":"Beef Shawarma Platter","74":"Chicken Shawarma Platter","75":"Mixed Meat Platter",
+    "76":"Beef Fajitas","77":"Chicken Fajitas","78":"Sautéed Shrimp","79":"Breaded Chicken","80":"Half Breaded Chicken","81":"Crispy Chicken","82":"Whole Roasted Chicken","83":"Half Roasted Chicken","84":"Whole Braised Chicken","85":"Fried Chicken","86":"Fried Chicken with Sautéed Vegetables","87":"Braised Chicken with Sautéed Vegetables","88":"Fish Fillet","89":"Braised or Grilled Sosso Fish","90":"Braised Freshwater Carp","91":"Beef Quesadilla","92":"Chicken Quesadilla","93":"Cheese Quesadilla","94":"Beef Arayesse","95":"Cheese Arayesse","96":"Creamy Chicken Steak","97":"Steak with Cream Sauce","98":"American Steak","99":"Rib Steak with Cream Sauce","100":"American Rib Steak","101":"Spiced Sautéed Lamb","102":"Tender Lamb Shank with Creamy Sauce",
+    "103":"Chicken Thieb","104":"Sosso Fish Thieb","105":"Chicken Leaf Sauce","106":"Fish Soup","107":"Chicken Soup","108":"Half Laying Hen Kedjenou","109":"Whole Laying Hen Kedjenou","110":"Guinea Fowl Kedjenou","111":"Rabbit Kedjenou","112":"Sautéed Rabbit",
+    "113":"Queen Pizza","114":"Margherita Pizza","115":"Vegetarian Pizza","116":"Royal Pizza","117":"Capricciosa Pizza","118":"Roman Pizza","119":"Calzone Pizza","120":"Pepperoni Pizza","121":"Bolognese Pizza","122":"Creamy Royal Pizza","123":"Parisienne Pizza","124":"Calabrian Pizza","125":"Seafood Pizza","126":"Shish Pizza","127":"Four Seasons Pizza",
+    "128":"Single Meat Tacos","129":"Double Meat Tacos","130":"Single Meat Tacos Meal + Fries + Drink","131":"Double Meat Tacos Meal + Fries + Drink",
+    "132":"Continental Espresso","133":"Illy Espresso","134":"Nescafé Cup","135":"Americano","136":"Macchiato","137":"Latte","138":"Cappuccino","139":"Hot or Cold Milk","140":"Ginger Infusion","141":"Medium Tea","142":"Large Tea","143":"Mineral Water 0.5L","144":"Mineral Water 1.5L","145":"Ivorio Juice","146":"Soft Drink (Plastic Bottle)","147":"Soft Drink (Can)","148":"Cody's Energy","149":"Red Bull","150":"Sanbitter","151":"Perrier","152":"Beer Bottle 33cl","153":"Beer Bottle 50cl","154":"Heineken","155":"Desperados","156":"Beaufort","157":"Shot of Liquor",
+    "158":"Orange","159":"Pineapple","160":"Mango","161":"Lemonade","162":"Mint Lemonade","163":"Passion Fruit","164":"Grapefruit","165":"Apple","166":"Carrot","167":"Banana with Milk & Honey","168":"Avocado with Honey","169":"Fruit Salad","170":"Chopped Fruit Cocktail",
+    "171":"Plain Crepe","172":"Sugar Crepe","173":"Chocolate Crepe","174":"Nutella Crepe","175":"Chocolate-Banana Crepe","176":"Fruit Crepe","177":"Ham & Cheese Crepe","178":"Chocolate Banana Ice Cream","179":"Dame Blanche","180":"USA Ice Cream Cup","181":"Liège Chocolate Sundae","182":"Soft Chocolate Sundae","183":"Banana Split","184":"1 Scoop of Ice Cream — Choice","185":"1 Scoop of Ice Cream — Choice (continued)",
+    "186":"Red Berry Tea Smoothie","187":"Coconut Smoothie","188":"Smoothie of Choice","189":"Oreo Shake","190":"Popcorn Shake","191":"Blueberry Muffin Shake","192":"Milkshake of Choice","193":"Pineapple-Coconut Frappe","194":"Mojito Frappe","195":"Bastille Frappe","196":"Peach Tea","197":"Raspberry Tea","198":"Mango Tea","199":"Virgin Mojito","200":"Strawberry Mojito","201":"Passion Fruit Mojito","202":"Mango Mojito","203":"Pineapple Limo","204":"Strawberry Limo","205":"Mango Limo","206":"Passion Limo","207":"Pina Colada","208":"Banana Tiki","209":"Blue Pink","210":"Curacao Island","211":"Manchester Mist","212":"Cuba Libre","213":"Blue Hawaiian","214":"Tequila Sunrise","215":"Long Island","216":"Dream Shot","217":"Kamikaze","218":"Angry Smurf","219":"Waf Waf","220":"Tequila Shot","221":"Red One","222":"Citrik Shot",
+    "223":"Baron d'Arignac","224":"Baron del Lugar","225":"Grand Versant","226":"Terre de Crus","227":"Maison Castel","228":"Château Barade Bordeaux","229":"Roche Mazet Cabernet Sauvignon","230":"Chambeaux","231":"Portrait Château Reguignon","232":"Calvet Bordeaux","233":"Baron d'Arignac","234":"Grand Versant","235":"Terre de Crus","236":"Maison Castel Muscat Medium","237":"Roche Mazet","238":"Calvet Bordeaux","239":"Baron d'Arignac","240":"Terre de Crus","241":"Roche Mazet Muscat Medium","242":"Roche Mazet Sauvignon","243":"La Grande Couronne","244":"Maison Castel Merlot","245":"Absolut Vodka","246":"Red Label","247":"J&B","248":"Jack Daniel's","249":"Baileys","250":"Imperial Spirit Whisky","251":"Imperial Spirit Gin","252":"Imperial Spirit Vodka","253":"Laurent Perrier"
+  },
+  categories: {
+    "Petit Déjeuner":"Breakfast","Entrée froide":"Cold Starters","Snack gourmand":"Gourmet Snacks","Nos plats":"Main Courses",
+    "Spécialités":"Specialties","Pizza":"Pizza","French Tacos":"French Tacos","Boisson":"Drinks","Dessert":"Desserts",
+    "Cocktail":"Cocktails","Vin Et Liqueur":"Wine & Spirits"
+  },
+  subcategories: {
+    "Formule":"Combos","Omelette":"Omelettes","Croque & Club":"Croque & Club","Manaiche":"Mana'ish",
+    "Mezzah froide":"Cold Mezze","Mezzah chaude":"Hot Mezze","Salades":"Salads","Burgers":"Burgers","Hot dog":"Hot Dogs",
+    "Kebab":"Kebab","Sandwich":"Sandwiches","Nos pâtes":"Pastas","Nos riz":"Rice","Nos brochettes":"Grilled Skewers",
+    "Plats snack":"Snack Plates","Spécialités":"Specialties","Africaine":"African","Pizzas":"Pizzas","French Tacos":"French Tacos",
+    "Boisson Chaude":"Hot Drinks","Boisson Froide":"Cold Drinks","Jus de fruit naturel":"Fresh Fruit Juices",
+    "Crêpe":"Crepes","Coupe de glace":"Ice Cream Cups","Smoothie":"Smoothies","Milkshake et frappé":"Milkshakes & Frappe",
+    "Thé glacé":"Iced Tea","Special Mojito":"Special Mojitos","Special Limonade":"Special Lemonades",
+    "Cocktail et Mocktails":"Cocktails & Mocktails","Shooters":"Shots","Vin Rouge":"Red Wine","Vin Blanc":"White Wine",
+    "Vin Rosé":"Rosé Wine","Liqueur":"Spirits","Champagne Et Mousseux":"Champagne & Sparkling Wine"
+  },
+  phrases: [
+    ["Omelette jambon fromage","ham and cheese omelette"],["Omelette nature","plain omelette"],["jus d'orange","orange juice"],
+    ["café au lait","coffee with milk"],["Croque-monsieur","Croque Monsieur"],["Pain toasté","toasted bread"],
+    ["œuf dur","hard-boiled egg"],["œufs durs","hard-boiled eggs"],["pâte d'ail","garlic paste"],["sauce barbecue","barbecue sauce"],
+    ["sauce blanche","white sauce"],["sauce mayonnaise","mayonnaise sauce"],["sauce aux champignons","mushroom cream sauce"],
+    ["crème fraîche","fresh cream"],["petits pois","peas"],["oignon vert","green onion"],["oignon","onion"],["tomate","tomato"],
+    ["tomates","tomatoes"],["champignon","mushroom"],["champignons","mushrooms"],["olive","olive"],["olives","olives"],
+    ["poivron","bell pepper"],["poivrons","bell peppers"],["salade verte","green lettuce"],["salade","lettuce"],["chou","cabbage"],
+    ["choux tranchés","sliced cabbage"],["carotte","carrot"],["carottes","carrots"],["concombre","cucumber"],["concombres","cucumbers"],
+    ["avocat","avocado"],["crevettes","shrimp"],["crevette","shrimp"],["thon","tuna"],["menthe","mint"],["maïs doux","sweet corn"],
+    ["pomme de terre","potato"],["pommes de terre","potatoes"],["haricot","green beans"],["haricots","green beans"],
+    ["viande hachée","ground beef"],["blanc de poulet","chicken breast"],["poulet","chicken"],["viande","meat"],["jambon","ham"],
+    ["fromage cheddar","cheddar cheese"],["fromage gruyère","Gruyère cheese"],["fromage","cheese"],["laitue","lettuce"],
+    ["pain tacos","taco wrap"],["choix de votre viande","your choice of meat"],["Choisissez 1 viande, 2 sauces maximum, puis vos suppléments.","Choose 1 meat, up to 2 sauces, then your extras."],
+    ["Tranches de viande cuites aux légumes sautés + frites","Sliced meat cooked with sautéed vegetables + fries"],
+    ["Tranches de blanc de poulet cuites aux légumes sautés + frites","Sliced chicken breast cooked with sautéed vegetables + fries"],
+    ["Crevettes sautées aux légumes + frites","Sautéed shrimp with vegetables + fries"],
+    ["Poulet croustillant","crispy chicken"],["Poulet entier frit","whole fried chicken"],["Poulet braisé","braised chicken"],
+    ["Poulet rôti","roasted chicken"],["filet de bœuf","beef tenderloin"],["filet cuite à la grillade","grilled tenderloin"],
+    ["côte de bœuf","beef rib"],["poisson pané","breaded fish"],["garniture au choix","choice of side"],
+    ["fourrés dans le pain tacos","stuffed into a taco wrap"],["cuits à la grillade","grilled"],["sauté aux épices","sautéed with spices"],
+    ["viande de mouton","lamb meat"],["Viande de mouton","lamb meat"],["agneau","lamb"],["Soupe de poisson","fish soup"],
+    ["Sauce feuille au poulet","chicken leaf sauce"],["Base tomate","tomato base"],["Base crème fraîche","fresh cream base"],
+    ["base crème","cream base"],["jus d'orange","orange juice"],["eau gazeuse","sparkling water"],["eau","water"],["sirop de thé","tea syrup"],
+    ["fruits rouges","red berries"],["glace vanille","vanilla ice cream"],["glace chocolat","chocolate ice cream"],
+    ["sauce chocolat","chocolate sauce"],["sauce caramel","caramel sauce"],["chantilly","whipped cream"],["tranches de banane","banana slices"],
+    ["banane","banana"],["ananas","pineapple"],["coco","coconut"],["mangue","mango"],["kiwi","kiwi"],["framboise","raspberry"],
+    ["fraise","strawberry"],["citron","lemon"],["citron vert","lime"],["fruit de la passion","passion fruit"],["grenadine","grenadine"],
+    ["saveur rhum","rum flavor"],["rhum blanc","white rum"],["rhum","rum"],["Coca-Cola","Coca-Cola"],["Curacao bleu","blue curaçao"],
+    ["jus de citron","lemon juice"],["jus d'orange","orange juice"],["lait","milk"],["vodka","vodka"],["gin","gin"],["tequila","tequila"],
+    ["liqueur de menthe","mint liqueur"],["purée de mangue","mango purée"],["purée de passion","passion fruit purée"],
+    ["limonade","lemonade"],["thé pêche","peach tea"],["thé framboise","raspberry tea"],["thé mangue","mango tea"],
+    ["oignons","onions"],["portion de frites","portion of fries"],["portion d'alloco","portion of fried plantains"],
+    ["riz blanc","white rice"],["Aloco","fried plantains"],["Attiéké","attiéké"],["Frites","Fries"],["Fromage cheddar","Cheddar cheese"],
+    ["Fromage gruyère","Gruyère cheese"],["Jambon de bœuf","Beef ham"],["Cordon bleu","Cordon bleu"],["Viande hachée","Ground beef"],
+    ["Blanc de poulet","Chicken breast"],["Crispy chicken","Crispy chicken"],["Mayonnaise","Mayonnaise"],["Ketchup","Ketchup"],
+    ["Samouraï","Samurai sauce"],["Barbecue","Barbecue sauce"],["Andalouse","Andalouse sauce"],["Algérienne","Algerian sauce"],
+    ["Jus Frisco","Frisco Juice"],["Sucrerie","Soft drink"],["Œuf","Egg"],["suppléments","extras"]
+  ],
+  optionLabels: {
+    "Choix":"Choice","Garniture au choix":"Choice of side","Supplément":"Extra","Viande":"Meat","Sauces":"Sauces",
+    "Boisson":"Drink","Extras":"Extras","Taille":"Size","Petite":"Small","Moyenne":"Medium","Grande":"Large"
+  }
+};
