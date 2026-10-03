@@ -95,6 +95,11 @@ const allProducts = (window.MENU_ALL || [
 ]).filter(p => p && p.disponible !== false).sort((a,b) => Number(a.id)-Number(b.id));
 
 function t(key){ return I18N[lang][key] || key; }
+function setTextDirection(){
+  document.documentElement.setAttribute("dir","ltr");
+  document.documentElement.setAttribute("lang",lang);
+  document.body.setAttribute("dir","ltr");
+}
 function saveCart(){ try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch {} }
 function loadCart(){
   try {
