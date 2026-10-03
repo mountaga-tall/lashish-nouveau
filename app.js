@@ -24,7 +24,7 @@ const I18N = {
     recap:"Votre commande sera récapitulée dans WhatsApp avant l’envoi.", fill:"Complétez nom, téléphone, zone et adresse",
     badPhone:"Vérifiez votre numéro de téléphone", empty:"Panier vide", article:"article", articles:"articles",
     added:"Article ajouté au panier 🛒", removed:"Article supprimé 🗑️", noImage:"Image indisponible",
-    aboutTitle:"Une cuisine à partager", aboutText:"Retrouvez les incontournables La Shish : petits-déjeuners, mezze, burgers, plats, pizzas, tacos, boissons et desserts.",
+    from:"Dès", aboutTitle:"Une cuisine à partager", aboutText:"Retrouvez les incontournables La Shish : petits-déjeuners, mezze, burgers, plats, pizzas, tacos, boissons et desserts.",
     contactTitle:"Nous contacter", contactText:"Pour une question, une précision de commande ou une demande de livraison, contactez-nous directement.",
     phoneLabel:"Téléphone", whatsappLabel:"WhatsApp", deliveryLabel:"Livraison", deliveryText:"Service de livraison pris en charge par le client.",
     waveLabel:"Paiement", waveText:"Paiement Wave avec lien envoyé après validation de la commande.",
@@ -49,7 +49,7 @@ const I18N = {
     recap:"Your order will be summarized in WhatsApp before sending.", fill:"Complete name, phone, area and address",
     badPhone:"Please check your phone number", empty:"Empty cart", article:"item", articles:"items",
     added:"Added to cart 🛒", removed:"Item removed 🗑️", noImage:"Image unavailable",
-    aboutTitle:"Food made to share", aboutText:"Discover La Shish favorites: breakfast, mezze, burgers, mains, pizzas, tacos, drinks and desserts.",
+    from:"From", aboutTitle:"Food made to share", aboutText:"Discover La Shish favorites: breakfast, mezze, burgers, mains, pizzas, tacos, drinks and desserts.",
     contactTitle:"Get in touch", contactText:"For questions, order details or delivery requests, contact us directly.",
     phoneLabel:"Phone", whatsappLabel:"WhatsApp", deliveryLabel:"Delivery", deliveryText:"Delivery service is paid by the customer.",
     waveLabel:"Payment", waveText:"Wave payment link is sent after your order is validated.",
@@ -238,7 +238,7 @@ function openOptions(product){
       '<label class="option-row"><input type="radio" name="optMeat" value="'+i+'" '+(i===0?"checked":"")+"><span>"+escapeHtml(translateOption(v))+'</span></label>'
     ).join("")+'</fieldset>';
     html+='<fieldset><legend>'+escapeHtml(t("sauces"))+' <small>'+escapeHtml(t("maxSauces"))+'</small></legend>'+product.sauces.map((v,i)=>
-      '<label class="option-row"><input type="checkbox" name="optSauce" value="'+i+'"><span>"+escapeHtml(translateOption(v))+'</span></label>'
+      '<label class="option-row"><input type="checkbox" name="optSauce" value="'+i+'"><span>'+escapeHtml(translateOption(v))+'</span></label>'
     ).join("")+'</fieldset>';
     if(Array.isArray(product.supplements)&&product.supplements.length){
       html+='<fieldset><legend>'+escapeHtml(t("extras"))+'</legend>'+product.supplements.map((v,i)=>
