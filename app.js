@@ -17,7 +17,7 @@ const I18N = {
     address:"Adresse complète *", comment:"Commentaire ou précision (facultatif)",
     whatsapp:"Commander sur WhatsApp →", recap:"Votre commande sera récapitulée dans WhatsApp avant l’envoi.",
     preparation:"Préparation : 10 à 30 min", customize:"PERSONNALISER", cancel:"Annuler", add:"Ajouter au panier",
-    personalized:"Personnalisable", added:"Article ajouté au panier 🛒", removed:"Article supprimé 🗑️",
+    personalized:"Personnalisable", from:"Dès", added:"Article ajouté au panier 🛒", removed:"Article supprimé 🗑️",
     fill:"Complétez nom, téléphone, zone et adresse", badPhone:"Vérifiez votre numéro de téléphone",
     empty:"Panier vide", article:"article", articles:"articles", deliveryCharge:"Livraison à la charge du client.",
     wave:"Paiement Wave : lien envoyé sur WhatsApp.", client:"Client", command:"Commande",
@@ -36,7 +36,7 @@ const I18N = {
     address:"Full address *", comment:"Comment or note (optional)",
     whatsapp:"Order on WhatsApp →", recap:"Your order will be summarized in WhatsApp before sending.",
     preparation:"Preparation: 10 to 30 min", customize:"CUSTOMIZE", cancel:"Cancel", add:"Add to cart",
-    personalized:"Customizable", added:"Added to cart 🛒", removed:"Item removed 🗑️",
+    personalized:"Customizable", from:"From", added:"Added to cart 🛒", removed:"Item removed 🗑️",
     fill:"Complete name, phone, area and address", badPhone:"Please check your phone number",
     empty:"Empty cart", article:"item", articles:"items", deliveryCharge:"Delivery paid by the customer.",
     wave:"Wave payment: link sent on WhatsApp.", client:"Customer", command:"Order",
@@ -120,6 +120,9 @@ function applyLanguage(){
   $("clientZone").placeholder=t("zone"); $("clientAddress").placeholder=t("address"); $("clientComment").placeholder=t("comment");
   $("whatsappBtn").textContent=t("whatsapp"); $("checkoutNote").textContent=t("recap");
   $("footerPrep").textContent="⏱ " + t("preparation");
+  $("cartTotalLabel").textContent=t("total");
+  $("pizzaKicker").textContent=t("customize"); $("pizzaCancel").textContent=t("cancel"); $("pizzaAdd").textContent=t("add");
+  $("mobileArticleLabel").textContent=getItemCount()===1?t("article"):t("articles");
   $("languageToggle").textContent=lang==="fr" ? "EN" : "FR";
   document.title = lang==="fr" ? "La Shish | Commande en ligne" : "La Shish | Online ordering";
   renderMenu(); renderCart();
@@ -193,7 +196,7 @@ function renderCart(){
   }
   el.cartTotal.textContent=formatPrice(getTotal());
   el.mobileTotal.textContent=formatPrice(getTotal());
-  el.mobileCount.textContent=getItemCount();
+  el.mobileCount.textContent=getItemCount(); el.mobileArticleLabel.textContent=getItemCount()===1?t("article"):t("articles");
   el.whatsappBtn.disabled=!cart.length;
 }
 
