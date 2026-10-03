@@ -76,7 +76,8 @@ const categoryConfig = {
 };
 
 const translations = window.MENU_TRANSLATIONS || {names:{},categories:{},subcategories:{},phrases:[]};
-function readLanguage(){ try { return localStorage.getItem(LANG_KEY)==="en" ? "en" : "fr"; } catch { return "fr"; } }
+function pathLanguage(path=location.pathname){const match=String(path||"").match(/^\/(fr|en)(?:\/|$)/i);return match?match[1].toLowerCase():null;}
+function readLanguage(){ try { return pathLanguage() || (localStorage.getItem(LANG_KEY)==="en" ? "en" : "fr"); } catch { return pathLanguage() || "fr"; } }
 let lang = readLanguage();
 let cart = loadCart();
 let activeCategory = document.body.dataset.category || "ALL";
@@ -142,34 +143,77 @@ function displayOptions(text){
 function categoryLabel(category){ const c=Object.values(categoryConfig).find(x=>x.key===category); return c ? c[lang] : (translations.categories[category]||category); }
 function subcategoryLabel(v){ return lang==="en" ? (translations.subcategories[v]||v) : v; }
 function getProduct(id){ return allProducts.find(p=>String(p.id)===String(id)); }
-function getImage(p){ return "images/"+p.id+".webp"; }
+function getImage(p){ return "/images/"+p.id+".webp"; }
 function handleImageError(img){
   const id=img.dataset.productId, step=img.dataset.try||"webp";
-  if(step==="webp"){img.dataset.try="jpg";img.src="images/"+id+".jpg";}
-  else if(step==="jpg"){img.dataset.try="png";img.src="images/"+id+".png";}
-  else{img.onerror=null;img.src="images/no-image.webp";img.alt=t("noImage");}
+  if(step==="webp"){img.dataset.try="jpg";img.src="/images/"+id+".jpg";}
+  else if(step==="jpg"){img.dataset.try="png";img.src="/images/"+id+".png";}
+  else{img.onerror=null;img.src="/images/no-image.webp";img.alt=t("noImage");}
 }
 function categorySlugByKey(key){ return Object.entries(categoryConfig).find(([,v])=>v.key===key)?.[0] || ""; }
+function localizedPath(targetLang=lang,page=document.body.dataset.page||"home",category=document.body.dataset.category||""){
+  const base="/"+targetLang;
+  if(page==="home")return base;
+  if(page==="menu")return base+"/menu";
+  if(page==="order")return base+"/commande";
+  if(page==="contact")return base+"/contact";
+  if(page==="category")return base+"/menu/"+category;
+  return base;
+}
+function currentRoute(){return localizedPath(lang);}
+function localizeInternalLinks(){
+  const map={
+    "index.html":()=>localizedPath(lang,"home"),
+    "menu.html":()=>localizedPath(lang,"menu"),
+    "commande.html":()=>localizedPath(lang,"order"),
+    "contact.html":()=>localizedPath(lang,"contact"),
+    "petit-dejeuner.html":()=>localizedPath(lang,"category","petit-dejeuner"),
+    "entrees.html":()=>localizedPath(lang,"category","entrees"),
+    "snacks.html":()=>localizedPath(lang,"category","snacks"),
+    "plats.html":()=>localizedPath(lang,"category","plats"),
+    "specialites.html":()=>localizedPath(lang,"category","specialites"),
+    "pizzas.html":()=>localizedPath(lang,"category","pizzas"),
+    "tacos.html":()=>localizedPath(lang,"category","tacos"),
+    "boissons.html":()=>localizedPath(lang,"category","boissons"),
+    "desserts.html":()=>localizedPath(lang,"category","desserts"),
+    "cocktails.html":()=>localizedPath(lang,"category","cocktails"),
+    "vins.html":()=>localizedPath(lang,"category","vins")
+  };
+  document.querySelectorAll("a[href]").forEach(link=>{
+    const raw=link.getAttribute("href");
+    if(!raw||raw.startsWith("#")||/^(https?:|mailto:|tel:|javascript:)/i.test(raw))return;
+    const clean=raw.split("#")[0].split("?")[0].replace(/^\.\//,"").split("/").pop();
+    const make=map[clean];
+    if(make)link.href=make();
+  });
+}
+function ensureLocalizedRoute(){
+  const target=localizedPath(lang);
+  const current=location.pathname.replace(/\/$/,"")||"/";
+  if(current!==target)history.replaceState({language:lang},"",target);
+}
+
 
 function renderSiteMenu(){
   const panel=$("siteNav");
   if(!panel)return;
-  const currentFile=(location.pathname.split("/").pop()||"index.html").toLowerCase();
+  const activeRoute=currentRoute();
   const general=[
-    ["index.html","home"],
-    ["menu.html","menu"],
-    ["commande.html","order"],
-    ["contact.html","contact"]
+    ["home","home"],["menu","menu"],["order","order"],["contact","contact"]
   ];
-  panel.innerHTML='<div class="menu-panel-head"><strong>'+escapeHtml(t("menu"))+'</strong><button id="menuPanelClose" class="menu-panel-close" type="button" aria-label="'+escapeHtml(t("closeMenu"))+'">×</button></div>'+
+  panel.innerHTML='<div class="menu-panel-head"><strong>La Shish</strong><button id="menuPanelClose" class="menu-panel-close" type="button" aria-label="'+escapeHtml(t("closeMenu"))+'">×</button></div>'+
     '<div class="menu-panel-links">'+
-    general.map(([href,key])=>'<a class="menu-panel-link '+(currentFile===href?"active":"")+'" href="'+href+'">'+escapeHtml(t(key))+'</a>').join("")+
+    general.map(([page,key])=>{
+      const href=localizedPath(lang,page==="home"?"home":page==="menu"?"menu":page==="order"?"order":"contact");
+      const active=href===activeRoute;
+      return '<a class="menu-panel-link '+(active?"active":"")+'" href="'+href+'">'+escapeHtml(t(key))+'</a>';
+    }).join("")+
     '</div>'+
-    '<div class="menu-panel-label">'+escapeHtml(t("categoriesTitle"))+'</div>'+
-    '<div class="menu-panel-category-grid">'+
+    '<div class="menu-panel-label">'+escapeHtml(t("menu"))+'</div>'+
+    '<div class="menu-panel-category-grid menu-panel-subcategories">'+
     Object.entries(categoryConfig).map(([slug,c])=>{
-      const href=slug+".html";
-      const active=currentFile===href;
+      const href=localizedPath(lang,"category",slug);
+      const active=href===activeRoute;
       return '<a class="menu-panel-category '+(active?"active":"")+'" href="'+href+'"><span>'+escapeHtml(c[lang])+'</span><span aria-hidden="true">↗</span></a>';
     }).join("")+
     '</div>';
@@ -217,6 +261,7 @@ function renderHeader(){
   document.querySelectorAll("[data-i18n-placeholder]").forEach(n=>{const key=n.dataset.i18nPlaceholder;if(I18N[lang][key])n.placeholder=t(key);});
   const setText=(id,key)=>{const n=$(id);if(n&&I18N[lang][key])n.textContent=t(key);};
   setText("heroTitle","heroTitle"); setText("heroSubtitle","heroSubtitle"); setText("heroCta","heroCta"); setText("discoverBtn","discover");
+  localizeInternalLinks();
   const toggle=$("languageToggle");
   if(toggle){
     toggle.setAttribute("aria-label",t("language"));
@@ -397,12 +442,14 @@ function setLanguage(next){
   if(next===lang)return;
   lang=next;
   try{localStorage.setItem(LANG_KEY,lang);}catch{}
+  history.pushState({language:lang},"",localizedPath(lang));
   renderHeader();
   const header=document.querySelector(".site-header");
   const menuIsOpen=header?.classList.contains("menu-open");
   if(menuIsOpen)setMobileMenu(true);
   const page=document.body.dataset.page;
   if(page==="home")renderHomeCategoryHeroes();
+  localizeInternalLinks();
   if(page==="menu"){renderCategoryDirectory();}
   if(page==="category"){refreshProductCards();refreshSubcategoryHeadings();}
   if(page==="order"){renderCart();fillClient();}
@@ -447,6 +494,7 @@ function initEvents(){
   document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeOptions();setMobileMenu(false);}});
 }
 function initApp(){
+  ensureLocalizedRoute();
   renderHeader();
   initEvents();
   const page=document.body.dataset.page;
