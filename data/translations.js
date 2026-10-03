@@ -17,7 +17,7 @@ window.MENU_TRANSLATIONS = {
   },
   categories: {
     "Petit Déjeuner":"Breakfast","Entrée froide":"Cold Starters","Snack gourmand":"Gourmet Snacks","Nos plats":"Main Courses",
-    "Spécialités":"Specialties","Pizza":"Pizza","French Tacos":"French Tacos","Boisson":"Drinks","Dessert":"Desserts",
+    "Spécialités":"Specialties","Pizza":"Pizza","French Tacos":"Tacos","Boisson":"Drinks","Dessert":"Desserts",
     "Cocktail":"Cocktails","Vin Et Liqueur":"Wine & Spirits"
   },
   subcategories: {
