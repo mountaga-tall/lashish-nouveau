@@ -3,6 +3,8 @@ const WHATSAPP_NUMBER = "2250140555666";
 const CART_KEY = "laShishCart";
 const LANG_KEY = "laShishLanguage";
 const CLIENT_KEY = "laShishClient";
+const FAVORITES_KEY = "laShishFavorites";
+const HISTORY_KEY = "laShishOrderHistory";
 
 const I18N = {
   fr: {
@@ -29,7 +31,7 @@ const I18N = {
     contactTitle:"Nous contacter", contactText:"Pour une question, une précision de commande ou une demande de livraison, contactez-nous directement.",
     phoneLabel:"Téléphone", whatsappLabel:"WhatsApp", deliveryLabel:"Livraison", deliveryText:"Service de livraison pris en charge par le client.",
     waveLabel:"Paiement", waveText:"Paiement Wave avec lien envoyé après validation de la commande.",
-    footer:"© La Shish — Commande en ligne", language:"Langue", categoryIntro:"Découvrez cette catégorie et commandez directement.", breadcrumbLabel:"Fil d’Ariane", mapTitle:"Nous trouver", addressTitle:"Adresse", addressValue:"Riviera Bonoumin, Voie de la Djibi, Abidjan", directions:"Ouvrir dans Google Maps", websiteLabel:"Site Internet", websiteValue:"lashish.ci", followUs:"Suivez La Shish",
+    footer:"© La Shish — Commande en ligne", language:"Langue", categoryIntro:"Découvrez cette catégorie et commandez directement.", clientSpace:"Espace La Shish",clientSpaceNote:"Votre espace sur cet appareil",profile:"Profil",myOrder:"Ma commande",orderDetails:"Détails des commandes",favorites:"Favoris",notifications:"Notifications",coupons:"Coupons",address:"Adresse",message:"Message",guest:"Invité",saveProfile:"Enregistrer",profileSaved:"Profil enregistré",favoriteAdd:"Ajouter aux favoris",favoriteRemove:"Retirer des favoris",favoriteAdded:"Ajouté aux favoris",favoriteRemoved:"Retiré des favoris",noFavorites:"Aucun favori pour le moment.",noHistory:"Aucune commande précédente.",notificationsText:"Autorisez les notifications pour recevoir les alertes de l’application.",enableNotifications:"Activer les notifications",notificationsEnabled:"Notifications activées",notificationsUnsupported:"Notifications non disponibles sur cet appareil.",couponsText:"Les promotions et codes valides apparaîtront ici.",noAddress:"Aucune adresse enregistrée.",editAddress:"Modifier l’adresse",messageText:"Une question ? Écrivez-nous directement sur WhatsApp.",orderReady:"Votre commande est prête à être vérifiée.", breadcrumbLabel:"Fil d’Ariane", mapTitle:"Nous trouver", addressTitle:"Adresse", addressValue:"Voie Djibi, Cocody, Abidjan", directions:"Ouvrir dans Google Maps", websiteLabel:"Site Internet", websiteValue:"lashish.ci", followUs:"Suivez La Shish",
     loading:"Préparation de la page…", loadingError:"La page n’a pas pu être chargée. Actualisez pour réessayer.", categoryChoose:"Choisir une catégorie", categoryChooseNote:"Chaque catégorie possède sa propre page pour parcourir les produits plus facilement.", openMenu:"Ouvrir le menu", closeMenu:"Fermer le menu", heroTitle:"Le goût qui rassemble.", heroSubtitle:"Cuisine généreuse, service simple et commande directe sur WhatsApp.", heroCta:"Commander maintenant", search:"Rechercher un plat, pizza, tacos…", clear:"Effacer"
   },
   en: {
@@ -56,7 +58,7 @@ const I18N = {
     contactTitle:"Get in touch", contactText:"For questions, order details or delivery requests, contact us directly.",
     phoneLabel:"Phone", whatsappLabel:"WhatsApp", deliveryLabel:"Delivery", deliveryText:"Delivery service is paid by the customer.",
     waveLabel:"Payment", waveText:"Wave payment link is sent after your order is validated.",
-    footer:"© La Shish — Online ordering", language:"Language", categoryIntro:"Explore this category and order directly.", breadcrumbLabel:"Breadcrumb", mapTitle:"Find us", addressTitle:"Address", addressValue:"Riviera Bonoumin, Voie de la Djibi, Abidjan", directions:"Open in Google Maps", websiteLabel:"Website", websiteValue:"lashish.ci", followUs:"Follow La Shish",
+    footer:"© La Shish — Online ordering", language:"Language", categoryIntro:"Explore this category and order directly.", clientSpace:"La Shish Space",clientSpaceNote:"Your space on this device",profile:"Profile",myOrder:"My order",orderDetails:"Order details",favorites:"Favorites",notifications:"Notifications",coupons:"Coupons",address:"Address",message:"Message",guest:"Guest",saveProfile:"Save",profileSaved:"Profile saved",favoriteAdd:"Add to favorites",favoriteRemove:"Remove from favorites",favoriteAdded:"Added to favorites",favoriteRemoved:"Removed from favorites",noFavorites:"No favorites yet.",noHistory:"No previous orders.",notificationsText:"Allow notifications to receive app alerts.",enableNotifications:"Enable notifications",notificationsEnabled:"Notifications enabled",notificationsUnsupported:"Notifications are not available on this device.",couponsText:"Active promotions and valid codes will appear here.",noAddress:"No address saved.",editAddress:"Edit address",messageText:"Have a question? Message us directly on WhatsApp.",orderReady:"Your order is ready to review.", breadcrumbLabel:"Breadcrumb", mapTitle:"Find us", addressTitle:"Address", addressValue:"Voie Djibi, Cocody, Abidjan", directions:"Open in Google Maps", websiteLabel:"Website", websiteValue:"lashish.ci", followUs:"Follow La Shish",
     loading:"Loading page…", loadingError:"This page could not be loaded. Refresh to try again.", categoryChoose:"Choose a category", categoryChooseNote:"Each category has its own page so you can browse products more easily.", openMenu:"Open menu", closeMenu:"Close menu", heroTitle:"Great taste, made to share.", heroSubtitle:"Generous food, simple service and direct ordering on WhatsApp.", heroCta:"Order now", search:"Search a dish, pizza, tacos…", clear:"Clear"
   }
 };
@@ -83,6 +85,7 @@ let cart = loadCart();
 let activeCategory = document.body.dataset.category || "ALL";
 let searchTerm = "";
 let currentProduct = null;
+let favorites = loadFavorites();
 
 const $ = id => document.getElementById(id);
 const allProducts = (window.MENU_ALL || [
@@ -117,6 +120,36 @@ function saveClient(){
   } catch {}
 }
 function loadClient(){ try { return JSON.parse(localStorage.getItem(CLIENT_KEY)||"{}")||{}; } catch { return {}; } }
+function loadFavorites(){ try { const v=JSON.parse(localStorage.getItem(FAVORITES_KEY)||"[]"); return Array.isArray(v)?v.map(Number).filter(Boolean):[]; } catch { return []; } }
+function saveFavorites(){ try { localStorage.setItem(FAVORITES_KEY,JSON.stringify(favorites)); } catch {} }
+function loadOrderHistory(){ try { const v=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]"); return Array.isArray(v)?v:[]; } catch { return []; } }
+function saveOrderHistory(order){ try { const h=loadOrderHistory(); h.unshift(order); localStorage.setItem(HISTORY_KEY,JSON.stringify(h.slice(0,20))); } catch {} }
+function isFavorite(id){ return favorites.includes(Number(id)); }
+function toggleFavorite(id){
+  id=Number(id);
+  favorites=isFavorite(id)?favorites.filter(x=>x!==id):[...favorites,id];
+  saveFavorites();
+  refreshProductCards();
+  showToast(isFavorite(id)?t("favoriteAdded"):t("favoriteRemoved"));
+}
+function ensureClientSpace(){
+  let modal=$("clientSpaceModal");
+  if(!modal){ modal=document.createElement("div"); modal.id="clientSpaceModal"; modal.className="client-space-modal"; modal.setAttribute("role","dialog"); modal.setAttribute("aria-modal","true"); document.body.appendChild(modal); }
+  return modal;
+}
+function clientIcon(kind){
+  const icons={
+    profile:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.3"/><path d="M5 20c.6-3.4 3.1-5.4 7-5.4s6.4 2 7 5.4"/></svg>',
+    order:'<svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 12h6M9 16h5"/></svg>',
+    history:'<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5M12 7v5l3 2"/></svg>',
+    heart:'<svg viewBox="0 0 24 24"><path d="M20 8.5c0 5.5-8 10.5-8 10.5S4 14 4 8.5A4.5 4.5 0 0 1 12 5a4.5 4.5 0 0 1 8 3.5Z"/></svg>',
+    bell:'<svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8M10 21h4"/></svg>',
+    coupon:'<svg viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12v4a2 2 0 0 1 0 4v6H6a2 2 0 0 1-2-2z"/><path d="M9 8v8"/></svg>',
+    address:'<svg viewBox="0 0 24 24"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>',
+    message:'<svg viewBox="0 0 24 24"><path d="M5 5h14v11H9l-4 3z"/><path d="M8 9h8M8 12h5"/></svg>'
+  };
+  return icons[kind]||icons.order;
+}
 function formatPrice(n){ return Number(n||0).toLocaleString(lang==="fr"?"fr-FR":"en-US"); }
 function normalize(v){ return String(v||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
 function escapeHtml(v){ return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m])); }
@@ -207,6 +240,41 @@ function ensureLocalizedRoute(){
 }
 
 
+function showClientSpace(view="dashboard"){
+  const modal=ensureClientSpace();
+  const client=loadClient();
+  const history=loadOrderHistory();
+  const profileName=client.clientName||t("guest");
+  let body="";
+  if(view==="dashboard"){
+    const tiles=[
+      ["profile","profile",t("profile")],["order","order",t("myOrder")],["history","history",t("orderDetails")],["heart","favorites",t("favorites")],
+      ["bell","notifications",t("notifications")],["coupon","coupon",t("coupons")],["address","address",t("address")],["message","message",t("message")]
+    ];
+    body='<div class="client-space-grid">'+tiles.map(([icon,key,label])=>'<button class="client-space-tile" type="button" data-client-view="'+key+'"><span class="client-space-icon">'+clientIcon(icon)+'</span><strong>'+escapeHtml(label)+'</strong></button>').join("")+'</div>';
+  } else if(view==="profile"){
+    body='<form class="client-space-form" id="clientProfileForm"><label>'+escapeHtml(t("name"))+'<input name="clientName" value="'+escapeHtml(client.clientName||"")+'"></label><label>'+escapeHtml(t("phone"))+'<input name="clientPhone" inputmode="tel" value="'+escapeHtml(client.clientPhone||"")+'"></label><label>'+escapeHtml(t("zone"))+'<input name="clientZone" value="'+escapeHtml(client.clientZone||"")+'"></label><label>'+escapeHtml(t("address"))+'<input name="clientAddress" value="'+escapeHtml(client.clientAddress||"")+'"></label><button class="btn btn-dark" type="submit">'+escapeHtml(t("saveProfile"))+'</button></form>';
+  } else if(view==="favorites"){
+    const favs=favorites.map(getProduct).filter(Boolean);
+    body=favs.length?'<div class="client-favorite-list">'+favs.map(p=>'<article class="client-favorite-item"><img src="'+getImage(p)+'" alt="'+escapeHtml(displayName(p))+'"><div><strong>'+escapeHtml(displayName(p))+'</strong><span>'+formatPrice(productPrice(p))+' FCFA</span></div><button class="client-inline-btn" type="button" data-add="'+p.id+'">'+escapeHtml(t("add"))+'</button></article>').join("")+'</div>':'<div class="client-empty">'+escapeHtml(t("noFavorites"))+'</div>';
+  } else if(view==="history"){
+    body=history.length?'<div class="client-history-list">'+history.map(o=>'<article class="client-history-item"><div><strong>'+escapeHtml(new Date(o.date).toLocaleString(lang==="fr"?"fr-FR":"en-US"))+'</strong><span>'+escapeHtml(o.summary)+'</span></div><b>'+formatPrice(o.total)+' FCFA</b></article>').join("")+'</div>':'<div class="client-empty">'+escapeHtml(t("noHistory"))+'</div>';
+  } else if(view==="notifications"){
+    const allowed="Notification" in window ? Notification.permission : "unsupported";
+    body='<div class="client-space-message"><span class="client-space-big-icon">'+clientIcon("bell")+'</span><h3>'+escapeHtml(t("notifications"))+'</h3><p>'+escapeHtml(t("notificationsText"))+'</p><button class="btn btn-dark" type="button" id="enableNotifications">'+escapeHtml(allowed==="granted"?t("notificationsEnabled"):t("enableNotifications"))+'</button></div>';
+  } else if(view==="coupon"){
+    body='<div class="client-space-message"><span class="client-space-big-icon">'+clientIcon("coupon")+'</span><h3>'+escapeHtml(t("coupons"))+'</h3><p>'+escapeHtml(t("couponsText"))+'</p></div>';
+  } else if(view==="address"){
+    body='<div class="client-space-message"><span class="client-space-big-icon">'+clientIcon("address")+'</span><h3>'+escapeHtml(t("address"))+'</h3><p>'+escapeHtml(client.clientAddress||t("noAddress"))+'</p><button class="btn btn-dark" type="button" data-client-view="profile">'+escapeHtml(t("editAddress"))+'</button></div>';
+  } else if(view==="message"){
+    body='<div class="client-space-message"><span class="client-space-big-icon">'+clientIcon("message")+'</span><h3>'+escapeHtml(t("message"))+'</h3><p>'+escapeHtml(t("messageText"))+'</p><a class="btn btn-dark" href="https://wa.me/'+WHATSAPP_NUMBER+'" target="_blank" rel="noopener noreferrer">WhatsApp</a></div>';
+  } else if(view==="order"){
+    body='<div class="client-space-message"><span class="client-space-big-icon">'+clientIcon("order")+'</span><h3>'+escapeHtml(t("myOrder"))+'</h3><p>'+escapeHtml(cart.length?t("orderReady"):t("emptyCart"))+'</p><a class="btn btn-dark" href="'+localizedPath(lang,"order")+'">'+escapeHtml(t("seeOrder"))+'</a></div>';
+  }
+  modal.innerHTML='<div class="client-space-card"><div class="client-space-head"><div><span class="section-kicker">'+escapeHtml(t("clientSpace"))+'</span><h2>'+escapeHtml(profileName)+'</h2></div><button type="button" class="client-space-close" id="clientSpaceClose" aria-label="'+escapeHtml(t("closeMenu"))+'">×</button></div><div class="client-space-back-row"><button class="client-space-back" type="button" data-client-view="dashboard">← '+escapeHtml(t("menu"))+'</button></div>'+body+'</div>';
+  modal.classList.add("open");
+  document.body.classList.add("modal-open");
+}
 function renderSiteMenu(){
   const panel=$("siteNav");
   if(!panel)return;
@@ -231,7 +299,8 @@ function renderSiteMenu(){
       const active=href===activeRoute;
       return '<a class="menu-panel-category '+(active?"active":"")+'" href="'+href+'"><span>'+escapeHtml(c[lang])+'</span><span aria-hidden="true">↗</span></a>';
     }).join("")+
-    '</div>';
+    '</div>'+
+    '<div class="client-space-launch"><button type="button" class="client-space-launch-btn" data-client-view="dashboard"><span class="client-space-launch-icon">'+clientIcon("profile")+'</span><span><b>'+escapeHtml(t("clientSpace"))+'</b><small>'+escapeHtml(t("clientSpaceNote"))+'</small></span><span aria-hidden="true">→</span></button></div>';
 }
 
 function productPrice(p){
@@ -364,7 +433,7 @@ function renderCategoryMenu(categoryKey){
 function productCard(p){
   const isPizza=p.type==="pizza";
   const minPrice=isPizza&&Array.isArray(p.tailles)&&p.tailles.length?Math.min(...p.tailles.map(s=>Number(s.prix)||0)):Number(p.prix)||0;
-  return '<article class="product-card" data-product-id="'+p.id+'"><div class="product-media"><img class="product-img" src="'+getImage(p)+'" alt="'+escapeHtml(displayName(p))+'" loading="lazy" decoding="async" data-product-id="'+p.id+'" onerror="handleImageError(this)">'+
+  return '<article class="product-card" data-product-id="'+p.id+'"><div class="product-media"><button type="button" class="favorite-btn '+(isFavorite(p.id)?"is-favorite":"")+'" data-favorite="'+p.id+'" aria-label="'+escapeHtml(isFavorite(p.id)?t("favoriteRemove"):t("favoriteAdd"))+'">'+(isFavorite(p.id)?"♥":"♡")+'</button><img class="product-img" src="'+getImage(p)+'" alt="'+escapeHtml(displayName(p))+'" loading="lazy" decoding="async" data-product-id="'+p.id+'" onerror="handleImageError(this)">'+
     ((isPizza||p.type==="tacos"||p.choix)?'<span class="product-badge">'+escapeHtml(t("customize"))+'</span>':'')+
     '</div><div class="product-body"><div class="product-meta"><span>'+escapeHtml(categoryLabel(p.categorie))+'</span></div><h3>'+escapeHtml(displayName(p))+'</h3><p class="product-description">'+escapeHtml(translateText(p.description||""))+'</p>'+
     '<div class="product-footer"><strong class="price">'+(isPizza?t("from")+" ":"")+formatPrice(minPrice)+' FCFA</strong><button class="add-btn" type="button" data-add="'+p.id+'">'+escapeHtml(t("add"))+'</button></div></div></article>';
@@ -389,6 +458,12 @@ function refreshProductCards(){
     }
     const badge=card.querySelector(".product-badge"); if(badge)badge.textContent=t("customize");
     const image=card.querySelector(".product-img"); if(image)image.alt=displayName(p);
+    const favorite=card.querySelector("[data-favorite]");
+    if(favorite){
+      favorite.classList.toggle("is-favorite",isFavorite(p.id));
+      favorite.textContent=isFavorite(p.id)?"♥":"♡";
+      favorite.setAttribute("aria-label",t(isFavorite(p.id)?"favoriteRemove":"favoriteAdd"));
+    }
   });
 }
 function refreshSubcategoryHeadings(){
@@ -444,6 +519,12 @@ function sendWhatsApp(){
   msg+="\n*"+t("order")+"*\n";
   cart.forEach(i=>{msg+="\n• "+i.qty+" × "+cartName(i)+(i.optionsText?" — "+displayOptions(i.optionsText):"")+" — "+formatPrice(i.prix*i.qty)+" FCFA";});
   msg+="\n\n💰 *"+t("total").toUpperCase()+" : "+formatPrice(getTotal())+" FCFA*\n🚚 "+t("deliveryText")+"\n💳 "+t("waveText");
+  saveOrderHistory({
+    date:new Date().toISOString(),
+    total:getTotal(),
+    summary:cart.map(i=>i.qty+" × "+cartName(i)).join(", "),
+    itemCount:getItemCount()
+  });
   window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank","noopener,noreferrer");
 }
 function showToast(message){
@@ -533,7 +614,12 @@ function initEvents(){
   });
   window.addEventListener("resize",()=>{if(window.innerWidth>900)setMobileMenu(false);});
   document.addEventListener("click",e=>{
-    if(e.target.closest("#menuPanelClose")||e.target.closest("#siteNav a")){setMobileMenu(false);return;}
+    if(e.target.closest("#menuPanelClose")){setMobileMenu(false);return;}
+    const clientView=e.target.closest("[data-client-view]");
+    if(clientView){ e.preventDefault(); if(!clientView.closest("[data-add]")){ showClientSpace(clientView.dataset.clientView||"dashboard"); return; } }
+    if(e.target.closest("#siteNav a")){setMobileMenu(false);return;}
+    const favorite=e.target.closest("[data-favorite]");
+    if(favorite){e.preventDefault();toggleFavorite(favorite.dataset.favorite);return;}
     if(!e.target.closest(".site-header"))setMobileMenu(false);
     const add=e.target.closest("[data-add]");if(add){const p=getProduct(add.dataset.add);if(p)openOptions(p);return;}
     const plus=e.target.closest("[data-plus]");if(plus){const i=cart.find(x=>x.key===decodeURIComponent(plus.dataset.plus));if(i){i.qty++;saveCart();renderCart();}return;}
@@ -542,6 +628,12 @@ function initEvents(){
     const reset=e.target.closest("#emptyReset");if(reset){searchTerm="";if($("searchInput"))$("searchInput").value="";renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);return;}
     const close=e.target.closest("#optionModalCancel,#optionModalCancel2");if(close){closeOptions();return;}
     if(e.target===$("optionModal"))closeOptions();
+    if(e.target===$("clientSpaceModal"))closeClientSpace();
+    if(e.target.closest("#clientSpaceClose"))closeClientSpace();
+    if(e.target.closest("#enableNotifications")){
+      if("Notification" in window) Notification.requestPermission().then(()=>showClientSpace("notifications"));
+      else showToast(t("notificationsUnsupported"));
+    }
   });
   $("searchInput")?.addEventListener("input",debounce(e=>{searchTerm=e.target.value.trim();renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);},160));
   $("resetSearch")?.addEventListener("click",()=>{searchTerm="";$("searchInput").value="";renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);$("searchInput").focus();});
@@ -549,7 +641,17 @@ function initEvents(){
   ["clientName","clientPhone","clientZone","clientAddress","clientComment"].forEach(id=>$(id)?.addEventListener("input",saveClient));
   $("mobileCartBtn")?.addEventListener("click",()=>{window.location.href="commande.html";});
   $("optionModalConfirm")?.addEventListener("click",confirmOptions);
-  document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeOptions();setMobileMenu(false);}});
+  document.addEventListener("submit",e=>{
+    if(e.target.id!=="clientProfileForm")return;
+    e.preventDefault();
+    const form=new FormData(e.target);
+    const data={};
+    for(const [k,v] of form.entries())data[k]=String(v).trim();
+    try{localStorage.setItem(CLIENT_KEY,JSON.stringify(data));}catch{}
+    showToast(t("profileSaved"));
+    showClientSpace("dashboard");
+  });
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeOptions();closeClientSpace();setMobileMenu(false);}});
 }
 function initApp(){
   setTextDirection();
