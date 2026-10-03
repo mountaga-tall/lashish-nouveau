@@ -143,11 +143,12 @@ function displayOptions(text){
 function categoryLabel(category){ const c=Object.values(categoryConfig).find(x=>x.key===category); return c ? c[lang] : (translations.categories[category]||category); }
 function subcategoryLabel(v){ return lang==="en" ? (translations.subcategories[v]||v) : v; }
 function getProduct(id){ return allProducts.find(p=>String(p.id)===String(id)); }
-function getImage(p){ return "/images/"+p.id+".webp"; }
+const PNG_IMAGE_IDS=new Set([132,133,134,138,139,140,141,142,143,144,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253]);
+function getImage(p){ const id=Number(p?.id); return PNG_IMAGE_IDS.has(id)?"/images/"+id+".png":"/images/"+id+".jpg"; }
 function handleImageError(img){
   const id=img.dataset.productId, step=img.dataset.try||"webp";
-  if(step==="webp"){img.dataset.try="jpg";img.src="/images/"+id+".jpg";}
-  else if(step==="jpg"){img.dataset.try="png";img.src="/images/"+id+".png";}
+  if(step==="jpg"){img.dataset.try="png";img.src="/images/"+id+".png";}
+  else if(step==="png"){img.dataset.try="webp";img.src="/images/"+id+".webp";}
   else{img.onerror=null;img.src="/images/no-image.webp";img.alt=t("noImage");}
 }
 function categorySlugByKey(key){ return Object.entries(categoryConfig).find(([,v])=>v.key===key)?.[0] || ""; }
@@ -206,7 +207,7 @@ function renderSiteMenu(){
     '<div class="menu-panel-links">'+
     general.map(([page,key])=>{
       const href=localizedPath(lang,page==="home"?"home":page==="menu"?"menu":page==="order"?"order":"contact");
-      const active=href===activeRoute;
+      const active=href===activeRoute || (key==="menu" && document.body.dataset.page==="category");
       return '<a class="menu-panel-link '+(active?"active":"")+'" href="'+href+'">'+escapeHtml(t(key))+'</a>';
     }).join("")+
     '</div>'+
