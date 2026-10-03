@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>La Shish | Cocktails</title>
+  <meta name="description" content="La Shish — Cocktails.">
+  <meta name="theme-color" content="#f4efe7">
+  <link rel="icon" type="image/webp" href="images/logo.webp">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="category" data-category="cocktails">
+  <div id="pageLoader" class="page-loader" aria-live="polite"><div class="loader-card"><img src="images/logo.webp" alt="La Shish"><span class="loader-spinner"></span><p data-i18n="loading">Préparation de la page…</p></div></div>
+  <div id="appError" class="app-error" hidden></div>
+  <header class="site-header">
+    <a class="brand-mini" href="index.html"><img src="images/logo.webp" alt="La Shish"></a>
+    <nav class="site-nav" aria-label="Navigation">
+      <a class="nav-link" href="index.html" data-i18n="home">Accueil</a>
+      <a class="nav-link active" href="menu.html" data-i18n="menu">Menu</a>
+      <a class="nav-link order-nav" href="commande.html"><span data-i18n="order">Ma commande</span><span id="cartCountBadge" class="cart-count-badge" hidden>0</span></a>
+      <a class="nav-link" href="contact.html" data-i18n="contact">Contact</a>
+    </nav>
+    <button id="languageToggle" class="language-switch" type="button" aria-pressed="false" aria-label="Langue"><span class="lang-active">FR</span><span class="switch-knob"></span><span class="lang-next">EN</span></button>
+  </header>
+  <main class="page-shell">
+    <div class="category-topbar"><a class="category-back" href="menu.html">← <span data-i18n="catalog">Toutes les catégories</span></a><a class="btn btn-secondary" href="commande.html"><span data-i18n="seeOrder">Voir ma commande</span></a></div>
+    <section class="page-intro"><span id="categoryKicker" class="section-kicker"></span><h1 id="categoryTitle"></h1><p data-i18n="categoryIntro">Découvrez cette catégorie et commandez directement.</p></section>
+    <section class="menu-zone">
+      <div class="toolbar">
+        <label class="search-box" for="searchInput"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Rechercher un plat, pizza, tacos…" autocomplete="off"></label>
+        <button id="resetSearch" class="text-btn" type="button">Effacer</button>
+      </div>
+      <div id="menuContainer" class="menu-container"></div>
+    </section>
+  </main>
+  <button id="mobileCartBtn" class="mobile-cart-btn" type="button">🛒 <span id="mobileCount">0</span> <span id="mobileArticleLabel">articles</span> · <strong><span id="mobileTotal">0</span> FCFA</strong></button>
+  <div id="optionModal" class="modal-shell" role="dialog" aria-modal="true" aria-labelledby="optionModalTitle">
+    <div class="modal-card">
+      <div class="modal-head"><span class="section-kicker" data-i18n="customize">Personnaliser</span><button id="optionModalCancel" class="modal-close" type="button">×</button></div>
+      <h2 id="optionModalTitle"></h2><div id="optionModalBody"></div>
+      <div class="modal-actions"><button id="optionModalCancel2" class="btn btn-secondary" type="button" data-i18n="cancel">Annuler</button><button id="optionModalConfirm" class="btn btn-primary" type="button" data-i18n="confirm">Confirmer</button></div>
+    </div>
+  </div>
+  <footer class="site-footer"><div class="footer-info"><span>📞 07 49 02 03 02</span><span>📞 01 40 555 666</span><span data-i18n="preparation">Préparation : 10 à 30 min</span></div><p data-i18n="footer">© La Shish — Commande en ligne</p></footer>
+  <script src="data/translations.js"></script>
+  <script src="data/boissons.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
