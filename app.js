@@ -29,7 +29,7 @@ const I18N = {
     contactTitle:"Nous contacter", contactText:"Pour une question, une précision de commande ou une demande de livraison, contactez-nous directement.",
     phoneLabel:"Téléphone", whatsappLabel:"WhatsApp", deliveryLabel:"Livraison", deliveryText:"Service de livraison pris en charge par le client.",
     waveLabel:"Paiement", waveText:"Paiement Wave avec lien envoyé après validation de la commande.",
-    footer:"© La Shish — Commande en ligne", language:"Langue", categoryIntro:"Découvrez cette catégorie et commandez directement.",
+    footer:"© La Shish — Commande en ligne", language:"Langue", categoryIntro:"Découvrez cette catégorie et commandez directement.", breadcrumbLabel:"Fil d’Ariane", mapTitle:"Nous trouver", addressTitle:"Adresse", addressValue:"Riviera Bonoumin, Voie de la Djibi, Abidjan", directions:"Ouvrir dans Google Maps", websiteLabel:"Site Internet", websiteValue:"lashish.ci", followUs:"Suivez La Shish",
     loading:"Préparation de la page…", loadingError:"La page n’a pas pu être chargée. Actualisez pour réessayer.", categoryChoose:"Choisir une catégorie", categoryChooseNote:"Chaque catégorie possède sa propre page pour parcourir les produits plus facilement.", openMenu:"Ouvrir le menu", closeMenu:"Fermer le menu", heroTitle:"Le goût qui rassemble.", heroSubtitle:"Cuisine généreuse, service simple et commande directe sur WhatsApp.", heroCta:"Commander maintenant", search:"Rechercher un plat, pizza, tacos…", clear:"Effacer"
   },
   en: {
@@ -56,7 +56,7 @@ const I18N = {
     contactTitle:"Get in touch", contactText:"For questions, order details or delivery requests, contact us directly.",
     phoneLabel:"Phone", whatsappLabel:"WhatsApp", deliveryLabel:"Delivery", deliveryText:"Delivery service is paid by the customer.",
     waveLabel:"Payment", waveText:"Wave payment link is sent after your order is validated.",
-    footer:"© La Shish — Online ordering", language:"Language", categoryIntro:"Explore this category and order directly.",
+    footer:"© La Shish — Online ordering", language:"Language", categoryIntro:"Explore this category and order directly.", breadcrumbLabel:"Breadcrumb", mapTitle:"Find us", addressTitle:"Address", addressValue:"Riviera Bonoumin, Voie de la Djibi, Abidjan", directions:"Open in Google Maps", websiteLabel:"Website", websiteValue:"lashish.ci", followUs:"Follow La Shish",
     loading:"Loading page…", loadingError:"This page could not be loaded. Refresh to try again.", categoryChoose:"Choose a category", categoryChooseNote:"Each category has its own page so you can browse products more easily.", openMenu:"Open menu", closeMenu:"Close menu", heroTitle:"Great taste, made to share.", heroSubtitle:"Generous food, simple service and direct ordering on WhatsApp.", heroCta:"Order now", search:"Search a dish, pizza, tacos…", clear:"Clear"
   }
 };
@@ -263,6 +263,46 @@ function renderHomeCategoryHeroes(){
   }).join("");
 }
 
+
+function renderBreadcrumbs(){
+  const header=document.querySelector(".site-header"); if(!header)return;
+  let nav=$("breadcrumbs");
+  if(!nav){nav=document.createElement("nav");nav.id="breadcrumbs";nav.className="breadcrumbs";header.insertAdjacentElement("afterend",nav);}
+  nav.setAttribute("aria-label",t("breadcrumbLabel"));
+  const page=document.body.dataset.page||"home";
+  const items=[{label:t("home"),href:localizedPath(lang,"home")}];
+  if(page==="menu") items.push({label:t("menu"),current:true});
+  if(page==="category"){
+    items.push({label:t("menu"),href:localizedPath(lang,"menu")});
+    const c=categoryConfig[document.body.dataset.category];
+    items.push({label:c?c[lang]:t("menu"),current:true});
+  }
+  if(page==="order") items.push({label:t("order"),current:true});
+  if(page==="contact") items.push({label:t("contact"),current:true});
+  nav.innerHTML=items.map((item,i)=>{
+    const sep=i?' <span class="breadcrumbs-separator" aria-hidden="true">›</span> ':'';
+    const content=item.current?'<span aria-current="page">'+escapeHtml(item.label)+'</span>':'<a href="'+item.href+'">'+escapeHtml(item.label)+'</a>';
+    return sep+content;
+  }).join("");
+}
+function renderSocialFooter(){
+  const footer=document.querySelector(".site-footer"); if(!footer)return;
+  let box=footer.querySelector(".footer-socials");
+  if(!box){box=document.createElement("div");box.className="footer-socials";footer.prepend(box);}
+  box.innerHTML='<div class="footer-social-title">'+escapeHtml(t("followUs"))+'</div><div class="footer-social-links">'+
+    '<a class="footer-social-link" href="https://wa.me/'+WHATSAPP_NUMBER+'" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">'+
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.05 0 11.82 11.82 0 0 0 1.8 17.66L0 24l6.5-1.7A11.82 11.82 0 0 0 24 11.95 11.8 11.8 0 0 0 20.5 3.5Zm-8.45 18.1a9.7 9.7 0 0 1-4.95-1.37l-.35-.2-3.86 1.01 1.03-3.76-.22-.39a9.72 9.72 0 1 1 8.35 4.71Zm5.33-7.27c-.29-.15-1.72-.85-1.99-.95-.27-.1-.47-.15-.67.15-.2.29-.77.95-.95 1.14-.18.2-.35.22-.64.07-.29-.15-1.22-.45-2.32-1.44-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.35.44-.52.15-.17.2-.29.3-.49.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.29-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.09 4.49.71.31 1.26.49 1.69.63.71.23 1.35.2 1.86.12.57-.08 1.72-.7 1.97-1.37.24-.67.24-1.24.17-1.36-.07-.12-.27-.2-.57-.35Z"/></svg>'+ 
+    '</a>'+
+    '<a class="footer-social-link" href="https://www.instagram.com/restaurantlashish/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">'+
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1"/></svg>'+
+    '</a>'+
+    '<a class="footer-social-link" href="https://www.facebook.com/1773631056278710" target="_blank" rel="noopener noreferrer" aria-label="Facebook">'+
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.4 22v-8h2.7l.4-3h-3.1V9.1c0-.9.25-1.5 1.55-1.5h1.65V4.9c-.29-.04-1.28-.12-2.43-.12-2.41 0-4.06 1.47-4.06 4.17V11H7.3v3h2.76v8h3.34Z"/></svg>'+
+    '</a>'+
+    '<a class="footer-social-link" href="https://www.google.com/maps/search/?api=1&query=La+Shish+Abidjan" target="_blank" rel="noopener noreferrer" aria-label="Google Maps">'+
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.6A2.6 2.6 0 1 1 12 6a2.6 2.6 0 0 1 0 5.6Z"/></svg>'+
+    '</a></div>';
+}
 function renderHeader(){
   document.documentElement.lang=lang;
   const title=document.querySelector("title");
@@ -273,6 +313,8 @@ function renderHeader(){
   }
   document.querySelectorAll("[data-i18n]").forEach(n=>{const key=n.dataset.i18n;if(I18N[lang][key])n.textContent=t(key);});
   renderSiteMenu();
+  renderBreadcrumbs();
+  renderSocialFooter();
   document.querySelectorAll("[data-i18n-placeholder]").forEach(n=>{const key=n.dataset.i18nPlaceholder;if(I18N[lang][key])n.placeholder=t(key);});
   const setText=(id,key)=>{const n=$(id);if(n&&I18N[lang][key])n.textContent=t(key);};
   setText("heroTitle","heroTitle"); setText("heroSubtitle","heroSubtitle"); setText("heroCta","heroCta"); setText("discoverBtn","discover");
@@ -536,7 +578,7 @@ finally{
   window.setTimeout(()=>document.body.classList.add("ready"),40);
   if("serviceWorker" in navigator){
     window.addEventListener("load",()=>{
-      navigator.serviceWorker.register("./sw.js?v=10",{updateViaCache:"none"}).catch(()=>{});
+      navigator.serviceWorker.register("./sw.js?v=11",{updateViaCache:"none"}).catch(()=>{});
     },{once:true});
   }
 }
