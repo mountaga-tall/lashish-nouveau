@@ -709,7 +709,7 @@ window.MENU_SPECIALITES = [
     "description": "",
     "prix": 18000,
     "disponible": true,
-    "photo": "111.webp",
+    "photo": "no-image.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
