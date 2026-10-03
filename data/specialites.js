@@ -8,7 +8,7 @@ window.MENU_SPECIALITES = [
     "description": "Tranches de viande cuites aux légumes sautés + frites",
     "prix": 10000,
     "disponible": true,
-    "photo": "76.jpg",
+    "photo": "76.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -30,7 +30,7 @@ window.MENU_SPECIALITES = [
     "description": "Tranches de blanc de poulet cuites aux légumes sautés + frites",
     "prix": 10000,
     "disponible": true,
-    "photo": "77.jpg",
+    "photo": "77.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -52,7 +52,7 @@ window.MENU_SPECIALITES = [
     "description": "Crevettes sautées aux légumes + frites",
     "prix": 12000,
     "disponible": true,
-    "photo": "78.jpg",
+    "photo": "78.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -74,7 +74,7 @@ window.MENU_SPECIALITES = [
     "description": "Poulet croustillant, salade de chou, légumes, pâte d'ail, portion de frites",
     "prix": 12000,
     "disponible": true,
-    "photo": "79.jpg",
+    "photo": "79.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -94,7 +94,7 @@ window.MENU_SPECIALITES = [
     "description": "Poulet croustillant, salade de chou, légumes, pâte d'ail, portion de frites",
     "prix": 7000,
     "disponible": true,
-    "photo": "80.jpg",
+    "photo": "80.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -114,7 +114,7 @@ window.MENU_SPECIALITES = [
     "description": "6 blancs de poulet croustillants, salade de chou, pâte d'ail, portion de frites",
     "prix": 8000,
     "disponible": true,
-    "photo": "81.jpg",
+    "photo": "81.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -134,7 +134,7 @@ window.MENU_SPECIALITES = [
     "description": "Accompagné de légumes, pâte d'ail, pain",
     "prix": 8000,
     "disponible": true,
-    "photo": "82.jpg",
+    "photo": "82.webp",
     "choix": {
       "label": "Accompagnement",
       "required": true,
@@ -154,7 +154,7 @@ window.MENU_SPECIALITES = [
     "description": "Accompagné de légumes, pâte d'ail, pain",
     "prix": 4000,
     "disponible": true,
-    "photo": "83.jpg",
+    "photo": "83.webp",
     "choix": {
       "label": "Accompagnement",
       "required": true,
@@ -174,7 +174,7 @@ window.MENU_SPECIALITES = [
     "description": "Accompagné de légumes, pâte d'ail, pain",
     "prix": 9000,
     "disponible": true,
-    "photo": "84.jpg",
+    "photo": "84.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -195,7 +195,7 @@ window.MENU_SPECIALITES = [
     "description": "Poulet entier frit, accompagné de légumes, pâte d'ail, pain",
     "prix": 9000,
     "disponible": true,
-    "photo": "85.jpg",
+    "photo": "85.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -216,7 +216,7 @@ window.MENU_SPECIALITES = [
     "description": "Poulet entier frit et sauté aux légumes, accompagné de légumes, pâte d'ail, pain",
     "prix": 10000,
     "disponible": true,
-    "photo": "86.jpg",
+    "photo": "86.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -237,7 +237,7 @@ window.MENU_SPECIALITES = [
     "description": "Poulet entier braisé et sauté aux légumes, accompagné de légumes, pâte d'ail, pain",
     "prix": 10000,
     "disponible": true,
-    "photo": "87.jpg",
+    "photo": "87.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -258,7 +258,7 @@ window.MENU_SPECIALITES = [
     "description": "Filet de poisson pané, salade de chou + frites",
     "prix": 9000,
     "disponible": true,
-    "photo": "88.jpg",
+    "photo": "88.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -280,7 +280,7 @@ window.MENU_SPECIALITES = [
     "description": "Servi avec des légumes sautés + garniture au choix",
     "prix": 9000,
     "disponible": true,
-    "photo": "89.jpg",
+    "photo": "89.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -302,7 +302,7 @@ window.MENU_SPECIALITES = [
     "description": "Servie avec des légumes sautés + garniture au choix",
     "prix": 10000,
     "disponible": true,
-    "photo": "90.jpg",
+    "photo": "90.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -324,7 +324,7 @@ window.MENU_SPECIALITES = [
     "description": "Légumes, fromage, viande sautés à la grillade, fourrés dans le pain tacos",
     "prix": 6000,
     "disponible": true,
-    "photo": "91.jpg"
+    "photo": "91.webp"
   },
   {
     "id": 92,
@@ -335,7 +335,7 @@ window.MENU_SPECIALITES = [
     "description": "Légumes, fromage, poulet sauté à la grillade, fourré dans le pain tacos",
     "prix": 6000,
     "disponible": true,
-    "photo": "92.jpg"
+    "photo": "92.webp"
   },
   {
     "id": 93,
@@ -346,7 +346,7 @@ window.MENU_SPECIALITES = [
     "description": "Légumes, fromage, sautés à la grillade, fourrés dans le pain tacos",
     "prix": 7000,
     "disponible": true,
-    "photo": "93.jpg"
+    "photo": "93.webp"
   },
   {
     "id": 94,
@@ -357,7 +357,7 @@ window.MENU_SPECIALITES = [
     "description": "2 pains fourrés à la viande, cuits à la grillade",
     "prix": 4000,
     "disponible": true,
-    "photo": "94.jpg"
+    "photo": "94.webp"
   },
   {
     "id": 95,
@@ -368,7 +368,7 @@ window.MENU_SPECIALITES = [
     "description": "3 pains fourrés au fromage, cuits à la grillade",
     "prix": 4000,
     "disponible": true,
-    "photo": "95.jpg"
+    "photo": "95.webp"
   },
   {
     "id": 96,
@@ -379,7 +379,7 @@ window.MENU_SPECIALITES = [
     "description": "Blanc de poulet braisé accompagné de crème aux champignons + garniture au choix",
     "prix": 10000,
     "disponible": true,
-    "photo": "96.jpg",
+    "photo": "96.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -401,7 +401,7 @@ window.MENU_SPECIALITES = [
     "description": "Tranche de filet cuite à la grillade, accompagnée de crème aux champignons + garniture au choix",
     "prix": 10000,
     "disponible": true,
-    "photo": "97.jpg",
+    "photo": "97.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -423,7 +423,7 @@ window.MENU_SPECIALITES = [
     "description": "Tranche de filet cuite à la grillade, accompagnée de légumes sautés + garniture au choix",
     "prix": 10000,
     "disponible": true,
-    "photo": "98.jpg",
+    "photo": "98.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -445,7 +445,7 @@ window.MENU_SPECIALITES = [
     "description": "Tranche de côte de bœuf cuite à la grillade, accompagnée de crème aux champignons + garniture au choix",
     "prix": 11000,
     "disponible": true,
-    "photo": "99.jpg",
+    "photo": "99.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -467,7 +467,7 @@ window.MENU_SPECIALITES = [
     "description": "Tranche de côte de bœuf cuite à la grillade, accompagnée de légumes sautés + garniture au choix",
     "prix": 11000,
     "disponible": true,
-    "photo": "100.jpg",
+    "photo": "100.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -489,7 +489,7 @@ window.MENU_SPECIALITES = [
     "description": "Tranche de viande de mouton sautée aux épices + garniture au choix",
     "prix": 12000,
     "disponible": true,
-    "photo": "101.jpg",
+    "photo": "101.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -511,7 +511,7 @@ window.MENU_SPECIALITES = [
     "description": "Viande de mouton sautée aux épices + garniture au choix",
     "prix": 16000,
     "disponible": true,
-    "photo": "102.jpg",
+    "photo": "102.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -533,7 +533,7 @@ window.MENU_SPECIALITES = [
     "description": "",
     "prix": 5000,
     "disponible": true,
-    "photo": "103.jpg",
+    "photo": "103.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -555,7 +555,7 @@ window.MENU_SPECIALITES = [
     "description": "",
     "prix": 10000,
     "disponible": true,
-    "photo": "104.jpg",
+    "photo": "104.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -577,7 +577,7 @@ window.MENU_SPECIALITES = [
     "description": "",
     "prix": 5000,
     "disponible": true,
-    "photo": "105.jpg",
+    "photo": "105.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -599,7 +599,7 @@ window.MENU_SPECIALITES = [
     "description": "",
     "prix": 10000,
     "disponible": true,
-    "photo": "106.jpg",
+    "photo": "106.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -621,7 +621,7 @@ window.MENU_SPECIALITES = [
     "description": "",
     "prix": 10000,
     "disponible": true,
-    "photo": "107.jpg",
+    "photo": "107.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -643,7 +643,7 @@ window.MENU_SPECIALITES = [
     "description": "",
     "prix": 6000,
     "disponible": true,
-    "photo": "108.jpg",
+    "photo": "108.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -665,7 +665,7 @@ window.MENU_SPECIALITES = [
     "description": "",
     "prix": 12000,
     "disponible": true,
-    "photo": "109.jpg",
+    "photo": "109.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -687,7 +687,7 @@ window.MENU_SPECIALITES = [
     "description": "",
     "prix": 15000,
     "disponible": true,
-    "photo": "110.jpg",
+    "photo": "110.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -709,7 +709,7 @@ window.MENU_SPECIALITES = [
     "description": "",
     "prix": 18000,
     "disponible": true,
-    "photo": "111.jpg",
+    "photo": "111.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -731,7 +731,7 @@ window.MENU_SPECIALITES = [
     "description": "",
     "prix": 18000,
     "disponible": true,
-    "photo": "112.jpg",
+    "photo": "112.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
