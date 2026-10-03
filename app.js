@@ -308,7 +308,7 @@ function initEvents(){
     const close=e.target.closest("#optionModalCancel,#optionModalCancel2");if(close){closeOptions();return;}
     if(e.target===$("optionModal"))closeOptions();
   });
-  $("searchInput")?.addEventListener("input",debounce(e=>{searchTerm=e.target.value.trim();renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key),160));
+  $("searchInput")?.addEventListener("input",debounce(e=>{searchTerm=e.target.value.trim();renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);},160));
   $("resetSearch")?.addEventListener("click",()=>{searchTerm="";$("searchInput").value="";renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);$("searchInput").focus();});
   $("whatsappBtn")?.addEventListener("click",sendWhatsApp);
   ["clientName","clientPhone","clientZone","clientAddress","clientComment"].forEach(id=>$(id)?.addEventListener("input",saveClient));
