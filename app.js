@@ -1,381 +1,532 @@
-/* =====================================================
-   LA SHISH PREMIUM APP JS
-   VERSION FINALE
-===================================================== */
+/* La Shish — fast multipage bilingual ordering app */
+const WHATSAPP_NUMBER = "2250140555666";
+const CART_KEY = "laShishCart";
+const LANG_KEY = "laShishLanguage";
+const CLIENT_KEY = "laShishClient";
 
-const numeroWhatsApp = "2250140555666";
+const I18N = {
+  fr: {
+    home:"Accueil", menu:"Menu", order:"Ma commande", contact:"Contact", catalog:"Toutes les catégories",
+    heroKicker:"LA SHISH", heroTitle:"Le goût qui rassemble.", heroSubtitle:"Cuisine généreuse, service simple et commande directe sur WhatsApp.",
+    heroCta:"Commander maintenant", discover:"Découvrir le menu", delivery:"Livraison", deliveryWho:"À la charge du client",
+    deliveryNote:"Yango Livraison recommandé", payment:"Paiement Wave", paymentNote:"Lien envoyé après validation",
+    paymentConfirm:"Commande confirmée sur WhatsApp", menuKicker:"NOTRE MENU", menuTitle:"Choisissez vos favoris",
+    search:"Rechercher un plat, pizza, tacos…", clear:"Effacer", categoriesTitle:"CATÉGORIES", discoverCategory:"Découvrir la catégorie", featuredDish:"À découvrir", orderHero:"Commander directement", all:"Tout", emptySearch:"Aucun résultat",
+    emptySearchNote:"Essayez un autre mot-clé ou réinitialisez la recherche.", viewMenu:"Voir tout le menu",
+    selected:"VOTRE SÉLECTION", cartLive:"En direct", emptyCart:"Votre panier est vide.",
+    emptyCartNote:"Ajoutez vos plats préférés pour commencer.", total:"Total", seeOrder:"Voir ma commande",
+    add:"Ajouter au panier", customize:"Personnaliser", cancel:"Annuler", confirm:"Confirmer",
+    size:"Taille", meat:"Viande", sauces:"Sauces", extras:"Suppléments", drink:"Boisson", side:"Garniture",
+    chooseOne:"Choisissez une option", maxSauces:"2 sauces maximum",
+    preparation:"Préparation : 10 à 30 min", deliveryHeading:"Livraison", required:"* obligatoire",
+    name:"Nom du client *", phone:"Téléphone *", zone:"Quartier / zone *", address:"Adresse complète *",
+    comment:"Commentaire ou précision (facultatif)", whatsapp:"Commander sur WhatsApp →",
+    recap:"Votre commande sera récapitulée dans WhatsApp avant l’envoi.", fill:"Complétez nom, téléphone, zone et adresse",
+    badPhone:"Vérifiez votre numéro de téléphone", empty:"Panier vide", article:"article", articles:"articles",
+    added:"Article ajouté au panier 🛒", removed:"Article supprimé 🗑️", noImage:"Image indisponible",
+    from:"Dès", aboutTitle:"Une cuisine à partager",
+    aboutText:"Retrouvez les incontournables La Shish : petits-déjeuners, mezze, burgers, plats, pizzas, tacos, boissons et desserts.",
+    contactTitle:"Nous contacter", contactText:"Pour une question, une précision de commande ou une demande de livraison, contactez-nous directement.",
+    phoneLabel:"Téléphone", whatsappLabel:"WhatsApp", deliveryLabel:"Livraison", deliveryText:"Service de livraison pris en charge par le client.",
+    waveLabel:"Paiement", waveText:"Paiement Wave avec lien envoyé après validation de la commande.",
+    footer:"© La Shish — Commande en ligne", language:"Langue", categoryIntro:"Découvrez cette catégorie et commandez directement.",
+    loading:"Préparation de la page…", loadingError:"La page n’a pas pu être chargée. Actualisez pour réessayer.", categoryChoose:"Choisir une catégorie", categoryChooseNote:"Chaque catégorie possède sa propre page pour parcourir les produits plus facilement.", openMenu:"Ouvrir le menu", closeMenu:"Fermer le menu", heroTitle:"Le goût qui rassemble.", heroSubtitle:"Cuisine généreuse, service simple et commande directe sur WhatsApp.", heroCta:"Commander maintenant", search:"Rechercher un plat, pizza, tacos…", clear:"Effacer"
+  },
+  en: {
+    home:"Home", menu:"Menu", order:"My order", contact:"Contact", catalog:"All categories",
+    heroKicker:"LA SHISH", heroTitle:"Great taste, made to share.", heroSubtitle:"Generous food, simple service and direct ordering on WhatsApp.",
+    heroCta:"Order now", discover:"Explore the menu", delivery:"Delivery", deliveryWho:"Paid by the customer",
+    deliveryNote:"Yango Delivery recommended", payment:"Wave payment", paymentNote:"Link sent after validation",
+    paymentConfirm:"Order confirmed on WhatsApp", menuKicker:"OUR MENU", menuTitle:"Choose your favorites",
+    search:"Search a dish, pizza, tacos…", clear:"Clear", categoriesTitle:"CATEGORIES", discoverCategory:"Explore category", featuredDish:"Featured", orderHero:"Order directly", all:"All", emptySearch:"No results",
+    emptySearchNote:"Try another keyword or reset the search.", viewMenu:"View full menu",
+    selected:"YOUR SELECTION", cartLive:"Live", emptyCart:"Your cart is empty.",
+    emptyCartNote:"Add your favorite dishes to get started.", total:"Total", seeOrder:"View my order",
+    add:"Add to cart", customize:"Customize", cancel:"Cancel", confirm:"Confirm",
+    size:"Size", meat:"Meat", sauces:"Sauces", extras:"Extras", drink:"Drink", side:"Side",
+    chooseOne:"Choose an option", maxSauces:"Up to 2 sauces",
+    preparation:"Preparation: 10 to 30 min", deliveryHeading:"Delivery", required:"* required",
+    name:"Customer name *", phone:"Phone *", zone:"Area / neighborhood *", address:"Full address *",
+    comment:"Comment or note (optional)", whatsapp:"Order on WhatsApp →",
+    recap:"Your order will be summarized in WhatsApp before sending.", fill:"Complete name, phone, area and address",
+    badPhone:"Please check your phone number", empty:"Empty cart", article:"item", articles:"items",
+    added:"Added to cart 🛒", removed:"Item removed 🗑️", noImage:"Image unavailable",
+    from:"From", aboutTitle:"Food made to share",
+    aboutText:"Discover La Shish favorites: breakfast, mezze, burgers, mains, pizzas, tacos, drinks and desserts.",
+    contactTitle:"Get in touch", contactText:"For questions, order details or delivery requests, contact us directly.",
+    phoneLabel:"Phone", whatsappLabel:"WhatsApp", deliveryLabel:"Delivery", deliveryText:"Delivery service is paid by the customer.",
+    waveLabel:"Payment", waveText:"Wave payment link is sent after your order is validated.",
+    footer:"© La Shish — Online ordering", language:"Language", categoryIntro:"Explore this category and order directly.",
+    loading:"Loading page…", loadingError:"This page could not be loaded. Refresh to try again.", categoryChoose:"Choose a category", categoryChooseNote:"Each category has its own page so you can browse products more easily.", openMenu:"Open menu", closeMenu:"Close menu", heroTitle:"Great taste, made to share.", heroSubtitle:"Generous food, simple service and direct ordering on WhatsApp.", heroCta:"Order now", search:"Search a dish, pizza, tacos…", clear:"Clear"
+  }
+};
 
-const allProducts = [
-    ...(window.MENU_PLATS || []),
-    ...(window.MENU_PIZZAS || []),
-    ...(window.MENU_TACOS || []),
-    ...(window.MENU_BOISSONS || [])
-].filter(p => p.disponible !== false).sort((a,b) => Number(a.id) - Number(b.id));
+const categoryConfig = {
+  "petit-dejeuner": { key:"Petit Déjeuner", fr:"Petit Déjeuner", en:"Breakfast" },
+  "entrees": { key:"Entrée froide", fr:"Entrées", en:"Starters" },
+  "snacks": { key:"Snack gourmand", fr:"Snacks gourmands", en:"Gourmet Snacks" },
+  "plats": { key:"Nos plats", fr:"Nos plats", en:"Main Courses" },
+  "specialites": { key:"Spécialités", fr:"Spécialités", en:"Specialties" },
+  "pizzas": { key:"Pizza", fr:"Pizzas", en:"Pizzas" },
+  "tacos": { key:"French Tacos", fr:"French Tacos", en:"French Tacos" },
+  "boissons": { key:"Boisson", fr:"Boissons", en:"Drinks" },
+  "desserts": { key:"Dessert", fr:"Desserts", en:"Desserts" },
+  "cocktails": { key:"Cocktail", fr:"Cocktails", en:"Cocktails" },
+  "vins": { key:"Vin Et Liqueur", fr:"Vins & liqueurs", en:"Wine & Spirits" }
+};
 
-let cart = JSON.parse(localStorage.getItem("laShishCart")) || [];
-if(!Array.isArray(cart)) {
-    cart = [];
-}
-
-let activeCategory = "ALL";
+const translations = window.MENU_TRANSLATIONS || {names:{},categories:{},subcategories:{},phrases:[]};
+function pathLanguage(path=location.pathname){const match=String(path||"").match(/^\/(fr|en)(?:\/|$)/i);return match?match[1].toLowerCase():null;}
+function readLanguage(){ try { return pathLanguage() || (localStorage.getItem(LANG_KEY)==="en" ? "en" : "fr"); } catch { return pathLanguage() || "fr"; } }
+let lang = readLanguage();
+let cart = loadCart();
+let activeCategory = document.body.dataset.category || "ALL";
 let searchTerm = "";
-let currentModalProduct = null;
+let currentProduct = null;
 
-const el = {
-    categoryTabs: document.getElementById("categoryTabs"),
-    menuContainer: document.getElementById("menuContainer"),
-    searchInput: document.getElementById("searchInput"),
-    resetSearch: document.getElementById("resetSearch"),
-    cartItems: document.getElementById("cartItems"),
-    cartTotal: document.getElementById("cartTotal"),
-    mobileTotal: document.getElementById("mobileTotal"),
-    whatsappBtn: document.getElementById("whatsappBtn"),
-    modal: document.getElementById("optionModal"),
-    modalContent: document.getElementById("modalContent"),
-    closeModal: document.getElementById("closeModal"),
-    mobileCartBtn: document.getElementById("mobileCartBtn"),
-    closeCartMobile: document.getElementById("closeCartMobile"),
-    cartPanel: document.querySelector(".cart-panel")
-};
+const $ = id => document.getElementById(id);
+const allProducts = (window.MENU_ALL || [
+  ...(window.MENU_PETIT_DEJEUNER || []), ...(window.MENU_ENTREES || []),
+  ...(window.MENU_SNACKS || []), ...(window.MENU_PLATS || []),
+  ...(window.MENU_SPECIALITES || []), ...(window.MENU_PIZZAS || []),
+  ...(window.MENU_TACOS || []), ...(window.MENU_BOISSONS || []),
+  ...(window.MENU_DESSERTS || []), ...(window.MENU_COCKTAILS || []),
+  ...(window.MENU_VINS || [])
+]).filter(p => p && p.disponible !== false).sort((a,b) => Number(a.id)-Number(b.id));
 
-// Éléments spécifiques à la popup Pizza
-const pizzaModal = document.getElementById("pizzaModal");
-const pizzaTitle = document.getElementById("pizzaTitle");
-const pizzaSizes = document.getElementById("pizzaSizes");
-const pizzaAdd = document.getElementById("pizzaAdd");
-const pizzaCancel = document.getElementById("pizzaCancel");
-let currentPizza = null;
-
-function saveCart() {
-    localStorage.setItem("laShishCart", JSON.stringify(cart));
+function t(key){ return I18N[lang][key] || key; }
+function saveCart(){ try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch {} }
+function loadCart(){
+  try {
+    const value=JSON.parse(localStorage.getItem(CART_KEY)||"[]");
+    return Array.isArray(value)
+      ? value.filter(x=>x&&Number(x.qty)>0).map(x=>({...x,key:x.key||cartKey(x)}))
+      : [];
+  } catch { return []; }
+}
+function saveClient(){
+  try {
+    const data={};
+    ["clientName","clientPhone","clientZone","clientAddress","clientComment"].forEach(id=>{const n=$(id);if(n)data[id]=n.value;});
+    localStorage.setItem(CLIENT_KEY,JSON.stringify(data));
+  } catch {}
+}
+function loadClient(){ try { return JSON.parse(localStorage.getItem(CLIENT_KEY)||"{}")||{}; } catch { return {}; } }
+function formatPrice(n){ return Number(n||0).toLocaleString(lang==="fr"?"fr-FR":"en-US"); }
+function normalize(v){ return String(v||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
+function escapeHtml(v){ return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m])); }
+function debounce(fn,ms){ let timer; return (...args)=>{clearTimeout(timer);timer=setTimeout(()=>fn(...args),ms);}; }
+function displayName(p){ return lang==="en" ? (translations.names[String(p.id)] || p.nom) : p.nom; }
+function translateText(v){
+  if(lang==="fr") return String(v||"");
+  let out=String(v||"");
+  [...(translations.phrases||[])].sort((a,b)=>b[0].length-a[0].length).forEach(([fr,en])=>{ out=out.split(fr).join(en); });
+  return out;
+}
+function translateOption(v){
+  let out=translateText(v);
+  if(lang==="en"){
+    out=out.replace(/^Petite\b/,"Small").replace(/^Moyenne\b/,"Medium").replace(/^Grande\b/,"Large");
+  }
+  return out;
+}
+function displayOptions(text){
+  let out=String(text||"");
+  if(lang==="en"){
+    out=translateText(out)
+      .replace(/^Taille:\s*/,"Size: ")
+      .replace(/^Viande:\s*/,"Meat: ")
+      .replace(/^Sauces:\s*/,"Sauces: ")
+      .replace(/^Suppléments:\s*/,"Extras: ")
+      .replace(/^Boisson:\s*/,"Drink: ")
+      .replace(/^Choix:\s*/,"Choice: ");
+    out=out.replace(/ • Taille:\s*/g," • Size: ").replace(/ • Viande:\s*/g," • Meat: ").replace(/ • Suppléments:\s*/g," • Extras: ").replace(/ • Boisson:\s*/g," • Drink: ").replace(/ • Choix:\s*/g," • Choice: ");
+  }
+  return out;
+}
+function categoryLabel(category){ const c=Object.values(categoryConfig).find(x=>x.key===category); return c ? c[lang] : (translations.categories[category]||category); }
+function subcategoryLabel(v){ return lang==="en" ? (translations.subcategories[v]||v) : v; }
+function getProduct(id){ return allProducts.find(p=>String(p.id)===String(id)); }
+const PNG_IMAGE_IDS=new Set([132,133,134,138,139,140,141,142,143,144,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253]);
+function getImage(p){ const id=Number(p?.id); return PNG_IMAGE_IDS.has(id)?"/images/"+id+".png":"/images/"+id+".jpg"; }
+function handleImageError(img){
+  const id=img.dataset.productId, step=img.dataset.try||"webp";
+  if(step==="jpg"){img.dataset.try="png";img.src="/images/"+id+".png";}
+  else if(step==="png"){img.dataset.try="webp";img.src="/images/"+id+".webp";}
+  else{img.onerror=null;img.src="/images/no-image.webp";img.alt=t("noImage");}
+}
+function categorySlugByKey(key){ return Object.entries(categoryConfig).find(([,v])=>v.key===key)?.[0] || ""; }
+function localizedPath(targetLang=lang,page=document.body.dataset.page||"home",category=document.body.dataset.category||""){
+  const base="/"+targetLang;
+  if(page==="home")return base;
+  if(page==="menu")return base+"/menu";
+  if(page==="order")return base+"/commande";
+  if(page==="contact")return base+"/contact";
+  if(page==="category")return base+"/menu/"+category;
+  return base;
+}
+function currentRoute(){return localizedPath(lang);}
+function localizeInternalLinks(){
+  const map={
+    "index.html":()=>localizedPath(lang,"home"),
+    "menu.html":()=>localizedPath(lang,"menu"),
+    "commande.html":()=>localizedPath(lang,"order"),
+    "contact.html":()=>localizedPath(lang,"contact"),
+    "petit-dejeuner.html":()=>localizedPath(lang,"category","petit-dejeuner"),
+    "entrees.html":()=>localizedPath(lang,"category","entrees"),
+    "snacks.html":()=>localizedPath(lang,"category","snacks"),
+    "plats.html":()=>localizedPath(lang,"category","plats"),
+    "specialites.html":()=>localizedPath(lang,"category","specialites"),
+    "pizzas.html":()=>localizedPath(lang,"category","pizzas"),
+    "tacos.html":()=>localizedPath(lang,"category","tacos"),
+    "boissons.html":()=>localizedPath(lang,"category","boissons"),
+    "desserts.html":()=>localizedPath(lang,"category","desserts"),
+    "cocktails.html":()=>localizedPath(lang,"category","cocktails"),
+    "vins.html":()=>localizedPath(lang,"category","vins")
+  };
+  document.querySelectorAll("a[href]").forEach(link=>{
+    const raw=link.getAttribute("href");
+    if(!raw||raw.startsWith("#")||/^(https?:|mailto:|tel:|javascript:)/i.test(raw))return;
+    const clean=raw.split("#")[0].split("?")[0].replace(/^\.\//,"").split("/").pop();
+    const make=map[clean];
+    if(make)link.href=make();
+  });
+}
+function ensureLocalizedRoute(){
+  const target=localizedPath(lang);
+  const current=location.pathname.replace(/\/$/,"")||"/";
+  if(current!==target)history.replaceState({language:lang},"",target);
 }
 
-function formatPrice(n) {
-    return Number(n || 0).toLocaleString("fr-FR");
+
+function renderSiteMenu(){
+  const panel=$("siteNav");
+  if(!panel)return;
+  panel.setAttribute("aria-hidden",String(!document.querySelector(".site-header")?.classList.contains("menu-open")));
+  const activeRoute=currentRoute();
+  const general=[
+    ["home","home"],["menu","menu"],["order","order"],["contact","contact"]
+  ];
+  panel.innerHTML='<div class="menu-panel-head"><strong>La Shish</strong><button id="menuPanelClose" class="menu-panel-close" type="button" aria-label="'+escapeHtml(t("closeMenu"))+'">×</button></div>'+
+    '<div class="menu-panel-links">'+
+    general.map(([page,key])=>{
+      const href=localizedPath(lang,page==="home"?"home":page==="menu"?"menu":page==="order"?"order":"contact");
+      const active=href===activeRoute || (key==="menu" && document.body.dataset.page==="category");
+      return '<a class="menu-panel-link '+(active?"active":"")+'" href="'+href+'">'+escapeHtml(t(key))+'</a>';
+    }).join("")+
+    '</div>'+
+    '<div class="menu-panel-parent"><a class="menu-panel-parent-link" href="'+localizedPath(lang,"menu")+'">'+escapeHtml(t("menu"))+'</a><span aria-hidden="true">⌄</span></div>'+
+    '<div class="menu-panel-label">'+escapeHtml(t("categoriesTitle"))+'</div>'+
+    '<div class="menu-panel-category-grid menu-panel-subcategories">'+
+    Object.entries(categoryConfig).map(([slug,c])=>{
+      const href=localizedPath(lang,"category",slug);
+      const active=href===activeRoute;
+      return '<a class="menu-panel-category '+(active?"active":"")+'" href="'+href+'"><span>'+escapeHtml(c[lang])+'</span><span aria-hidden="true">↗</span></a>';
+    }).join("")+
+    '</div>';
 }
 
-function normalize(str) {
-    return String(str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+function productPrice(p){
+  if(p.type==="pizza"&&Array.isArray(p.tailles)&&p.tailles.length)return Math.min(...p.tailles.map(s=>Number(s.prix)||0));
+  return Number(p.prix)||0;
 }
 
-function debounce(fn, time) {
-    let timer;
-    return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => fn(...args), time);
-    };
+function renderHomeCategoryHeroes(){
+  const box=$("homeCategoryHeroes");
+  if(!box)return;
+  box.innerHTML=Object.entries(categoryConfig).map(([slug,c],index)=>{
+    const product=allProducts.find(p=>p.categorie===c.key);
+    if(!product)return "";
+    const image=getImage(product);
+    const price=productPrice(product);
+    const priceText=(product.type==="pizza"?t("from")+" ":"")+formatPrice(price)+" FCFA";
+    return '<article class="category-hero-card '+(index%2?"reverse":"")+'">'+
+      '<a class="category-hero-media" href="'+slug+'.html" aria-label="'+escapeHtml((c[lang]||c.key)+" — "+t("discoverCategory"))+'">'+
+        '<img src="'+image+'" alt="'+escapeHtml(displayName(product))+'" loading="'+(index<2?"eager":"lazy")+'" decoding="async" data-product-id="'+product.id+'" onerror="handleImageError(this)">'+
+      '</a>'+
+      '<div class="category-hero-copy">'+
+        '<span class="section-kicker">'+escapeHtml((c[lang]||c.key).toUpperCase())+'</span>'+
+        '<span class="category-hero-label">'+escapeHtml(t("featuredDish"))+'</span>'+
+        '<h3>'+escapeHtml(displayName(product))+'</h3>'+
+        '<p>'+escapeHtml(translateText(product.description||t("categoryIntro")))+'</p>'+
+        '<div class="category-hero-footer"><strong class="price">'+priceText+'</strong><a class="category-hero-link" href="'+slug+'.html"><span class="category-hero-line" aria-hidden="true"></span><span>'+escapeHtml(t("discoverCategory"))+'</span><span aria-hidden="true">↗</span></a></div>'+
+      '</div>'+
+    '</article>';
+  }).join("");
 }
 
-function getProductImageSrc(p) {
-    return `images/${p.id}.webp`;
-}
-
-function handleImageError(img) {
-    let id = img.dataset.productId;
-    if(!img.dataset.try) {
-        img.dataset.try = "jpg";
-        img.src = `images/${id}.jpg`;
-        return;
+function renderHeader(){
+  document.documentElement.lang=lang;
+  const title=document.querySelector("title");
+  const page=document.body.dataset.page||"";
+  if(title){
+    const map={home:lang==="fr"?"La Shish | Commande en ligne":"La Shish | Online ordering",menu:lang==="fr"?"La Shish | Menu":"La Shish | Menu",order:lang==="fr"?"La Shish | Ma commande":"La Shish | My order",contact:lang==="fr"?"La Shish | Contact":"La Shish | Contact",category:lang==="fr"?"La Shish | Menu":"La Shish | Menu"};
+    title.textContent=map[page]||"La Shish";
+  }
+  document.querySelectorAll("[data-i18n]").forEach(n=>{const key=n.dataset.i18n;if(I18N[lang][key])n.textContent=t(key);});
+  renderSiteMenu();
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(n=>{const key=n.dataset.i18nPlaceholder;if(I18N[lang][key])n.placeholder=t(key);});
+  const setText=(id,key)=>{const n=$(id);if(n&&I18N[lang][key])n.textContent=t(key);};
+  setText("heroTitle","heroTitle"); setText("heroSubtitle","heroSubtitle"); setText("heroCta","heroCta"); setText("discoverBtn","discover");
+  localizeInternalLinks();
+  const toggle=$("languageToggle");
+  if(toggle){
+    toggle.setAttribute("aria-label",t("language"));
+    toggle.setAttribute("aria-pressed",String(lang==="en"));
+  }
+  const mobileToggle=$("mobileMenuToggle");
+  if(mobileToggle){
+    const open=document.querySelector(".site-header")?.classList.contains("menu-open");
+    mobileToggle.setAttribute("aria-label",open?t("closeMenu"):t("openMenu"));
+    mobileToggle.setAttribute("aria-expanded",String(!!open));
+  }
+  if(document.body.dataset.page==="category"){
+    const category=categoryConfig[document.body.dataset.category];
+    if(category){
+      const kicker=$("categoryKicker"),heading=$("categoryTitle");
+      if(kicker)kicker.textContent=(category[lang]||category.key).toUpperCase();
+      if(heading)heading.textContent=category[lang]||category.key;
     }
-    if(img.dataset.try === "jpg") {
-        img.dataset.try = "png";
-        img.src = `images/${id}.png`;
-        return;
+  }
+}
+function renderLoader(show){
+  const loader=$("pageLoader");
+  if(!loader)return;
+  if(show){loader.classList.remove("is-hidden");}
+  else{requestAnimationFrame(()=>{loader.classList.add("is-hidden");setTimeout(()=>loader.remove(),300);});}
+}
+function renderCategoryMenu(categoryKey){
+  const box=$("menuContainer"); if(!box)return;
+  const source=categoryKey==="ALL"?allProducts:allProducts.filter(p=>p.categorie===categoryKey);
+  const filtered=source.filter(p=>{
+    const hay=normalize([displayName(p),p.nom,p.description||"",categoryLabel(p.categorie),subcategoryLabel(p.sousCategorie)].join(" "));
+    return !searchTerm||hay.includes(normalize(searchTerm));
+  });
+  if(!filtered.length){
+    box.innerHTML='<div class="search-empty"><strong>'+escapeHtml(t("emptySearch"))+'</strong><span>'+escapeHtml(t("emptySearchNote"))+'</span><button class="btn btn-secondary" type="button" id="emptyReset">'+escapeHtml(t("viewMenu"))+'</button></div>';
+    return;
+  }
+  const groups=filtered.reduce((g,p)=>{(g[p.sousCategorie||"Menu"]??=[]).push(p);return g;},{});
+  box.innerHTML=Object.entries(groups).map(([sub,products])=>
+    '<section class="category-block open"><div class="category-header static"><span><span class="subcategory-label" data-subcategory-key="'+escapeHtml(sub)+'">'+escapeHtml(subcategoryLabel(sub))+'</span> <small>'+products.length+'</small></span></div><div class="category-content always-open"><div class="products-grid">'+products.map(productCard).join("")+'</div></div></section>'
+  ).join("");
+}
+function productCard(p){
+  const isPizza=p.type==="pizza";
+  const minPrice=isPizza&&Array.isArray(p.tailles)&&p.tailles.length?Math.min(...p.tailles.map(s=>Number(s.prix)||0)):Number(p.prix)||0;
+  return '<article class="product-card" data-product-id="'+p.id+'"><div class="product-media"><img class="product-img" src="'+getImage(p)+'" alt="'+escapeHtml(displayName(p))+'" loading="lazy" decoding="async" data-product-id="'+p.id+'" onerror="handleImageError(this)">'+
+    ((isPizza||p.type==="tacos"||p.choix)?'<span class="product-badge">'+escapeHtml(t("customize"))+'</span>':'')+
+    '</div><div class="product-body"><div class="product-meta"><span>'+escapeHtml(categoryLabel(p.categorie))+'</span></div><h3>'+escapeHtml(displayName(p))+'</h3><p class="product-description">'+escapeHtml(translateText(p.description||""))+'</p>'+
+    '<div class="product-footer"><strong class="price">'+(isPizza?t("from")+" ":"")+formatPrice(minPrice)+' FCFA</strong><button class="add-btn" type="button" data-add="'+p.id+'">'+escapeHtml(t("add"))+'</button></div></div></article>';
+}
+function renderFeatured(){
+  const box=$("featuredGrid");if(!box)return;
+  const ids=[1,39,60,68,76,113,128,171,199];
+  box.innerHTML=ids.map(getProduct).filter(Boolean).map(productCard).join("");
+}
+function refreshProductCards(){
+  document.querySelectorAll(".product-card[data-product-id]").forEach(card=>{
+    const p=getProduct(card.dataset.productId);
+    if(!p)return;
+    const meta=card.querySelector(".product-meta span"); if(meta)meta.textContent=categoryLabel(p.categorie);
+    const title=card.querySelector("h3"); if(title)title.textContent=displayName(p);
+    const description=card.querySelector(".product-description"); if(description)description.textContent=translateText(p.description||"");
+    const priceNode=card.querySelector(".price");
+    if(priceNode){
+      const isPizza=p.type==="pizza";
+      const minPrice=isPizza&&Array.isArray(p.tailles)&&p.tailles.length?Math.min(...p.tailles.map(s=>Number(s.prix)||0)):Number(p.prix)||0;
+      priceNode.textContent=(isPizza?t("from")+" ":"")+formatPrice(minPrice)+" FCFA";
     }
-    img.src = "images/no-image.webp";
+    const badge=card.querySelector(".product-badge"); if(badge)badge.textContent=t("customize");
+    const image=card.querySelector(".product-img"); if(image)image.alt=displayName(p);
+  });
 }
-
-function getCategories() {
-    const map = new Map();
-    allProducts.forEach(p => {
-        if(!map.has(p.categorie)) map.set(p.categorie, p.id);
-    });
-    return [...map.keys()];
+function refreshSubcategoryHeadings(){
+  document.querySelectorAll("[data-subcategory-key]").forEach(n=>{n.textContent=subcategoryLabel(n.dataset.subcategoryKey);});
 }
-
-function renderCategoryTabs() {
-    const cats = getCategories();
-    el.categoryTabs.innerHTML = `
-        <button class="${activeCategory === "ALL" ? "active" : ""}" data-category="ALL">Tout</button>
-        ${cats.map(c => `<button class="${activeCategory === c ? "active" : ""}" data-category="${c}">${escapeHtml(c)}</button>`).join("")}
-    `;
+function renderCategoryDirectory(){
+  const box=$("categoryDirectory"); if(!box)return;
+  box.innerHTML=Object.entries(categoryConfig).map(([slug,c])=>{
+    const count=allProducts.filter(p=>p.categorie===c.key).length;
+    return '<a class="category-directory-card" href="'+slug+'.html"><span class="category-card-arrow">↗</span><span class="section-kicker">'+escapeHtml(c[lang].toUpperCase())+'</span><strong>'+count+' '+(count===1?t("article"):t("articles"))+'</strong></a>';
+  }).join("");
 }
-
-function renderMenu() {
-    renderCategoryTabs();
-    let products = allProducts.filter(p => {
-        if(activeCategory !== "ALL" && p.categorie !== activeCategory) return false;
-        if(searchTerm) {
-            return normalize([p.nom, p.description, p.categorie].join(" ")).includes(normalize(searchTerm));
-        }
-        return true;
-    });
-
-    if(!products.length) {
-        el.menuContainer.innerHTML = `<div class="search-empty">Aucun produit trouvé</div>`;
-        return;
+function getTotal(){return cart.reduce((s,i)=>s+(Number(i.prix)||0)*(Number(i.qty)||0),0);}
+function getItemCount(){return cart.reduce((s,i)=>s+(Number(i.qty)||0),0);}
+function cartName(item){return lang==="en"?(translations.names[String(item.productId)]||item.nom):item.nom;}
+function cartKey(item){return String(item.productId)+"-"+String(item.optionsText||"");}
+function addToCart(item){
+  const key=cartKey(item),old=cart.find(x=>x.key===key);
+  if(old)old.qty=Number(old.qty)+1;else cart.push({...item,key,qty:1,prix:Number(item.prix)||0});
+  saveCart();renderCart();showToast(t("added"));
+}
+function renderCart(){
+  const box=$("cartItems");if(!box)return;
+  box.innerHTML=cart.length?cart.map(item=>{
+    const key=encodeURIComponent(item.key);
+    return '<div class="cart-item"><div class="cart-item-main"><strong>'+escapeHtml(item.qty+" × "+cartName(item))+'</strong>'+(item.optionsText?'<span>'+escapeHtml(displayOptions(item.optionsText))+'</span>':'')+'<b>'+formatPrice(item.prix*item.qty)+' FCFA</b></div><div class="cart-controls"><button type="button" data-minus="'+key+'">−</button><span>'+item.qty+'</span><button type="button" data-plus="'+key+'">+</button><button type="button" class="remove-item" data-remove="'+key+'" aria-label="×">×</button></div></div>';
+  }).join(""):'<div class="cart-empty"><span class="cart-empty-icon">🛒</span><strong>'+escapeHtml(t("emptyCart"))+'</strong><span>'+escapeHtml(t("emptyCartNote"))+'</span></div>';
+  if($("cartTotal"))$("cartTotal").textContent=formatPrice(getTotal());
+  if($("mobileTotal"))$("mobileTotal").textContent=formatPrice(getTotal());
+  if($("mobileCount"))$("mobileCount").textContent=getItemCount();
+  if($("mobileArticleLabel"))$("mobileArticleLabel").textContent=getItemCount()===1?t("article"):t("articles");
+  if($("whatsappBtn"))$("whatsappBtn").disabled=!cart.length;
+  const badge=$("cartCountBadge");if(badge){badge.textContent=getItemCount();badge.hidden=!getItemCount();}
+}
+function fillClient(){
+  const data=loadClient();
+  Object.entries(data).forEach(([id,val])=>{const n=$(id);if(n)n.value=val||"";});
+}
+function validateClient(){
+  const data={name:$("clientName")?.value.trim(),phone:$("clientPhone")?.value.trim(),zone:$("clientZone")?.value.trim(),address:$("clientAddress")?.value.trim()};
+  if(!data.name||!data.phone||!data.zone||!data.address){showToast(t("fill"));return null;}
+  if(data.phone.replace(/\D/g,"").length<8){showToast(t("badPhone"));return null;}
+  return data;
+}
+function sendWhatsApp(){
+  if(!cart.length){showToast(t("empty"));return;}
+  const client=validateClient();if(!client)return;
+  saveClient();
+  const comment=$("clientComment")?.value.trim()||"";
+  let msg=lang==="fr"?"🍽️ *COMMANDE LA SHISH*\n\n*Client*\n":"🍽️ *LA SHISH ORDER*\n\n*Customer*\n";
+  msg+="👤 "+client.name+"\n📞 "+client.phone+"\n📍 "+client.zone+"\n🏠 "+client.address+"\n";
+  if(comment)msg+="💬 "+comment+"\n";
+  msg+="\n*"+t("order")+"*\n";
+  cart.forEach(i=>{msg+="\n• "+i.qty+" × "+cartName(i)+(i.optionsText?" — "+displayOptions(i.optionsText):"")+" — "+formatPrice(i.prix*i.qty)+" FCFA";});
+  msg+="\n\n💰 *"+t("total").toUpperCase()+" : "+formatPrice(getTotal())+" FCFA*\n🚚 "+t("deliveryText")+"\n💳 "+t("waveText");
+  window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank","noopener,noreferrer");
+}
+function showToast(message){
+  document.querySelector(".toast")?.remove();
+  const node=document.createElement("div");node.className="toast";node.textContent=message;document.body.appendChild(node);setTimeout(()=>node.remove(),2200);
+}
+function openOptions(product){
+  const modal=$("optionModal"),body=$("optionModalBody"),title=$("optionModalTitle");
+  if(!modal||!body){addToCart({productId:product.id,nom:product.nom,prix:product.prix});return;}
+  currentProduct=product;title.textContent=displayName(product);
+  let html='<p class="modal-intro">'+escapeHtml(translateText(product.description||t("chooseOne")))+'</p>';
+  if(product.type==="pizza"&&Array.isArray(product.tailles)){
+    html+='<fieldset><legend>'+escapeHtml(t("size"))+'</legend>'+product.tailles.map((s,i)=>'<label class="option-row"><input type="radio" name="optSize" value="'+i+'" '+(i===0?"checked":"")+'><span>'+escapeHtml(translateOption(s.nom))+'</span><strong>'+formatPrice(s.prix)+' FCFA</strong></label>').join("")+'</fieldset>';
+    if(product.supplement)html+='<fieldset><legend>'+escapeHtml(t("extras"))+'</legend><label class="option-row"><input type="checkbox" name="optPizzaExtra"><span>'+escapeHtml(translateOption(product.supplement.label||"Supplément"))+'</span><strong>+'+formatPrice(product.supplement.prix)+' FCFA</strong></label></fieldset>';
+  }
+  if(product.type==="tacos"){
+    html+='<fieldset><legend>'+escapeHtml(t("meat"))+'</legend>'+product.viandes.map((v,i)=>'<label class="option-row"><input type="radio" name="optMeat" value="'+i+'" '+(i===0?"checked":"")+'><span>'+escapeHtml(translateOption(v))+'</span></label>').join("")+'</fieldset>';
+    html+='<fieldset><legend>'+escapeHtml(t("sauces"))+' <small>'+escapeHtml(t("maxSauces"))+'</small></legend>'+product.sauces.map((v,i)=>'<label class="option-row"><input type="checkbox" name="optSauce" value="'+i+'"><span>'+escapeHtml(translateOption(v))+'</span></label>').join("")+'</fieldset>';
+    if(Array.isArray(product.boissons)&&product.boissons.length)html+='<fieldset><legend>'+escapeHtml(t("drink"))+'</legend>'+product.boissons.map((v,i)=>'<label class="option-row"><input type="radio" name="optDrink" value="'+i+'" '+(i===0?"checked":"")+'><span>'+escapeHtml(translateOption(v))+'</span></label>').join("")+'</fieldset>';
+    if(Array.isArray(product.supplements)&&product.supplements.length)html+='<fieldset><legend>'+escapeHtml(t("extras"))+'</legend>'+product.supplements.map((v,i)=>'<label class="option-row"><input type="checkbox" name="optExtra" value="'+i+'"><span>'+escapeHtml(translateOption(v.nom))+'</span><strong>+'+formatPrice(v.prix)+' FCFA</strong></label>').join("")+'</fieldset>';
+  }
+  if(product.choix?.options){
+    html+='<fieldset><legend>'+escapeHtml(translateOption(product.choix.label||"Choix"))+'</legend>'+product.choix.options.map((v,i)=>'<label class="option-row"><input type="radio" name="optChoice" value="'+i+'" '+(i===0?"checked":"")+'><span>'+escapeHtml(translateOption(v))+'</span></label>').join("")+'</fieldset>';
+  }
+  body.innerHTML=html;modal.classList.add("open");document.body.classList.add("modal-open");
+}
+function closeOptions(){$("optionModal")?.classList.remove("open");document.body.classList.remove("modal-open");currentProduct=null;}
+function confirmOptions(){
+  if(!currentProduct)return;
+  let price=Number(currentProduct.prix)||0,options=[];
+  if(currentProduct.type==="pizza"){
+    const i=Number(document.querySelector('input[name="optSize"]:checked')?.value??0),size=currentProduct.tailles[i];
+    if(!size)return;
+    price=Number(size.prix)||price;options.push("Taille: "+size.nom);
+    if($("optionModalBody")?.querySelector('input[name="optPizzaExtra"]:checked')){price+=Number(currentProduct.supplement?.prix||0);options.push(t("extras")+": "+translateOption(currentProduct.supplement?.label||"Supplément"));}
+  }
+  if(currentProduct.type==="tacos"){
+    const meat=document.querySelector('input[name="optMeat"]:checked');if(!meat){showToast(t("chooseOne"));return;}
+    options.push("Viande: "+currentProduct.viandes[Number(meat.value)]);
+    const sauces=[...document.querySelectorAll('input[name="optSauce"]:checked')].map(n=>currentProduct.sauces[Number(n.value)]);
+    if(sauces.length>(currentProduct.maxSauces||2)){showToast(t("maxSauces"));return;} if(sauces.length)options.push("Sauces: "+sauces.join(", "));
+    const drink=document.querySelector('input[name="optDrink"]:checked');if(drink)options.push("Boisson: "+currentProduct.boissons[Number(drink.value)]);
+    const extras=[...document.querySelectorAll('input[name="optExtra"]:checked')].map(n=>currentProduct.supplements[Number(n.value)]);
+    if(extras.length){price+=extras.reduce((s,x)=>s+Number(x.prix||0),0);options.push("Suppléments: "+extras.map(x=>x.nom).join(", "));}
+  }
+  if(currentProduct.choix?.options){
+    const choice=document.querySelector('input[name="optChoice"]:checked');if(!choice){showToast(t("chooseOne"));return;}
+    options.push((currentProduct.choix.label||"Choix")+": "+currentProduct.choix.options[Number(choice.value)]);
     }
-
-    const groups = groupBy(products, "categorie");
-    el.menuContainer.innerHTML = Object.keys(groups).map(cat => `
-        <section class="category-block open">
-            <button class="category-header">${escapeHtml(cat)}<span>▲</span></button>
-            <div class="category-content">
-                <div class="products-grid">
-                    ${groups[cat].map(productCard).join("")}
-                </div>
-            </div>
-        </section>
-    `).join("");
+  addToCart({productId:currentProduct.id,nom:currentProduct.nom,prix:price,optionsText:options.join(" • ")});closeOptions();
 }
-
-function productCard(p) {
-    let prix = (p.type === "pizza") 
-        ? Math.min(...p.tailles.map(t => t.prix)) + " FCFA" 
-        : formatPrice(p.prix) + " FCFA";
-
-    return `
-        <article class="product-card">
-            <img class="product-img" src="${getProductImageSrc(p)}" loading="lazy" decoding="async" data-product-id="${p.id}" onerror="handleImageError(this)">
-            <h4>${escapeHtml(p.nom)}</h4>
-            <p>${escapeHtml(p.description || "")}</p>
-            <div class="price">${prix}</div>
-            <button class="add-btn" data-add="${p.id}">Ajouter</button>
-        </article>
-    `;
+function setLanguage(next){
+  if(next===lang)return;
+  lang=next;
+  try{localStorage.setItem(LANG_KEY,lang);}catch{}
+  history.pushState({language:lang},"",localizedPath(lang));
+  renderHeader();
+  const header=document.querySelector(".site-header");
+  const menuIsOpen=header?.classList.contains("menu-open");
+  if(menuIsOpen)setMobileMenu(true);
+  const page=document.body.dataset.page;
+  if(page==="home")renderHomeCategoryHeroes();
+  localizeInternalLinks();
+  if(page==="menu"){renderCategoryDirectory();}
+  if(page==="category"){refreshProductCards();refreshSubcategoryHeadings();}
+  if(page==="order"){renderCart();fillClient();}
+  if(page==="contact"){renderCart();fillClient();}
 }
-
-function groupBy(arr, key) {
-    return arr.reduce((o, x) => {
-        (o[x[key]] ??= []).push(x);
-        return o;
-    }, {});
+function setMobileMenu(open){
+  const header=document.querySelector(".site-header");
+  const toggle=$("mobileMenuToggle");
+  const panel=$("siteNav");
+  if(!header||!toggle||!panel)return;
+  header.classList.toggle("menu-open",open);
+  toggle.setAttribute("aria-expanded",String(open));
+  toggle.setAttribute("aria-label",open?t("closeMenu"):t("openMenu"));
+  panel.setAttribute("aria-hidden",String(!open));
+  document.body.classList.toggle("nav-open",open);
+  if(open){$("menuPanelClose")?.focus({preventScroll:true});}
 }
-
-function addToCart(item) {
-    const key = item.productId + "-" + item.optionsText;
-    let exist = cart.find(x => x.key === key);
-
-    if (exist) {
-        exist.qty++;
-    } else {
-        cart.push({
-            ...item,
-            prix: Number(item.prix),
-            key,
-            qty: 1
-        });
-    }
-
-    saveCart();
-    renderCart();
-
-    el.mobileCartBtn.classList.add("cart-bounce");
-    setTimeout(() => {
-        el.mobileCartBtn.classList.remove("cart-bounce");
-    }, 500);
-
-    showToast("Ajouté au panier 🛒");
+function initEvents(){
+  $("languageToggle")?.addEventListener("click",()=>setLanguage(lang==="fr"?"en":"fr"));
+  $("mobileMenuToggle")?.addEventListener("click",()=>{
+    const header=document.querySelector(".site-header");
+    setMobileMenu(!header?.classList.contains("menu-open"));
+  });
+  window.addEventListener("resize",()=>{if(window.innerWidth>900)setMobileMenu(false);});
+  document.addEventListener("click",e=>{
+    if(e.target.closest("#menuPanelClose")||e.target.closest("#siteNav a")){setMobileMenu(false);return;}
+    if(!e.target.closest(".site-header"))setMobileMenu(false);
+    const add=e.target.closest("[data-add]");if(add){const p=getProduct(add.dataset.add);if(p)openOptions(p);return;}
+    const plus=e.target.closest("[data-plus]");if(plus){const i=cart.find(x=>x.key===decodeURIComponent(plus.dataset.plus));if(i){i.qty++;saveCart();renderCart();}return;}
+    const minus=e.target.closest("[data-minus]");if(minus){const i=cart.find(x=>x.key===decodeURIComponent(minus.dataset.minus));if(i){i.qty--;if(i.qty<=0)cart=cart.filter(x=>x.key!==i.key);saveCart();renderCart();}return;}
+    const remove=e.target.closest("[data-remove]");if(remove){cart=cart.filter(x=>x.key!==decodeURIComponent(remove.dataset.remove));saveCart();renderCart();showToast(t("removed"));return;}
+    const reset=e.target.closest("#emptyReset");if(reset){searchTerm="";if($("searchInput"))$("searchInput").value="";renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);return;}
+    const close=e.target.closest("#optionModalCancel,#optionModalCancel2");if(close){closeOptions();return;}
+    if(e.target===$("optionModal"))closeOptions();
+  });
+  $("searchInput")?.addEventListener("input",debounce(e=>{searchTerm=e.target.value.trim();renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);},160));
+  $("resetSearch")?.addEventListener("click",()=>{searchTerm="";$("searchInput").value="";renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);$("searchInput").focus();});
+  $("whatsappBtn")?.addEventListener("click",sendWhatsApp);
+  ["clientName","clientPhone","clientZone","clientAddress","clientComment"].forEach(id=>$(id)?.addEventListener("input",saveClient));
+  $("mobileCartBtn")?.addEventListener("click",()=>{window.location.href="commande.html";});
+  $("optionModalConfirm")?.addEventListener("click",confirmOptions);
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeOptions();setMobileMenu(false);}});
 }
-
-function getTotal() {  return cart.reduce((total, item) => { return total + ((Number(item.prix) || 0) * item.qty); }, 0);
-
+function initApp(){
+  ensureLocalizedRoute();
+  renderHeader();
+  initEvents();
+  const page=document.body.dataset.page;
+  if(page==="home")renderHomeCategoryHeroes();
+  if(page==="menu")renderCategoryDirectory();
+  if(page==="category")renderCategoryMenu(categoryConfig[document.body.dataset.category]?.key||"ALL");
+  if(page==="order"){renderCart();fillClient();}
+  if(page==="contact")renderCart();
 }
-
-function renderCart() {
-    if(!cart.length) {
-        el.cartItems.innerHTML = "Votre panier est vide.";
-    } else {
-        el.cartItems.innerHTML = cart.map(i => `
-            <div class="cart-item">
-                <b>${i.qty} x ${escapeHtml(i.nom)}</b>
-                <p>${i.optionsText || ""}</p>
-                <button data-minus="${i.key}">-</button>
-                ${i.qty}
-                <button data-plus="${i.key}">+</button>
-                <button data-remove="${i.key}">❌</button>
-            </div>
-        `).join("");
-    }
-    let total = formatPrice(getTotal());
-    el.cartTotal.textContent = total;
-    el.mobileTotal.textContent = total;
+const loaderFailsafe=window.setTimeout(()=>renderLoader(false),2500);
+window.addEventListener("error",()=>renderLoader(false),{once:false});
+window.addEventListener("unhandledrejection",()=>renderLoader(false),{once:false});
+try{ initApp(); }
+catch(error){
+  console.error(error);
+  const box=$("appError");
+  if(box){box.hidden=false;box.textContent=t("loadingError");}
 }
-
-function sendWhatsApp() {
-    if(!cart.length) {
-        showToast("Panier vide");
-        return;
-    }
-
-    let name = document.getElementById("clientName").value.trim();
-    let phone = document.getElementById("clientPhone").value.trim();
-    let zone = document.getElementById("clientZone").value.trim();
-    let address = document.getElementById("clientAddress").value.trim();
-
-    if(!name || !phone || !zone || !address) {
-        showToast("Complétez vos informations");
-        return;
-    }
-
-    let msg = `🔥 *COMMANDE LA SHISH* 🔥\n\n👤 ${name}\n📞 ${phone}\n📍 ${zone}\n🏠 ${address}\n\n🛒 Commande:\n`;
-
-    cart.forEach(i => {
-        msg += `\n${i.qty}x ${i.nom}`;
-        if(i.optionsText) msg += `\n${i.optionsText}`;
-        msg += `\n${i.prix * i.qty} FCFA\n`;
-    });
-
-    msg += `\n💰 TOTAL ${formatPrice(getTotal())} FCFA`;
-    window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`, "_blank");
+finally{
+  window.clearTimeout(loaderFailsafe);
+  renderLoader(false);
+  window.setTimeout(()=>document.body.classList.add("ready"),40);
+  if("serviceWorker" in navigator){
+    window.addEventListener("load",()=>{
+      navigator.serviceWorker.register("./sw.js?v=9",{updateViaCache:"none"}).catch(()=>{});
+    },{once:true});
+  }
 }
-
-function showToast(t) {
-    let x = document.createElement("div");
-    x.className = "toast";
-    x.textContent = t;
-    document.body.appendChild(x);
-    setTimeout(() => x.remove(), 2000);
-}
-
-function escapeHtml(s) {
-    return String(s || "").replace(/[&<>"']/g, m => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-    }[m]));
-}
-
-// ==========================================
-// GESTION DE LA POPUP PIZZA
-// ==========================================
-
-function openPizzaModal(product) {
-    currentPizza = product;
-    pizzaTitle.textContent = product.nom;
-    
-    pizzaSizes.innerHTML = product.tailles.map((t, i) => `
-        <label>
-            <span>
-                <input type="radio" name="pizzaSize" value="${i}" ${i === 0 ? "checked" : ""}>
-                ${t.nom}
-            </span>
-            <strong>${formatPrice(t.prix)} FCFA</strong>
-        </label>
-    `).join("");
-
-    pizzaModal.classList.add("open");
-}
-
-if (pizzaAdd && pizzaCancel && pizzaModal) {
-    pizzaAdd.onclick = () => {
-        const checkedInput = document.querySelector('input[name="pizzaSize"]:checked');
-        if (!checkedInput) return;
-        
-        const index = Number(checkedInput.value);
-        const taille = currentPizza.tailles[index];
-
-        addToCart({
-            productId: currentPizza.id,
-            nom: currentPizza.nom,
-            prix: taille.prix,
-            optionsText: taille.nom
-        });
-
-        pizzaModal.classList.remove("open");
-    };
-
-    pizzaCancel.onclick = () => {
-        pizzaModal.classList.remove("open");
-    };
-
-    pizzaModal.onclick = (e) => {
-        if (e.target === pizzaModal) {
-            pizzaModal.classList.remove("open");
-        }
-    };
-}
-
-// ==========================================
-// ÉCOUTEURS D'ÉVÉNEMENTS
-// ==========================================
-
-el.whatsappBtn.addEventListener("click", sendWhatsApp);
-el.mobileCartBtn.addEventListener("click", () => el.cartPanel.classList.add("open"));
-el.closeCartMobile.addEventListener("click", () => el.cartPanel.classList.remove("open"));
-
-// Délégation d'événements (pour les éléments générés dynamiquement)
-document.addEventListener("click", e => {
-    // Ajouter au panier
-    let add = e.target.closest("[data-add]");
-    if (add) {
-        let p = allProducts.find(x => x.id == add.dataset.add);
-        
-        // --- MODIFICATION ICI POUR LES PIZZAS ---
-        if (p.type === "pizza") {
-            openPizzaModal(p);
-        } else {
-            addToCart({
-                productId: p.id,
-                nom: p.nom,
-                prix: p.prix,
-                optionsText: ""
-            });
-        }
-    }
-
-    // Toggle Catégories
-    let catHeader = e.target.closest(".category-header");
-    if (catHeader) {
-        catHeader.parentElement.classList.toggle("open");
-    }
-
-    // Changer de catégorie
-    let tab = e.target.closest("[data-category]");
-    if (tab) {
-        activeCategory = tab.dataset.category;
-        renderMenu();
-    }
-
-    // Plus / Moins / Supprimer dans le panier
-    let plus = e.target.closest("[data-plus]");
-    if (plus) {
-        let i = cart.find(x => x.key === plus.dataset.plus);
-        if(i) { i.qty++; saveCart(); renderCart(); }
-    }
-
-    let minus = e.target.closest("[data-minus]");
-    if (minus) {
-        let i = cart.find(x => x.key === minus.dataset.minus);
-        if(i) {
-            i.qty--;
-            if (i.qty <= 0) cart = cart.filter(x => x.key !== i.key);
-            saveCart();
-            renderCart();
-        }
-    }
-    
-    let remove = e.target.closest("[data-remove]");
-    if (remove) {
-        cart = cart.filter(x => x.key !== remove.dataset.remove);
-        saveCart();
-        renderCart();
-        showToast("Article supprimé 🗑️");
-    }
-});
-
-el.searchInput.addEventListener("input", debounce(e => {
-    searchTerm = e.target.value;
-    renderMenu();
-}, 300));
-
-el.resetSearch.onclick = () => {
-    searchTerm = "";
-    el.searchInput.value = "";
-    renderMenu();
-};
-
-renderMenu();
-renderCart();

@@ -7,15 +7,40 @@ window.MENU_TACOS = [
     "nom": "Simple dose de viande",
     "description": "Choisissez 1 viande, 2 sauces maximum, puis vos suppléments.",
     "prix": 5000,
-    "viandes": ["Viande hachée", "Blanc de poulet", "Cordon bleu", "Crispy chicken"],
-    "sauces": ["Chili", "Mayonnaise", "Ketchup", "Samouraï", "Barbecue", "Andalouse", "Algérienne"],
+    "viandes": [
+      "Viande hachée",
+      "Blanc de poulet",
+      "Cordon bleu",
+      "Crispy chicken"
+    ],
+    "sauces": [
+      "Chili",
+      "Mayonnaise",
+      "Ketchup",
+      "Samouraï",
+      "Barbecue",
+      "Andalouse",
+      "Algérienne"
+    ],
     "maxSauces": 2,
     "boissons": [],
     "supplements": [
-      { "nom": "Fromage cheddar", "prix": 500 },
-      { "nom": "Fromage gruyère", "prix": 500 },
-      { "nom": "Jambon de bœuf", "prix": 500 },
-      { "nom": "Œuf", "prix": 500 }
+      {
+        "nom": "Fromage cheddar",
+        "prix": 500
+      },
+      {
+        "nom": "Fromage gruyère",
+        "prix": 500
+      },
+      {
+        "nom": "Jambon de bœuf",
+        "prix": 500
+      },
+      {
+        "nom": "Œuf",
+        "prix": 500
+      }
     ],
     "disponible": true,
     "photo": "128.jpg"
@@ -28,15 +53,40 @@ window.MENU_TACOS = [
     "nom": "Double dose de viande",
     "description": "Choisissez 1 viande, 2 sauces maximum, puis vos suppléments.",
     "prix": 6000,
-    "viandes": ["Viande hachée", "Blanc de poulet", "Cordon bleu", "Crispy chicken"],
-    "sauces": ["Chili", "Mayonnaise", "Ketchup", "Samouraï", "Barbecue", "Andalouse", "Algérienne"],
+    "viandes": [
+      "Viande hachée",
+      "Blanc de poulet",
+      "Cordon bleu",
+      "Crispy chicken"
+    ],
+    "sauces": [
+      "Chili",
+      "Mayonnaise",
+      "Ketchup",
+      "Samouraï",
+      "Barbecue",
+      "Andalouse",
+      "Algérienne"
+    ],
     "maxSauces": 2,
     "boissons": [],
     "supplements": [
-      { "nom": "Fromage cheddar", "prix": 500 },
-      { "nom": "Fromage gruyère", "prix": 500 },
-      { "nom": "Jambon de bœuf", "prix": 500 },
-      { "nom": "Œuf", "prix": 500 }
+      {
+        "nom": "Fromage cheddar",
+        "prix": 500
+      },
+      {
+        "nom": "Fromage gruyère",
+        "prix": 500
+      },
+      {
+        "nom": "Jambon de bœuf",
+        "prix": 500
+      },
+      {
+        "nom": "Œuf",
+        "prix": 500
+      }
     ],
     "disponible": true,
     "photo": "129.jpg"
@@ -49,15 +99,43 @@ window.MENU_TACOS = [
     "nom": "Menu simple dose + Frites + Boisson",
     "description": "Choisissez 1 viande, 2 sauces maximum, puis vos suppléments.",
     "prix": 6000,
-    "viandes": ["Viande hachée", "Blanc de poulet", "Cordon bleu", "Crispy chicken"],
-    "sauces": ["Chili", "Mayonnaise", "Ketchup", "Samouraï", "Barbecue", "Andalouse", "Algérienne"],
+    "viandes": [
+      "Viande hachée",
+      "Blanc de poulet",
+      "Cordon bleu",
+      "Crispy chicken"
+    ],
+    "sauces": [
+      "Chili",
+      "Mayonnaise",
+      "Ketchup",
+      "Samouraï",
+      "Barbecue",
+      "Andalouse",
+      "Algérienne"
+    ],
     "maxSauces": 2,
-    "boissons": ["Jus Frisco", "Sucrerie"],
+    "boissons": [
+      "Jus Frisco",
+      "Sucrerie"
+    ],
     "supplements": [
-      { "nom": "Fromage cheddar", "prix": 500 },
-      { "nom": "Fromage gruyère", "prix": 500 },
-      { "nom": "Jambon de bœuf", "prix": 500 },
-      { "nom": "Œuf", "prix": 500 }
+      {
+        "nom": "Fromage cheddar",
+        "prix": 500
+      },
+      {
+        "nom": "Fromage gruyère",
+        "prix": 500
+      },
+      {
+        "nom": "Jambon de bœuf",
+        "prix": 500
+      },
+      {
+        "nom": "Œuf",
+        "prix": 500
+      }
     ],
     "disponible": true,
     "photo": "130.jpg"
@@ -70,15 +148,43 @@ window.MENU_TACOS = [
     "nom": "Menu double dose + Frites + Boisson",
     "description": "Choisissez 1 viande, 2 sauces maximum, puis vos suppléments.",
     "prix": 7000,
-    "viandes": ["Viande hachée", "Blanc de poulet", "Cordon bleu", "Crispy chicken"],
-    "sauces": ["Chili", "Mayonnaise", "Ketchup", "Samouraï", "Barbecue", "Andalouse", "Algérienne"],
+    "viandes": [
+      "Viande hachée",
+      "Blanc de poulet",
+      "Cordon bleu",
+      "Crispy chicken"
+    ],
+    "sauces": [
+      "Chili",
+      "Mayonnaise",
+      "Ketchup",
+      "Samouraï",
+      "Barbecue",
+      "Andalouse",
+      "Algérienne"
+    ],
     "maxSauces": 2,
-    "boissons": ["Jus Frisco", "Sucrerie"],
+    "boissons": [
+      "Jus Frisco",
+      "Sucrerie"
+    ],
     "supplements": [
-      { "nom": "Fromage cheddar", "prix": 500 },
-      { "nom": "Fromage gruyère", "prix": 500 },
-      { "nom": "Jambon de bœuf", "prix": 500 },
-      { "nom": "Œuf", "prix": 500 }
+      {
+        "nom": "Fromage cheddar",
+        "prix": 500
+      },
+      {
+        "nom": "Fromage gruyère",
+        "prix": 500
+      },
+      {
+        "nom": "Jambon de bœuf",
+        "prix": 500
+      },
+      {
+        "nom": "Œuf",
+        "prix": 500
+      }
     ],
     "disponible": true,
     "photo": "131.jpg"
