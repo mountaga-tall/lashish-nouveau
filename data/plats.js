@@ -8,7 +8,7 @@ window.MENU_PLATS = [
     "description": "Sauce tomate, viande hachée",
     "prix": 5000,
     "disponible": true,
-    "photo": "60.jpg"
+    "photo": "60.webp"
   },
   {
     "id": 61,
@@ -19,7 +19,7 @@ window.MENU_PLATS = [
     "description": "Sauce Alfredo (crème), poulet, champignons",
     "prix": 7000,
     "disponible": true,
-    "photo": "61.jpg"
+    "photo": "61.webp"
   },
   {
     "id": 62,
@@ -30,7 +30,7 @@ window.MENU_PLATS = [
     "description": "Sauce Alfredo (crème), crevettes, champignons",
     "prix": 8000,
     "disponible": true,
-    "photo": "62.jpg"
+    "photo": "62.webp"
   },
   {
     "id": 63,
@@ -41,7 +41,7 @@ window.MENU_PLATS = [
     "description": "Petits pois, carotte, oignon vert...",
     "prix": 4000,
     "disponible": true,
-    "photo": "63.jpg"
+    "photo": "63.webp"
   },
   {
     "id": 64,
@@ -52,7 +52,7 @@ window.MENU_PLATS = [
     "description": "Riz, poulet, œuf, petits pois, carotte, oignon vert",
     "prix": 5000,
     "disponible": true,
-    "photo": "64.jpg"
+    "photo": "64.webp"
   },
   {
     "id": 65,
@@ -63,7 +63,7 @@ window.MENU_PLATS = [
     "description": "Riz, crevettes, œuf, petits pois, carotte, oignon vert",
     "prix": 5000,
     "disponible": true,
-    "photo": "65.jpg"
+    "photo": "65.webp"
   },
   {
     "id": 66,
@@ -74,7 +74,7 @@ window.MENU_PLATS = [
     "description": "Riz, jambon, œuf, petits pois, carotte, oignon vert",
     "prix": 5000,
     "disponible": true,
-    "photo": "66.jpg"
+    "photo": "66.webp"
   },
   {
     "id": 67,
@@ -85,7 +85,7 @@ window.MENU_PLATS = [
     "description": "Riz, viande hachée, œuf, petits pois, carotte, oignon vert",
     "prix": 5000,
     "disponible": true,
-    "photo": "67.jpg"
+    "photo": "67.webp"
   },
   {
     "id": 68,
@@ -96,7 +96,7 @@ window.MENU_PLATS = [
     "description": "3 brochettes de poulet, pâte d'ail, légumes, frites",
     "prix": 9000,
     "disponible": true,
-    "photo": "68.jpg",
+    "photo": "68.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -118,7 +118,7 @@ window.MENU_PLATS = [
     "description": "3 brochettes de filet de bœuf, hommos, légumes, frites",
     "prix": 10000,
     "disponible": true,
-    "photo": "69.jpg",
+    "photo": "69.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -140,7 +140,7 @@ window.MENU_PLATS = [
     "description": "3 brochettes de viande hachée, hommos, légumes, frites",
     "prix": 9000,
     "disponible": true,
-    "photo": "70.jpg",
+    "photo": "70.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -162,7 +162,7 @@ window.MENU_PLATS = [
     "description": "3 brochettes (filet, taouk, kafta), hommos, légumes, frites",
     "prix": 10000,
     "disponible": true,
-    "photo": "71.jpg",
+    "photo": "71.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -184,7 +184,7 @@ window.MENU_PLATS = [
     "description": "3 brochettes de viande de mouton, hommos, légumes, frites",
     "prix": 10000,
     "disponible": true,
-    "photo": "72.jpg",
+    "photo": "72.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -206,7 +206,7 @@ window.MENU_PLATS = [
     "description": "Viande sur broche, assortiment de légumes frais, sauce blanche, pain",
     "prix": 7000,
     "disponible": true,
-    "photo": "73.jpg"
+    "photo": "73.webp"
   },
   {
     "id": 74,
@@ -217,7 +217,7 @@ window.MENU_PLATS = [
     "description": "Poulet sur broche, assortiment de légumes frais, pâte d'ail, pain",
     "prix": 6000,
     "disponible": true,
-    "photo": "74.jpg"
+    "photo": "74.webp"
   },
   {
     "id": 75,
@@ -228,7 +228,7 @@ window.MENU_PLATS = [
     "description": "",
     "prix": 7000,
     "disponible": true,
-    "photo": "75.jpg",
+    "photo": "75.webp",
     "choix": {
       "label": "Choix",
       "required": true,
