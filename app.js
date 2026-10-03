@@ -95,6 +95,11 @@ const allProducts = (window.MENU_ALL || [
 ]).filter(p => p && p.disponible !== false).sort((a,b) => Number(a.id)-Number(b.id));
 
 function t(key){ return I18N[lang][key] || key; }
+function setTextDirection(){
+  document.documentElement.setAttribute("dir","ltr");
+  document.documentElement.setAttribute("lang",lang);
+  document.body.setAttribute("dir","ltr");
+}
 function saveCart(){ try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch {} }
 function loadCart(){
   try {
@@ -452,6 +457,7 @@ function setLanguage(next){
   if(next===lang)return;
   lang=next;
   try{localStorage.setItem(LANG_KEY,lang);}catch{}
+  setTextDirection();
   history.pushState({language:lang},"",localizedPath(lang));
   renderHeader();
   const header=document.querySelector(".site-header");
@@ -504,6 +510,7 @@ function initEvents(){
   document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeOptions();setMobileMenu(false);}});
 }
 function initApp(){
+  setTextDirection();
   ensureLocalizedRoute();
   renderHeader();
   initEvents();

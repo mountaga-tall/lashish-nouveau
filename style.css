@@ -293,3 +293,12 @@ body.nav-open{overflow:hidden}
 .menu-panel-parent-link{display:block}
 .menu-panel-label{padding:7px 12px 9px 22px;color:var(--accent-2);font-size:10px;letter-spacing:.12em;font-weight:900;text-transform:uppercase}
 .menu-panel-subcategories{padding-left:12px}
+
+/* Typographie et direction de lecture : La Shish est un site LTR. */
+html,body,
+button,input,textarea,select,
+a,
+h1,h2,h3,h4,h5,h6,p,span,strong,small,b,label {
+  direction:ltr;
+  unicode-bidi:normal;
+}
