@@ -240,6 +240,41 @@ function ensureLocalizedRoute(){
 }
 
 
+function showClientSpace(view="dashboard"){
+  const modal=ensureClientSpace();
+  const client=loadClient();
+  const history=loadOrderHistory();
+  const profileName=client.clientName||t("guest");
+  let body="";
+  if(view==="dashboard"){
+    const tiles=[
+      ["profile","profile",t("profile")],["order","order",t("myOrder")],["history","history",t("orderDetails")],["heart","favorites",t("favorites")],
+      ["bell","notifications",t("notifications")],["coupon","coupon",t("coupons")],["address","address",t("address")],["message","message",t("message")]
+    ];
+    body='<div class="client-space-grid">'+tiles.map(([icon,key,label])=>'<button class="client-space-tile" type="button" data-client-view="'+key+'"><span class="client-space-icon">'+clientIcon(icon)+'</span><strong>'+escapeHtml(label)+'</strong></button>').join("")+'</div>';
+  } else if(view==="profile"){
+    body='<form class="client-space-form" id="clientProfileForm"><label>'+escapeHtml(t("name"))+'<input name="clientName" value="'+escapeHtml(client.clientName||"")+'"></label><label>'+escapeHtml(t("phone"))+'<input name="clientPhone" inputmode="tel" value="'+escapeHtml(client.clientPhone||"")+'"></label><label>'+escapeHtml(t("zone"))+'<input name="clientZone" value="'+escapeHtml(client.clientZone||"")+'"></label><label>'+escapeHtml(t("address"))+'<input name="clientAddress" value="'+escapeHtml(client.clientAddress||"")+'"></label><button class="btn btn-dark" type="submit">'+escapeHtml(t("saveProfile"))+'</button></form>';
+  } else if(view==="favorites"){
+    const favs=favorites.map(getProduct).filter(Boolean);
+    body=favs.length?'<div class="client-favorite-list">'+favs.map(p=>'<article class="client-favorite-item"><img src="'+getImage(p)+'" alt="'+escapeHtml(displayName(p))+'"><div><strong>'+escapeHtml(displayName(p))+'</strong><span>'+formatPrice(productPrice(p))+' FCFA</span></div><button class="client-inline-btn" type="button" data-add="'+p.id+'">'+escapeHtml(t("add"))+'</button></article>').join("")+'</div>':'<div class="client-empty">'+escapeHtml(t("noFavorites"))+'</div>';
+  } else if(view==="history"){
+    body=history.length?'<div class="client-history-list">'+history.map(o=>'<article class="client-history-item"><div><strong>'+escapeHtml(new Date(o.date).toLocaleString(lang==="fr"?"fr-FR":"en-US"))+'</strong><span>'+escapeHtml(o.summary)+'</span></div><b>'+formatPrice(o.total)+' FCFA</b></article>').join("")+'</div>':'<div class="client-empty">'+escapeHtml(t("noHistory"))+'</div>';
+  } else if(view==="notifications"){
+    const allowed="Notification" in window ? Notification.permission : "unsupported";
+    body='<div class="client-space-message"><span class="client-space-big-icon">'+clientIcon("bell")+'</span><h3>'+escapeHtml(t("notifications"))+'</h3><p>'+escapeHtml(t("notificationsText"))+'</p><button class="btn btn-dark" type="button" id="enableNotifications">'+escapeHtml(allowed==="granted"?t("notificationsEnabled"):t("enableNotifications"))+'</button></div>';
+  } else if(view==="coupon"){
+    body='<div class="client-space-message"><span class="client-space-big-icon">'+clientIcon("coupon")+'</span><h3>'+escapeHtml(t("coupons"))+'</h3><p>'+escapeHtml(t("couponsText"))+'</p></div>';
+  } else if(view==="address"){
+    body='<div class="client-space-message"><span class="client-space-big-icon">'+clientIcon("address")+'</span><h3>'+escapeHtml(t("address"))+'</h3><p>'+escapeHtml(client.clientAddress||t("noAddress"))+'</p><button class="btn btn-dark" type="button" data-client-view="profile">'+escapeHtml(t("editAddress"))+'</button></div>';
+  } else if(view==="message"){
+    body='<div class="client-space-message"><span class="client-space-big-icon">'+clientIcon("message")+'</span><h3>'+escapeHtml(t("message"))+'</h3><p>'+escapeHtml(t("messageText"))+'</p><a class="btn btn-dark" href="https://wa.me/'+WHATSAPP_NUMBER+'" target="_blank" rel="noopener noreferrer">WhatsApp</a></div>';
+  } else if(view==="order"){
+    body='<div class="client-space-message"><span class="client-space-big-icon">'+clientIcon("order")+'</span><h3>'+escapeHtml(t("myOrder"))+'</h3><p>'+escapeHtml(cart.length?t("orderReady"):t("emptyCart"))+'</p><a class="btn btn-dark" href="'+localizedPath(lang,"order")+'">'+escapeHtml(t("seeOrder"))+'</a></div>';
+  }
+  modal.innerHTML='<div class="client-space-card"><div class="client-space-head"><div><span class="section-kicker">'+escapeHtml(t("clientSpace"))+'</span><h2>'+escapeHtml(profileName)+'</h2></div><button type="button" class="client-space-close" id="clientSpaceClose" aria-label="'+escapeHtml(t("closeMenu"))+'">×</button></div><div class="client-space-back-row"><button class="client-space-back" type="button" data-client-view="dashboard">← '+escapeHtml(t("menu"))+'</button></div>'+body+'</div>';
+  modal.classList.add("open");
+  document.body.classList.add("modal-open");
+}
 function renderSiteMenu(){
   const panel=$("siteNav");
   if(!panel)return;
