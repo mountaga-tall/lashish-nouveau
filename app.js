@@ -193,7 +193,7 @@ function renderCategoryMenu(categoryKey){
   }
   const groups=filtered.reduce((g,p)=>{(g[p.sousCategorie||"Menu"]??=[]).push(p);return g;},{});
   box.innerHTML=Object.entries(groups).map(([sub,products])=>
-    '<section class="category-block open"><div class="category-header static"><span data-subcategory-key="'+escapeHtml(sub)+'">'+escapeHtml(subcategoryLabel(sub))+' <small>'+products.length+'</small></span></div><div class="category-content always-open"><div class="products-grid">'+products.map(productCard).join("")+'</div></div></section>'
+    '<section class="category-block open"><div class="category-header static"><span><span class="subcategory-label" data-subcategory-key="'+escapeHtml(sub)+'">'+escapeHtml(subcategoryLabel(sub))+'</span> <small>'+products.length+'</small></span></div><div class="category-content always-open"><div class="products-grid">'+products.map(productCard).join("")+'</div></div></section>'
   ).join("");
 }
 function productCard(p){
