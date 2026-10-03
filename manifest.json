@@ -1,32 +1,18 @@
 {
-  "id": "/lashish-nouveau/",
-  "name": "La Shish - Commande en ligne",
+  "id": "/",
+  "name": "La Shish",
   "short_name": "La Shish",
-  "description": "La Shish — online ordering in French and English",
+  "description": "La Shish — bilingual French and English online ordering",
   "lang": "fr",
-  "start_url": "./",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f5f1ea",
-  "theme_color": "#111111",
+  "background_color": "#f6f1e8",
+  "theme_color": "#171717",
   "icons": [
-    {
-      "src": "images/logo.webp",
-      "sizes": "192x192",
-      "type": "image/webp",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "images/logo.webp",
-      "sizes": "512x512",
-      "type": "image/webp",
-      "purpose": "any maskable"
-    }
+    {"src":"images/logo.webp","sizes":"192x192","type":"image/webp","purpose":"any maskable"},
+    {"src":"images/logo.webp","sizes":"512x512","type":"image/webp","purpose":"any maskable"}
   ],
-  "categories": [
-    "food",
-    "restaurant",
-    "shopping"
-  ]
+  "categories": ["food","restaurant","shopping"]
 }
