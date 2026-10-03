@@ -2,15 +2,14 @@
   "id": "/lashish-nouveau/",
   "name": "La Shish - Commande en ligne",
   "short_name": "La Shish",
-  "description": "Commandez vos plats, pizzas, tacos et boissons La Shish directement en ligne.",
-  "lang": "fr-FR",
+  "description": "La Shish — online ordering in French and English",
+  "lang": "fr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#f5f1ea",
   "theme_color": "#111111",
-
   "icons": [
     {
       "src": "images/logo.webp",
@@ -25,7 +24,6 @@
       "purpose": "any maskable"
     }
   ],
-
   "categories": [
     "food",
     "restaurant",
