@@ -38,20 +38,20 @@
 <!-- HEADER -->
 <header class="hero">
     <div class="hero-inner">
-        <div class="brand">
+        <div class="brand"><span class="eyebrow">LA SHISH</span>
             <img src="images/logo.webp" class="logo" alt="Logo La Shish">
-            <div class="subtitle">Commande en ligne</div>
+            <div class="subtitle">La bonne commande, simplement.</div><a href="#menuContainer" class="hero-cta">Commander maintenant ↓</a>
         </div>
         <div class="notice">
-            <p><strong>🚚 Livraison</strong><br>À la charge du client.<br>Nous recommandons Yango Livraison.</p>
-            <p><strong>💳 Paiement</strong><br>Un lien Wave sera envoyé sur WhatsApp après validation.</p>
+            <div><strong>🚚 Livraison</strong><span>À la charge du client</span><small>Yango Livraison recommandé</small></div>
+            <div><strong>💳 Paiement Wave</strong><span>Lien envoyé après validation</span><small>Commande confirmée sur WhatsApp</small></div>
         </div>
     </div>
 </header>
 
 <!-- APPLICATION -->
 <main class="layout">
-    <section class="menu-zone">
+    <section class="menu-zone" id="menu">
         <div class="toolbar">
             <input id="searchInput" type="search" placeholder="Rechercher un plat, pizza, tacos..." autocomplete="off">
             <button id="resetSearch" type="button">Effacer</button>
@@ -84,7 +84,7 @@
                 <textarea id="clientComment" placeholder="Commentaire / précision"></textarea>
             </div>
 
-            <button id="whatsappBtn" class="whatsapp-btn" type="button">Commander sur WhatsApp</button>
+            <button id="whatsappBtn" class="whatsapp-btn" type="button">Commander sur WhatsApp →</button>\n            <p class="checkout-note">Votre commande sera récapitulée dans WhatsApp avant l’envoi.</p>
         </div>
     </aside>
 </main>
