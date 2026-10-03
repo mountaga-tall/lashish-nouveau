@@ -43,7 +43,7 @@ window.MENU_TACOS = [
       }
     ],
     "disponible": true,
-    "photo": "128.jpg"
+    "photo": "128.webp"
   },
   {
     "id": 129,
@@ -89,7 +89,7 @@ window.MENU_TACOS = [
       }
     ],
     "disponible": true,
-    "photo": "129.jpg"
+    "photo": "129.webp"
   },
   {
     "id": 130,
@@ -138,7 +138,7 @@ window.MENU_TACOS = [
       }
     ],
     "disponible": true,
-    "photo": "130.jpg"
+    "photo": "130.webp"
   },
   {
     "id": 131,
@@ -187,6 +187,6 @@ window.MENU_TACOS = [
       }
     ],
     "disponible": true,
-    "photo": "131.jpg"
+    "photo": "131.webp"
   }
 ];

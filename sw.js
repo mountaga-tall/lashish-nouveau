@@ -1,11 +1,12 @@
-const CACHE_NAME = "lashish-v9";
+const CACHE_NAME = "lashish-v10";
 
 const FILES_TO_CACHE = [
   "./","./index.html","./menu.html","./commande.html","./contact.html",
   "./petit-dejeuner.html","./entrees.html","./snacks.html","./plats.html","./specialites.html",
   "./pizzas.html","./tacos.html","./boissons.html","./desserts.html","./cocktails.html","./vins.html",
   "./style.css","./app.js","./manifest.json","./data/translations.js",
-  "./data/plats.js","./data/pizzas.js","./data/tacos.js","./data/boissons.js",
+  "./data/petit-dejeuner.js","./data/entrees.js","./data/snacks.js","./data/plats.js","./data/specialites.js",
+  "./data/pizzas.js","./data/tacos.js","./data/boissons.js","./data/desserts.js","./data/cocktails.js","./data/vins.js","./data/menu.js",
   "./images/logo.webp","./images/banner.webp","./images/no-image.webp"
 ];
 

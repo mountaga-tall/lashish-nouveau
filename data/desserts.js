@@ -8,7 +8,7 @@ window.MENU_DESSERTS = [
     "description": "",
     "prix": 2500,
     "disponible": true,
-    "photo": "171.jpg"
+    "photo": "171.webp"
   },
   {
     "id": 172,
@@ -19,7 +19,7 @@ window.MENU_DESSERTS = [
     "description": "",
     "prix": 2500,
     "disponible": true,
-    "photo": "172.jpg"
+    "photo": "172.webp"
   },
   {
     "id": 173,
@@ -30,7 +30,7 @@ window.MENU_DESSERTS = [
     "description": "",
     "prix": 3500,
     "disponible": true,
-    "photo": "173.jpg"
+    "photo": "173.webp"
   },
   {
     "id": 174,
@@ -41,7 +41,7 @@ window.MENU_DESSERTS = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "174.jpg"
+    "photo": "174.webp"
   },
   {
     "id": 175,
@@ -52,7 +52,7 @@ window.MENU_DESSERTS = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "175.jpg"
+    "photo": "175.webp"
   },
   {
     "id": 176,
@@ -63,7 +63,7 @@ window.MENU_DESSERTS = [
     "description": "",
     "prix": 4500,
     "disponible": true,
-    "photo": "176.jpg"
+    "photo": "176.webp"
   },
   {
     "id": 177,
@@ -74,7 +74,7 @@ window.MENU_DESSERTS = [
     "description": "",
     "prix": 5000,
     "disponible": true,
-    "photo": "177.jpg"
+    "photo": "177.webp"
   },
   {
     "id": 178,
@@ -85,7 +85,7 @@ window.MENU_DESSERTS = [
     "description": "Glace chocolat, tranches de banane, sauce chocolat, chantilly",
     "prix": 4000,
     "disponible": true,
-    "photo": "178.jpg"
+    "photo": "178.webp"
   },
   {
     "id": 179,
@@ -96,7 +96,7 @@ window.MENU_DESSERTS = [
     "description": "Glace vanille, sauce chocolat, chantilly",
     "prix": 4000,
     "disponible": true,
-    "photo": "179.jpg"
+    "photo": "179.webp"
   },
   {
     "id": 180,
@@ -107,7 +107,7 @@ window.MENU_DESSERTS = [
     "description": "Glace vanille, sauce caramel, chantilly",
     "prix": 4000,
     "disponible": true,
-    "photo": "180.jpg"
+    "photo": "180.webp"
   },
   {
     "id": 181,
@@ -118,7 +118,7 @@ window.MENU_DESSERTS = [
     "description": "Glace vanille et chocolat, sauce chocolat, chantilly",
     "prix": 4000,
     "disponible": true,
-    "photo": "181.jpg"
+    "photo": "181.webp"
   },
   {
     "id": 182,
@@ -129,7 +129,7 @@ window.MENU_DESSERTS = [
     "description": "Glace chocolat, sauce chocolat, chantilly",
     "prix": 4000,
     "disponible": true,
-    "photo": "182.jpg"
+    "photo": "182.webp"
   },
   {
     "id": 183,
@@ -140,7 +140,7 @@ window.MENU_DESSERTS = [
     "description": "3 boules de glace chocolat, banane, sauce chocolat",
     "prix": 4000,
     "disponible": true,
-    "photo": "183.jpg"
+    "photo": "183.webp"
   },
   {
     "id": 184,
@@ -151,7 +151,7 @@ window.MENU_DESSERTS = [
     "description": "",
     "prix": 1000,
     "disponible": true,
-    "photo": "184.jpg",
+    "photo": "184.webp",
     "choix": {
       "label": "Choix",
       "options": [
@@ -171,7 +171,7 @@ window.MENU_DESSERTS = [
     "description": "",
     "prix": 1000,
     "disponible": true,
-    "photo": "185.jpg",
+    "photo": "185.webp",
     "choix": {
       "label": "Choix",
       "options": [

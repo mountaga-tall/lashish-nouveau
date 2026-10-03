@@ -8,7 +8,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 15000,
     "disponible": true,
-    "photo": "223.jpg"
+    "photo": "223.webp"
   },
   {
     "id": 224,
@@ -19,7 +19,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 15000,
     "disponible": true,
-    "photo": "224.jpg"
+    "photo": "224.webp"
   },
   {
     "id": 225,
@@ -30,7 +30,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 15000,
     "disponible": true,
-    "photo": "225.jpg"
+    "photo": "225.webp"
   },
   {
     "id": 226,
@@ -41,7 +41,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 15000,
     "disponible": true,
-    "photo": "226.jpg"
+    "photo": "226.webp"
   },
   {
     "id": 227,
@@ -52,7 +52,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "227.jpg"
+    "photo": "227.webp"
   },
   {
     "id": 228,
@@ -63,7 +63,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "228.jpg"
+    "photo": "228.webp"
   },
   {
     "id": 229,
@@ -74,7 +74,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "229.jpg"
+    "photo": "229.webp"
   },
   {
     "id": 230,
@@ -85,7 +85,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "230.jpg"
+    "photo": "230.webp"
   },
   {
     "id": 231,
@@ -96,7 +96,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "231.jpg"
+    "photo": "231.webp"
   },
   {
     "id": 232,
@@ -107,7 +107,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "232.jpg"
+    "photo": "232.webp"
   },
   {
     "id": 233,
@@ -118,7 +118,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 15000,
     "disponible": true,
-    "photo": "233.jpg"
+    "photo": "233.webp"
   },
   {
     "id": 234,
@@ -129,7 +129,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 15000,
     "disponible": true,
-    "photo": "234.jpg"
+    "photo": "234.webp"
   },
   {
     "id": 235,
@@ -140,7 +140,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 15000,
     "disponible": true,
-    "photo": "235.jpg"
+    "photo": "235.webp"
   },
   {
     "id": 236,
@@ -151,7 +151,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "236.jpg"
+    "photo": "236.webp"
   },
   {
     "id": 237,
@@ -162,7 +162,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "237.jpg"
+    "photo": "237.webp"
   },
   {
     "id": 238,
@@ -173,7 +173,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "238.jpg"
+    "photo": "238.webp"
   },
   {
     "id": 239,
@@ -184,7 +184,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 15000,
     "disponible": true,
-    "photo": "239.jpg"
+    "photo": "239.webp"
   },
   {
     "id": 240,
@@ -195,7 +195,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 15000,
     "disponible": true,
-    "photo": "240.jpg"
+    "photo": "240.webp"
   },
   {
     "id": 241,
@@ -206,7 +206,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "241.jpg"
+    "photo": "241.webp"
   },
   {
     "id": 242,
@@ -217,7 +217,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "242.jpg"
+    "photo": "242.webp"
   },
   {
     "id": 243,
@@ -228,7 +228,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "243.jpg"
+    "photo": "243.webp"
   },
   {
     "id": 244,
@@ -239,7 +239,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 20000,
     "disponible": true,
-    "photo": "244.jpg"
+    "photo": "244.webp"
   },
   {
     "id": 245,
@@ -250,7 +250,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 35000,
     "disponible": true,
-    "photo": "245.jpg"
+    "photo": "245.webp"
   },
   {
     "id": 246,
@@ -261,7 +261,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 35000,
     "disponible": true,
-    "photo": "246.jpg"
+    "photo": "246.webp"
   },
   {
     "id": 247,
@@ -272,7 +272,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 35000,
     "disponible": true,
-    "photo": "247.jpg"
+    "photo": "247.webp"
   },
   {
     "id": 248,
@@ -283,7 +283,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 35000,
     "disponible": true,
-    "photo": "248.jpg"
+    "photo": "248.webp"
   },
   {
     "id": 249,
@@ -294,7 +294,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 35000,
     "disponible": true,
-    "photo": "249.jpg"
+    "photo": "249.webp"
   },
   {
     "id": 250,
@@ -305,7 +305,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 25000,
     "disponible": true,
-    "photo": "250.jpg"
+    "photo": "250.webp"
   },
   {
     "id": 251,
@@ -316,7 +316,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 25000,
     "disponible": true,
-    "photo": "251.jpg"
+    "photo": "251.webp"
   },
   {
     "id": 252,
@@ -327,7 +327,7 @@ window.MENU_VINS = [
     "description": "",
     "prix": 25000,
     "disponible": true,
-    "photo": "252.jpg"
+    "photo": "252.webp"
   },
   {
     "id": 253,
@@ -338,6 +338,6 @@ window.MENU_VINS = [
     "description": "",
     "prix": 50000,
     "disponible": true,
-    "photo": "253.jpg"
+    "photo": "253.webp"
   }
 ];

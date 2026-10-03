@@ -8,7 +8,7 @@ window.MENU_ENTREES = [
     "description": "Purée de pois chiches",
     "prix": 4000,
     "disponible": true,
-    "photo": "18.jpg"
+    "photo": "18.webp"
   },
   {
     "id": 19,
@@ -19,7 +19,7 @@ window.MENU_ENTREES = [
     "description": "Purée de pois chiches à la viande grillée ou chawarma",
     "prix": 5000,
     "disponible": true,
-    "photo": "19.jpg"
+    "photo": "19.webp"
   },
   {
     "id": 20,
@@ -30,7 +30,7 @@ window.MENU_ENTREES = [
     "description": "Purée d'aubergines grillées",
     "prix": 4000,
     "disponible": true,
-    "photo": "20.jpg"
+    "photo": "20.webp"
   },
   {
     "id": 21,
@@ -41,7 +41,7 @@ window.MENU_ENTREES = [
     "description": "Purée d'aubergines grillées à la viande grillée ou chawarma",
     "prix": 5000,
     "disponible": true,
-    "photo": "21.jpg"
+    "photo": "21.webp"
   },
   {
     "id": 22,
@@ -52,7 +52,7 @@ window.MENU_ENTREES = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "22.jpg"
+    "photo": "22.webp"
   },
   {
     "id": 23,
@@ -63,7 +63,7 @@ window.MENU_ENTREES = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "23.jpg"
+    "photo": "23.webp"
   },
   {
     "id": 24,
@@ -74,7 +74,7 @@ window.MENU_ENTREES = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "24.jpg",
+    "photo": "24.webp",
     "choix": {
       "label": "Sauce au choix",
       "required": true,
@@ -94,7 +94,7 @@ window.MENU_ENTREES = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "25.jpg",
+    "photo": "25.webp",
     "choix": {
       "label": "Sauce au choix",
       "required": true,
@@ -114,7 +114,7 @@ window.MENU_ENTREES = [
     "description": "",
     "prix": 2500,
     "disponible": true,
-    "photo": "26.jpg"
+    "photo": "26.webp"
   },
   {
     "id": 27,
@@ -125,7 +125,7 @@ window.MENU_ENTREES = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "27.jpg"
+    "photo": "27.webp"
   },
   {
     "id": 28,
@@ -136,7 +136,7 @@ window.MENU_ENTREES = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "28.jpg"
+    "photo": "28.webp"
   },
   {
     "id": 29,
@@ -147,7 +147,7 @@ window.MENU_ENTREES = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "29.jpg"
+    "photo": "29.webp"
   },
   {
     "id": 30,
@@ -158,7 +158,7 @@ window.MENU_ENTREES = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "30.jpg"
+    "photo": "30.webp"
   },
   {
     "id": 31,
@@ -169,7 +169,7 @@ window.MENU_ENTREES = [
     "description": "Choux tranchés, mayonnaise, carotte",
     "prix": 4000,
     "disponible": true,
-    "photo": "31.jpg"
+    "photo": "31.webp"
   },
   {
     "id": 32,
@@ -180,7 +180,7 @@ window.MENU_ENTREES = [
     "description": "Haricot, pomme de terre, menthe, thon, sauce",
     "prix": 6000,
     "disponible": true,
-    "photo": "32.jpg"
+    "photo": "32.webp"
   },
   {
     "id": 33,
@@ -191,7 +191,7 @@ window.MENU_ENTREES = [
     "description": "Blanc de poulet, maïs doux, carotte, poivron, salade, concombre, tomate, œuf, sauce",
     "prix": 6000,
     "disponible": true,
-    "photo": "33.jpg"
+    "photo": "33.webp"
   },
   {
     "id": 34,
@@ -202,7 +202,7 @@ window.MENU_ENTREES = [
     "description": "Concombre, salade, tomate, menthe, thon, œufs durs",
     "prix": 6000,
     "disponible": true,
-    "photo": "34.jpg"
+    "photo": "34.webp"
   },
   {
     "id": 35,
@@ -213,7 +213,7 @@ window.MENU_ENTREES = [
     "description": "Salade, avocat, thon, sauce mayonnaise",
     "prix": 6000,
     "disponible": true,
-    "photo": "35.jpg"
+    "photo": "35.webp"
   },
   {
     "id": 36,
@@ -224,7 +224,7 @@ window.MENU_ENTREES = [
     "description": "Mélange d'avocat et de crevettes avec sauce",
     "prix": 6000,
     "disponible": true,
-    "photo": "36.jpg"
+    "photo": "36.webp"
   },
   {
     "id": 37,
@@ -235,7 +235,7 @@ window.MENU_ENTREES = [
     "description": "Salade, tomate, concombre, avocat, oignons, pomme de terre, œuf, thon ou crevette",
     "prix": 7000,
     "disponible": true,
-    "photo": "37.jpg"
+    "photo": "37.webp"
   },
   {
     "id": 38,
@@ -246,6 +246,6 @@ window.MENU_ENTREES = [
     "description": "Salade, avocat, crevettes, sauce mayonnaise",
     "prix": 7000,
     "disponible": true,
-    "photo": "38.jpg"
+    "photo": "38.webp"
   }
 ];

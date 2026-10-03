@@ -8,7 +8,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 1000,
     "disponible": true,
-    "photo": "132.jpg"
+    "photo": "132.webp"
   },
   {
     "id": 133,
@@ -19,7 +19,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "133.jpg"
+    "photo": "133.webp"
   },
   {
     "id": 134,
@@ -30,7 +30,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 1000,
     "disponible": true,
-    "photo": "134.jpg"
+    "photo": "134.webp"
   },
   {
     "id": 135,
@@ -41,7 +41,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "135.jpg"
+    "photo": "135.webp"
   },
   {
     "id": 136,
@@ -52,7 +52,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "136.jpg"
+    "photo": "136.webp"
   },
   {
     "id": 137,
@@ -63,7 +63,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "137.jpg"
+    "photo": "137.webp"
   },
   {
     "id": 138,
@@ -74,7 +74,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "138.jpg"
+    "photo": "138.webp"
   },
   {
     "id": 139,
@@ -85,7 +85,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "139.jpg"
+    "photo": "139.webp"
   },
   {
     "id": 140,
@@ -96,7 +96,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "140.jpg"
+    "photo": "140.webp"
   },
   {
     "id": 141,
@@ -107,7 +107,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "141.jpg"
+    "photo": "141.webp"
   },
   {
     "id": 142,
@@ -118,7 +118,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 3000,
     "disponible": true,
-    "photo": "142.jpg"
+    "photo": "142.webp"
   },
   {
     "id": 143,
@@ -129,7 +129,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 500,
     "disponible": true,
-    "photo": "143.jpg"
+    "photo": "143.webp"
   },
   {
     "id": 144,
@@ -140,7 +140,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "144.jpg"
+    "photo": "144.webp"
   },
   {
     "id": 145,
@@ -151,7 +151,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "145.jpg"
+    "photo": "145.webp"
   },
   {
     "id": 146,
@@ -162,7 +162,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 1000,
     "disponible": true,
-    "photo": "146.jpg",
+    "photo": "146.webp",
     "choix": {
       "label": "Choisissez votre boisson",
       "options": [
@@ -181,7 +181,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "147.jpg",
+    "photo": "147.webp",
     "choix": {
       "label": "Choisissez votre boisson",
       "options": [
@@ -200,7 +200,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "148.jpg"
+    "photo": "148.webp"
   },
   {
     "id": 149,
@@ -211,7 +211,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "149.jpg"
+    "photo": "149.webp"
   },
   {
     "id": 150,
@@ -222,7 +222,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "150.jpg"
+    "photo": "150.webp"
   },
   {
     "id": 151,
@@ -233,7 +233,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "151.jpg"
+    "photo": "151.webp"
   },
   {
     "id": 152,
@@ -244,7 +244,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "152.jpg"
+    "photo": "152.webp"
   },
   {
     "id": 153,
@@ -255,7 +255,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "153.jpg"
+    "photo": "153.webp"
   },
   {
     "id": 154,
@@ -266,7 +266,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "154.jpg"
+    "photo": "154.webp"
   },
   {
     "id": 155,
@@ -277,7 +277,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "155.jpg"
+    "photo": "155.webp"
   },
   {
     "id": 156,
@@ -288,7 +288,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "156.jpg"
+    "photo": "156.webp"
   },
   {
     "id": 157,
@@ -299,7 +299,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "157.jpg"
+    "photo": "157.webp"
   },
   {
     "id": 158,
@@ -310,7 +310,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 3000,
     "disponible": true,
-    "photo": "158.jpg"
+    "photo": "158.webp"
   },
   {
     "id": 159,
@@ -321,7 +321,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 3000,
     "disponible": true,
-    "photo": "159.jpg"
+    "photo": "159.webp"
   },
   {
     "id": 160,
@@ -332,7 +332,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 3000,
     "disponible": true,
-    "photo": "160.jpg"
+    "photo": "160.webp"
   },
   {
     "id": 161,
@@ -343,7 +343,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 3000,
     "disponible": true,
-    "photo": "161.jpg"
+    "photo": "161.webp"
   },
   {
     "id": 162,
@@ -354,7 +354,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 3000,
     "disponible": true,
-    "photo": "162.jpg"
+    "photo": "162.webp"
   },
   {
     "id": 163,
@@ -365,7 +365,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 3000,
     "disponible": true,
-    "photo": "163.jpg"
+    "photo": "163.webp"
   },
   {
     "id": 164,
@@ -376,7 +376,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "164.jpg"
+    "photo": "164.webp"
   },
   {
     "id": 165,
@@ -387,7 +387,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "165.jpg"
+    "photo": "165.webp"
   },
   {
     "id": 166,
@@ -398,7 +398,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "166.jpg"
+    "photo": "166.webp"
   },
   {
     "id": 167,
@@ -409,7 +409,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "167.jpg"
+    "photo": "167.webp"
   },
   {
     "id": 168,
@@ -420,7 +420,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "168.jpg"
+    "photo": "168.webp"
   },
   {
     "id": 169,
@@ -431,7 +431,7 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 3000,
     "disponible": true,
-    "photo": "169.jpg"
+    "photo": "169.webp"
   },
   {
     "id": 170,
@@ -442,6 +442,6 @@ window.MENU_BOISSONS = [
     "description": "",
     "prix": 4000,
     "disponible": true,
-    "photo": "170.jpg"
+    "photo": "170.webp"
   }
 ];

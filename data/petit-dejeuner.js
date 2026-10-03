@@ -8,7 +8,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "Omelette nature, jus d'orange ou café au lait",
     "prix": 5000,
     "disponible": true,
-    "photo": "1.jpg"
+    "photo": "1.webp"
   },
   {
     "id": 2,
@@ -19,7 +19,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "Omelette jambon fromage, jus d'orange, café au lait ou expresso",
     "prix": 6000,
     "disponible": true,
-    "photo": "2.jpg"
+    "photo": "2.webp"
   },
   {
     "id": 3,
@@ -30,7 +30,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "Croque-monsieur, jus d'orange, café au lait ou expresso",
     "prix": 5000,
     "disponible": true,
-    "photo": "3.jpg"
+    "photo": "3.webp"
   },
   {
     "id": 4,
@@ -41,7 +41,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "4.jpg"
+    "photo": "4.webp"
   },
   {
     "id": 5,
@@ -52,7 +52,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "5.jpg"
+    "photo": "5.webp"
   },
   {
     "id": 6,
@@ -63,7 +63,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "",
     "prix": 2000,
     "disponible": true,
-    "photo": "6.jpg"
+    "photo": "6.webp"
   },
   {
     "id": 7,
@@ -74,7 +74,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "Pain toasté, jambon, fromage",
     "prix": 3000,
     "disponible": true,
-    "photo": "7.jpg"
+    "photo": "7.webp"
   },
   {
     "id": 8,
@@ -85,7 +85,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "Pain toasté, jambon, fromage, œuf au plat",
     "prix": 3500,
     "disponible": true,
-    "photo": "8.jpg"
+    "photo": "8.webp"
   },
   {
     "id": 9,
@@ -96,7 +96,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "Pain toasté, jambon, fromage, salade, tomate, mayonnaise + frites",
     "prix": 5000,
     "disponible": true,
-    "photo": "9.jpg"
+    "photo": "9.webp"
   },
   {
     "id": 10,
@@ -107,7 +107,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "Pain toasté, poulet, fromage, salade, œuf dur, tomate, mayonnaise, sauce barbecue + frites",
     "prix": 6000,
     "disponible": true,
-    "photo": "10.jpg"
+    "photo": "10.webp"
   },
   {
     "id": 11,
@@ -118,7 +118,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "11.jpg"
+    "photo": "11.webp"
   },
   {
     "id": 12,
@@ -129,7 +129,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "12.jpg"
+    "photo": "12.webp"
   },
   {
     "id": 13,
@@ -140,7 +140,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "",
     "prix": 1500,
     "disponible": true,
-    "photo": "13.jpg"
+    "photo": "13.webp"
   },
   {
     "id": 14,
@@ -151,7 +151,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "",
     "prix": 2500,
     "disponible": true,
-    "photo": "14.jpg"
+    "photo": "14.webp"
   },
   {
     "id": 15,
@@ -162,7 +162,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "",
     "prix": 2500,
     "disponible": true,
-    "photo": "15.jpg"
+    "photo": "15.webp"
   },
   {
     "id": 16,
@@ -173,7 +173,7 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "",
     "prix": 2500,
     "disponible": true,
-    "photo": "16.jpg",
+    "photo": "16.webp",
     "choix": {
       "label": "Garniture au choix",
       "required": true,
@@ -193,6 +193,6 @@ window.MENU_PETIT_DEJEUNER = [
     "description": "",
     "prix": 3000,
     "disponible": true,
-    "photo": "17.jpg"
+    "photo": "17.webp"
   }
 ];

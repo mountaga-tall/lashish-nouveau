@@ -8,7 +8,7 @@ window.MENU_SNACKS = [
     "description": "Laitue, mayonnaise, tomate, oignon, steak de viande, cheddar",
     "prix": 3500,
     "disponible": true,
-    "photo": "39.jpg"
+    "photo": "39.webp"
   },
   {
     "id": 40,
@@ -19,7 +19,7 @@ window.MENU_SNACKS = [
     "description": "Laitue, mayonnaise, tomate, oignon, steak de poulet, cheddar",
     "prix": 3500,
     "disponible": true,
-    "photo": "40.jpg"
+    "photo": "40.webp"
   },
   {
     "id": 41,
@@ -30,7 +30,7 @@ window.MENU_SNACKS = [
     "description": "Laitue, mayonnaise, viande, cheddar + frites",
     "prix": 5000,
     "disponible": true,
-    "photo": "41.jpg"
+    "photo": "41.webp"
   },
   {
     "id": 42,
@@ -41,7 +41,7 @@ window.MENU_SNACKS = [
     "description": "Laitue, mayonnaise, steak de poulet, cheddar + frites",
     "prix": 5000,
     "disponible": true,
-    "photo": "42.jpg"
+    "photo": "42.webp"
   },
   {
     "id": 43,
@@ -52,7 +52,7 @@ window.MENU_SNACKS = [
     "description": "Laitue, mayonnaise, viande, cheddar, œuf + frites",
     "prix": 6000,
     "disponible": true,
-    "photo": "43.jpg"
+    "photo": "43.webp"
   },
   {
     "id": 44,
@@ -63,7 +63,7 @@ window.MENU_SNACKS = [
     "description": "Laitue, mayonnaise, steak de poulet crispy, cheddar + frites",
     "prix": 6000,
     "disponible": true,
-    "photo": "44.jpg"
+    "photo": "44.webp"
   },
   {
     "id": 45,
@@ -74,7 +74,7 @@ window.MENU_SNACKS = [
     "description": "Blanc de poulet croustillant, salade verte, mayonnaise, cheddar + frites",
     "prix": 6000,
     "disponible": true,
-    "photo": "45.jpg"
+    "photo": "45.webp"
   },
   {
     "id": 46,
@@ -85,7 +85,7 @@ window.MENU_SNACKS = [
     "description": "Laitue, mayonnaise, sauce barbecue, chips, viande, cheddar + frites",
     "prix": 6000,
     "disponible": true,
-    "photo": "46.jpg"
+    "photo": "46.webp"
   },
   {
     "id": 47,
@@ -96,7 +96,7 @@ window.MENU_SNACKS = [
     "description": "Laitue, mayonnaise, 2 viandes, cheddar, 1 œuf + frites",
     "prix": 7000,
     "disponible": true,
-    "photo": "47.jpg"
+    "photo": "47.webp"
   },
   {
     "id": 48,
@@ -107,7 +107,7 @@ window.MENU_SNACKS = [
     "description": "Laitue, mayonnaise, viande bolognaise, chips, steak de viande, cheddar + frites",
     "prix": 7000,
     "disponible": true,
-    "photo": "48.jpg"
+    "photo": "48.webp"
   },
   {
     "id": 49,
@@ -118,7 +118,7 @@ window.MENU_SNACKS = [
     "description": "Moutarde, oignon, tomate, cornichon, chips, cheddar + frites",
     "prix": 5000,
     "disponible": true,
-    "photo": "49.jpg"
+    "photo": "49.webp"
   },
   {
     "id": 50,
@@ -129,7 +129,7 @@ window.MENU_SNACKS = [
     "description": "Moutarde, ketchup, oignon grillé, cheddar, chips + frites",
     "prix": 5000,
     "disponible": true,
-    "photo": "50.jpg"
+    "photo": "50.webp"
   },
   {
     "id": 51,
@@ -140,7 +140,7 @@ window.MENU_SNACKS = [
     "description": "Saucisse hot-dog, viande hachée, piment, chips, cheddar + frites",
     "prix": 5000,
     "disponible": true,
-    "photo": "51.jpg"
+    "photo": "51.webp"
   },
   {
     "id": 52,
@@ -151,7 +151,7 @@ window.MENU_SNACKS = [
     "description": "Salade, tomate, oignon, chou, sauce, viande + frites",
     "prix": 5000,
     "disponible": true,
-    "photo": "52.jpg"
+    "photo": "52.webp"
   },
   {
     "id": 53,
@@ -162,7 +162,7 @@ window.MENU_SNACKS = [
     "description": "Salade, tomate, oignon, chou, sauce, poulet + frites",
     "prix": 5000,
     "disponible": true,
-    "photo": "53.jpg"
+    "photo": "53.webp"
   },
   {
     "id": 54,
@@ -173,7 +173,7 @@ window.MENU_SNACKS = [
     "description": "Choix de votre viande et de vos légumes",
     "prix": 2500,
     "disponible": true,
-    "photo": "54.jpg",
+    "photo": "54.webp",
     "choix": {
       "label": "Choix",
       "required": true,
@@ -194,7 +194,7 @@ window.MENU_SNACKS = [
     "description": "Poulet, mayonnaise, fromage, salade verte",
     "prix": 3500,
     "disponible": true,
-    "photo": "55.jpg"
+    "photo": "55.webp"
   },
   {
     "id": 56,
@@ -205,7 +205,7 @@ window.MENU_SNACKS = [
     "description": "Salade, tomate, mayonnaise, fromage, poulet",
     "prix": 3500,
     "disponible": true,
-    "photo": "56.jpg",
+    "photo": "56.webp",
     "choix": {
       "label": "Choix",
       "required": true,
@@ -225,7 +225,7 @@ window.MENU_SNACKS = [
     "description": "Pain tacos, salade, tomate, oignon, mayonnaise, poulet",
     "prix": 4000,
     "disponible": true,
-    "photo": "57.jpg"
+    "photo": "57.webp"
   },
   {
     "id": 58,
@@ -236,7 +236,7 @@ window.MENU_SNACKS = [
     "description": "Pain tacos, salade, tomate, oignon, mayonnaise, viande",
     "prix": 4000,
     "disponible": true,
-    "photo": "58.jpg"
+    "photo": "58.webp"
   },
   {
     "id": 59,
@@ -247,6 +247,6 @@ window.MENU_SNACKS = [
     "description": "Pain tacos, salade, tomate, mayonnaise, fromage, poulet crispy",
     "prix": 4000,
     "disponible": true,
-    "photo": "59.jpg"
+    "photo": "59.webp"
   }
 ];
