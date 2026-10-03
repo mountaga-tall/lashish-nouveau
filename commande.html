@@ -33,19 +33,19 @@
       <section class="cart-card order-card">
         <div class="cart-heading"><div><span class="section-kicker" data-i18n="selected">VOTRE SÉLECTION</span><h2>🛒 <span data-i18n="order">Ma commande</span></h2></div><span id="cartLive" class="cart-live">En direct</span></div>
         <div id="cartItems" class="cart-items"></div>
-        <div class="cart-total"><span id="cartTotalLabel">Total</span><strong><span id="cartTotal">0</span> FCFA</strong></div>
+        <div class="cart-total"><span id="cartTotalLabel" data-i18n="total">Total</span><strong><span id="cartTotal">0</span> FCFA</strong></div>
         <a class="btn btn-secondary btn-full" href="menu.html" data-i18n="viewMenu">Voir tout le menu</a>
       </section>
 
       <section class="cart-card order-form-card">
-        <div class="form-heading"><div><span class="section-kicker" data-i18n="deliveryHeading">Livraison</span><h2 data-i18n="deliveryHeading">Livraison</h2></div><span id="requiredText" class="required-text">* obligatoire</span></div>
-        <input id="clientName" type="text" autocomplete="name" placeholder="Nom du client *">
-        <input id="clientPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Téléphone *">
-        <input id="clientZone" type="text" autocomplete="address-level2" placeholder="Quartier / zone *">
-        <textarea id="clientAddress" autocomplete="street-address" placeholder="Adresse complète *"></textarea>
-        <textarea id="clientComment" placeholder="Commentaire ou précision (facultatif)"></textarea>
-        <button id="whatsappBtn" class="btn btn-primary btn-full" type="button">Commander sur WhatsApp →</button>
-        <p id="checkoutNote" class="small-note">Votre commande sera récapitulée dans WhatsApp avant l’envoi.</p>
+        <div class="form-heading"><div><span class="section-kicker" data-i18n="deliveryHeading">Livraison</span><h2 data-i18n="deliveryHeading">Livraison</h2></div><span id="requiredText" class="required-text" data-i18n="required">* obligatoire</span></div>
+        <input id="clientName" type="text" autocomplete="name" placeholder="Nom du client *" data-i18n-placeholder="name">
+        <input id="clientPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Téléphone *" data-i18n-placeholder="phone">
+        <input id="clientZone" type="text" autocomplete="address-level2" placeholder="Quartier / zone *" data-i18n-placeholder="zone">
+        <textarea id="clientAddress" autocomplete="street-address" placeholder="Adresse complète *" data-i18n-placeholder="address"></textarea>
+        <textarea id="clientComment" placeholder="Commentaire ou précision (facultatif)" data-i18n-placeholder="comment"></textarea>
+        <button id="whatsappBtn" class="btn btn-primary btn-full" type="button" data-i18n="whatsapp">Commander sur WhatsApp →</button>
+        <p id="checkoutNote" class="small-note" data-i18n="recap">Votre commande sera récapitulée dans WhatsApp avant l’envoi.</p>
       </section>
     </div>
   </main>
