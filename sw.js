@@ -1,9 +1,20 @@
-const CACHE_NAME = "lashish-v5";
+const CACHE_NAME = "lashish-v6";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./menu.html",
+  "./petit-dejeuner.html",
+  "./entrees.html",
+  "./snacks.html",
+  "./plats.html",
+  "./specialites.html",
+  "./pizzas.html",
+  "./tacos.html",
+  "./boissons.html",
+  "./desserts.html",
+  "./cocktails.html",
+  "./vins.html",
   "./commande.html",
   "./contact.html",
   "./style.css",
