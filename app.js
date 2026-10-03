@@ -11,7 +11,7 @@ const I18N = {
     heroCta:"Commander maintenant", discover:"Découvrir le menu", delivery:"Livraison", deliveryWho:"À la charge du client",
     deliveryNote:"Yango Livraison recommandé", payment:"Paiement Wave", paymentNote:"Lien envoyé après validation",
     paymentConfirm:"Commande confirmée sur WhatsApp", menuKicker:"NOTRE MENU", menuTitle:"Choisissez vos favoris",
-    search:"Rechercher un plat, pizza, tacos…", clear:"Effacer", all:"Tout", emptySearch:"Aucun résultat",
+    search:"Rechercher un plat, pizza, tacos…", clear:"Effacer", categoriesTitle:"CATÉGORIES", discoverCategory:"Découvrir la catégorie", featuredDish:"À découvrir", orderHero:"Commander directement", all:"Tout", emptySearch:"Aucun résultat",
     emptySearchNote:"Essayez un autre mot-clé ou réinitialisez la recherche.", viewMenu:"Voir tout le menu",
     selected:"VOTRE SÉLECTION", cartLive:"En direct", emptyCart:"Votre panier est vide.",
     emptyCartNote:"Ajoutez vos plats préférés pour commencer.", total:"Total", seeOrder:"Voir ma commande",
@@ -38,7 +38,7 @@ const I18N = {
     heroCta:"Order now", discover:"Explore the menu", delivery:"Delivery", deliveryWho:"Paid by the customer",
     deliveryNote:"Yango Delivery recommended", payment:"Wave payment", paymentNote:"Link sent after validation",
     paymentConfirm:"Order confirmed on WhatsApp", menuKicker:"OUR MENU", menuTitle:"Choose your favorites",
-    search:"Search a dish, pizza, tacos…", clear:"Clear", all:"All", emptySearch:"No results",
+    search:"Search a dish, pizza, tacos…", clear:"Clear", categoriesTitle:"CATEGORIES", discoverCategory:"Explore category", featuredDish:"Featured", orderHero:"Order directly", all:"All", emptySearch:"No results",
     emptySearchNote:"Try another keyword or reset the search.", viewMenu:"View full menu",
     selected:"YOUR SELECTION", cartLive:"Live", emptyCart:"Your cart is empty.",
     emptyCartNote:"Add your favorite dishes to get started.", total:"Total", seeOrder:"View my order",
@@ -151,6 +151,59 @@ function handleImageError(img){
 }
 function categorySlugByKey(key){ return Object.entries(categoryConfig).find(([,v])=>v.key===key)?.[0] || ""; }
 
+function renderSiteMenu(){
+  const panel=$("siteNav");
+  if(!panel)return;
+  const currentFile=(location.pathname.split("/").pop()||"index.html").toLowerCase();
+  const general=[
+    ["index.html","home"],
+    ["menu.html","menu"],
+    ["commande.html","order"],
+    ["contact.html","contact"]
+  ];
+  panel.innerHTML='<div class="menu-panel-head"><strong>'+escapeHtml(t("menu"))+'</strong><button id="menuPanelClose" class="menu-panel-close" type="button" aria-label="'+escapeHtml(t("closeMenu"))+'">×</button></div>'+
+    '<div class="menu-panel-links">'+
+    general.map(([href,key])=>'<a class="menu-panel-link '+(currentFile===href?"active":"")+'" href="'+href+'">'+escapeHtml(t(key))+'</a>').join("")+
+    '</div>'+
+    '<div class="menu-panel-label">'+escapeHtml(t("categoriesTitle"))+'</div>'+
+    '<div class="menu-panel-category-grid">'+
+    Object.entries(categoryConfig).map(([slug,c])=>{
+      const href=slug+".html";
+      const active=currentFile===href;
+      return '<a class="menu-panel-category '+(active?"active":"")+'" href="'+href+'"><span>'+escapeHtml(c[lang])+'</span><span aria-hidden="true">↗</span></a>';
+    }).join("")+
+    '</div>';
+}
+
+function productPrice(p){
+  if(p.type==="pizza"&&Array.isArray(p.tailles)&&p.tailles.length)return Math.min(...p.tailles.map(s=>Number(s.prix)||0));
+  return Number(p.prix)||0;
+}
+
+function renderHomeCategoryHeroes(){
+  const box=$("homeCategoryHeroes");
+  if(!box)return;
+  box.innerHTML=Object.entries(categoryConfig).map(([slug,c],index)=>{
+    const product=allProducts.find(p=>p.categorie===c.key);
+    if(!product)return "";
+    const image=getImage(product);
+    const price=productPrice(product);
+    const priceText=(product.type==="pizza"?t("from")+" ":"")+formatPrice(price)+" FCFA";
+    return '<article class="category-hero-card '+(index%2?"reverse":"")+'">'+
+      '<a class="category-hero-media" href="'+slug+'.html" aria-label="'+escapeHtml((c[lang]||c.key)+" — "+t("discoverCategory"))+'">'+
+        '<img src="'+image+'" alt="'+escapeHtml(displayName(product))+'" loading="'+(index<2?"eager":"lazy")+'" decoding="async" data-product-id="'+product.id+'" onerror="handleImageError(this)">'+
+      '</a>'+
+      '<div class="category-hero-copy">'+
+        '<span class="section-kicker">'+escapeHtml((c[lang]||c.key).toUpperCase())+'</span>'+
+        '<span class="category-hero-label">'+escapeHtml(t("featuredDish"))+'</span>'+
+        '<h3>'+escapeHtml(displayName(product))+'</h3>'+
+        '<p>'+escapeHtml(translateText(product.description||t("categoryIntro")))+'</p>'+
+        '<div class="category-hero-footer"><strong class="price">'+priceText+'</strong><a class="category-hero-link" href="'+slug+'.html"><span class="category-hero-line" aria-hidden="true"></span><span>'+escapeHtml(t("discoverCategory"))+'</span><span aria-hidden="true">↗</span></a></div>'+
+      '</div>'+
+    '</article>';
+  }).join("");
+}
+
 function renderHeader(){
   document.documentElement.lang=lang;
   const title=document.querySelector("title");
@@ -160,6 +213,7 @@ function renderHeader(){
     title.textContent=map[page]||"La Shish";
   }
   document.querySelectorAll("[data-i18n]").forEach(n=>{const key=n.dataset.i18n;if(I18N[lang][key])n.textContent=t(key);});
+  renderSiteMenu();
   document.querySelectorAll("[data-i18n-placeholder]").forEach(n=>{const key=n.dataset.i18nPlaceholder;if(I18N[lang][key])n.placeholder=t(key);});
   const setText=(id,key)=>{const n=$(id);if(n&&I18N[lang][key])n.textContent=t(key);};
   setText("heroTitle","heroTitle"); setText("heroSubtitle","heroSubtitle"); setText("heroCta","heroCta"); setText("discoverBtn","discover");
@@ -348,7 +402,7 @@ function setLanguage(next){
   const menuIsOpen=header?.classList.contains("menu-open");
   if(menuIsOpen)setMobileMenu(true);
   const page=document.body.dataset.page;
-  if(page==="home"){renderCategoryDirectory();refreshProductCards();}
+  if(page==="home")renderHomeCategoryHeroes();
   if(page==="menu"){renderCategoryDirectory();}
   if(page==="category"){refreshProductCards();refreshSubcategoryHeadings();}
   if(page==="order"){renderCart();fillClient();}
@@ -357,11 +411,14 @@ function setLanguage(next){
 function setMobileMenu(open){
   const header=document.querySelector(".site-header");
   const toggle=$("mobileMenuToggle");
-  if(!header||!toggle)return;
+  const panel=$("siteNav");
+  if(!header||!toggle||!panel)return;
   header.classList.toggle("menu-open",open);
   toggle.setAttribute("aria-expanded",String(open));
   toggle.setAttribute("aria-label",open?t("closeMenu"):t("openMenu"));
+  panel.setAttribute("aria-hidden",String(!open));
   document.body.classList.toggle("nav-open",open);
+  if(open){$("menuPanelClose")?.focus({preventScroll:true});}
 }
 function initEvents(){
   $("languageToggle")?.addEventListener("click",()=>setLanguage(lang==="fr"?"en":"fr"));
@@ -369,9 +426,9 @@ function initEvents(){
     const header=document.querySelector(".site-header");
     setMobileMenu(!header?.classList.contains("menu-open"));
   });
-  document.querySelectorAll(".site-nav a").forEach(link=>link.addEventListener("click",()=>setMobileMenu(false)));
   window.addEventListener("resize",()=>{if(window.innerWidth>900)setMobileMenu(false);});
   document.addEventListener("click",e=>{
+    if(e.target.closest("#menuPanelClose")||e.target.closest("#siteNav a")){setMobileMenu(false);return;}
     if(!e.target.closest(".site-header"))setMobileMenu(false);
     const add=e.target.closest("[data-add]");if(add){const p=getProduct(add.dataset.add);if(p)openOptions(p);return;}
     const plus=e.target.closest("[data-plus]");if(plus){const i=cart.find(x=>x.key===decodeURIComponent(plus.dataset.plus));if(i){i.qty++;saveCart();renderCart();}return;}
@@ -393,7 +450,7 @@ function initApp(){
   renderHeader();
   initEvents();
   const page=document.body.dataset.page;
-  if(page==="home"){renderFeatured();renderCategoryDirectory();}
+  if(page==="home")renderHomeCategoryHeroes();
   if(page==="menu")renderCategoryDirectory();
   if(page==="category")renderCategoryMenu(categoryConfig[document.body.dataset.category]?.key||"ALL");
   if(page==="order"){renderCart();fillClient();}
