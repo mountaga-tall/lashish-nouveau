@@ -30,7 +30,7 @@ const I18N = {
     phoneLabel:"Téléphone", whatsappLabel:"WhatsApp", deliveryLabel:"Livraison", deliveryText:"Service de livraison pris en charge par le client.",
     waveLabel:"Paiement", waveText:"Paiement Wave avec lien envoyé après validation de la commande.",
     footer:"© La Shish — Commande en ligne", language:"Langue", categoryIntro:"Découvrez cette catégorie et commandez directement.",
-    loading:"Préparation de la page…", loadingError:"La page n’a pas pu être chargée. Actualisez pour réessayer."
+    loading:"Préparation de la page…", loadingError:"La page n’a pas pu être chargée. Actualisez pour réessayer.", categoryChoose:"Choisir une catégorie", categoryChooseNote:"Chaque catégorie possède sa propre page pour parcourir les produits plus facilement."
   },
   en: {
     home:"Home", menu:"Menu", order:"My order", contact:"Contact", catalog:"All categories",
@@ -57,7 +57,7 @@ const I18N = {
     phoneLabel:"Phone", whatsappLabel:"WhatsApp", deliveryLabel:"Delivery", deliveryText:"Delivery service is paid by the customer.",
     waveLabel:"Payment", waveText:"Wave payment link is sent after your order is validated.",
     footer:"© La Shish — Online ordering", language:"Language", categoryIntro:"Explore this category and order directly.",
-    loading:"Loading page…", loadingError:"This page could not be loaded. Refresh to try again."
+    loading:"Loading page…", loadingError:"This page could not be loaded. Refresh to try again.", categoryChoose:"Choose a category", categoryChooseNote:"Each category has its own page so you can browse products more easily."
   }
 };
 
@@ -336,7 +336,7 @@ function setLanguage(next){
   try{localStorage.setItem(LANG_KEY,lang);}catch{}
   renderHeader();
   const page=document.body.dataset.page;
-  if(page==="home"){refreshProductCards();}
+  if(page==="home"){renderCategoryDirectory();refreshProductCards();}
   if(page==="menu"){renderCategoryDirectory();}
   if(page==="category"){refreshProductCards();refreshSubcategoryHeadings();}
   if(page==="order"){renderCart();fillClient();}
@@ -365,7 +365,7 @@ function initApp(){
   renderHeader();
   initEvents();
   const page=document.body.dataset.page;
-  if(page==="home")renderFeatured();
+  if(page==="home"){renderFeatured();renderCategoryDirectory();}
   if(page==="menu")renderCategoryDirectory();
   if(page==="category")renderCategoryMenu(categoryConfig[document.body.dataset.category]?.key||"ALL");
   if(page==="order"){renderCart();fillClient();}
