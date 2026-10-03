@@ -193,7 +193,7 @@ function renderCategoryMenu(categoryKey){
   }
   const groups=filtered.reduce((g,p)=>{(g[p.sousCategorie||"Menu"]??=[]).push(p);return g;},{});
   box.innerHTML=Object.entries(groups).map(([sub,products])=>
-    '<section class="category-block open"><div class="category-header static"><span>'+escapeHtml(subcategoryLabel(sub))+' <small>'+products.length+'</small></span></div><div class="category-content always-open"><div class="products-grid">'+products.map(productCard).join("")+'</div></div></section>'
+    '<section class="category-block open"><div class="category-header static"><span data-subcategory-key="'+escapeHtml(sub)+'">'+escapeHtml(subcategoryLabel(sub))+' <small>'+products.length+'</small></span></div><div class="category-content always-open"><div class="products-grid">'+products.map(productCard).join("")+'</div></div></section>'
   ).join("");
 }
 function productCard(p){
@@ -208,6 +208,26 @@ function renderFeatured(){
   const box=$("featuredGrid");if(!box)return;
   const ids=[1,39,60,68,76,113,128,171,199];
   box.innerHTML=ids.map(getProduct).filter(Boolean).map(productCard).join("");
+}
+function refreshProductCards(){
+  document.querySelectorAll(".product-card[data-product-id]").forEach(card=>{
+    const p=getProduct(card.dataset.productId);
+    if(!p)return;
+    const meta=card.querySelector(".product-meta span"); if(meta)meta.textContent=categoryLabel(p.categorie);
+    const title=card.querySelector("h3"); if(title)title.textContent=displayName(p);
+    const description=card.querySelector(".product-description"); if(description)description.textContent=translateText(p.description||"");
+    const priceNode=card.querySelector(".price");
+    if(priceNode){
+      const isPizza=p.type==="pizza";
+      const minPrice=isPizza&&Array.isArray(p.tailles)&&p.tailles.length?Math.min(...p.tailles.map(s=>Number(s.prix)||0)):Number(p.prix)||0;
+      priceNode.textContent=(isPizza?t("from")+" ":"")+formatPrice(minPrice)+" FCFA";
+    }
+    const badge=card.querySelector(".product-badge"); if(badge)badge.textContent=t("customize");
+    const image=card.querySelector(".product-img"); if(image)image.alt=displayName(p);
+  });
+}
+function refreshSubcategoryHeadings(){
+  document.querySelectorAll("[data-subcategory-key]").forEach(n=>{n.textContent=subcategoryLabel(n.dataset.subcategoryKey);});
 }
 function renderCategoryDirectory(){
   const box=$("categoryDirectory"); if(!box)return;
@@ -316,10 +336,11 @@ function setLanguage(next){
   try{localStorage.setItem(LANG_KEY,lang);}catch{}
   renderHeader();
   const page=document.body.dataset.page;
-  if(page==="home"){renderFeatured();}
+  if(page==="home"){refreshProductCards();}
   if(page==="menu"){renderCategoryDirectory();}
-  if(page==="category"){renderCategoryMenu(categoryConfig[document.body.dataset.category]?.key||"ALL");}
-  if(page==="order"||page==="contact"){renderCart();fillClient();}
+  if(page==="category"){refreshProductCards();refreshSubcategoryHeadings();}
+  if(page==="order"){renderCart();fillClient();}
+  if(page==="contact"){renderCart();fillClient();}
 }
 function initEvents(){
   $("languageToggle")?.addEventListener("click",()=>setLanguage(lang==="fr"?"en":"fr"));
