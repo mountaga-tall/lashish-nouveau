@@ -1,19 +1,27 @@
-# La Shish — Commande en ligne
+# La Shish — Online Ordering
 
-Application web mobile-first pour commander les plats, pizzas, tacos et boissons de La Shish.
+Bilingual mobile-first ordering website for La Shish.
 
-## Fonctionnalités
+## Languages
 
-- Menu par catégories avec recherche instantanée.
-- Panier persistant dans le navigateur.
-- Personnalisation des pizzas par taille.
-- Formulaire de livraison avec validation minimale.
-- Récapitulatif complet envoyé vers WhatsApp.
-- Paiement annoncé via lien Wave après validation.
-- PWA installable avec service worker.
-- Interface responsive pensée d'abord pour mobile.
+The interface is available in **French (FR)** and **English (EN)**. The selected language is saved in the browser and the WhatsApp order summary uses the same language.
 
-## Structure
+The menu keeps the restaurant's official product names and data; interface labels, checkout instructions, categories where applicable, notifications and order messages are localized.
+
+## Features
+
+- Responsive menu with categories and instant search.
+- Persistent cart using localStorage.
+- Pizza size selection.
+- Customer and delivery information validation.
+- Bilingual WhatsApp order summary.
+- Wave payment and delivery information.
+- PWA / service worker support.
+- Graceful image fallbacks.
+- Reduced-motion support.
+- No build step required.
+
+## Project structure
 
 ```text
 /
@@ -30,19 +38,16 @@ Application web mobile-first pour commander les plats, pizzas, tacos et boissons
 └── images/
 ```
 
-## Modifier le menu
+## Menu data
 
-Les produits sont stockés dans `data/*.js`. Les prix et disponibilités peuvent être modifiés sans toucher au moteur de commande.
+Products are stored in `data/*.js`. Prices and availability can be changed without modifying the ordering engine.
 
-## Commandes
+## WhatsApp
 
-Le numéro WhatsApp utilisé par le bouton de commande est configuré dans `app.js`. Le message généré contient le client, l'adresse, les articles, les options, le total et les précisions éventuelles.
+The destination number is configured in `app.js`. The generated message includes customer details, delivery address, items, options, total, and optional comments.
 
-## Déploiement
+## Maintenance notes
 
-Le projet est un site statique : il peut être servi directement par GitHub Pages, Vercel ou tout autre hébergement statique. Aucun build n'est nécessaire.
+The cart key `laShishCart` is kept for compatibility with existing browser sessions. Invalid or corrupted cart data is safely discarded instead of breaking the application.
 
-## UX / maintenance
-
-Les anciennes briques de modal non utilisées ont été retirées du flux principal. Le panier reste compatible avec les données existantes grâce à sa clé `laShishCart`.
-
+The interface is intentionally static: it can be deployed directly to GitHub Pages, Vercel, or another static host.
