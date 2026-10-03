@@ -92,8 +92,12 @@ const allProducts = [
 function t(key){ return I18N[lang][key] || key; }
 function saveCart(){ try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch {} }
 function loadCart(){
-  try { const value=JSON.parse(localStorage.getItem(CART_KEY)||"[]"); return Array.isArray(value)?value.filter(x=>x&&Number(x.qty)>0):[]; }
-  catch { return []; }
+  try {
+    const value=JSON.parse(localStorage.getItem(CART_KEY)||"[]");
+    return Array.isArray(value)
+      ? value.filter(x=>x&&Number(x.qty)>0).map(x=>({...x,key:x.key||cartKey(x)}))
+      : [];
+  } catch { return []; }
 }
 function saveClient(){
   try {
@@ -118,6 +122,20 @@ function translateOption(v){
   let out=translateText(v);
   if(lang==="en"){
     out=out.replace(/^Petite\b/,"Small").replace(/^Moyenne\b/,"Medium").replace(/^Grande\b/,"Large");
+  }
+  return out;
+}
+function displayOptions(text){
+  let out=String(text||"");
+  if(lang==="en"){
+    out=translateText(out)
+      .replace(/^Taille:\s*/,"Size: ")
+      .replace(/^Viande:\s*/,"Meat: ")
+      .replace(/^Sauces:\s*/,"Sauces: ")
+      .replace(/^Suppléments:\s*/,"Extras: ")
+      .replace(/^Boisson:\s*/,"Drink: ")
+      .replace(/^Choix:\s*/,"Choice: ");
+    out=out.replace(/ • Taille:\s*/g," • Size: ").replace(/ • Viande:\s*/g," • Meat: ").replace(/ • Suppléments:\s*/g," • Extras: ").replace(/ • Boisson:\s*/g," • Drink: ").replace(/ • Choix:\s*/g," • Choice: ");
   }
   return out;
 }
@@ -175,7 +193,7 @@ function renderCategoryMenu(categoryKey){
   }
   const groups=filtered.reduce((g,p)=>{(g[p.sousCategorie||"Menu"]??=[]).push(p);return g;},{});
   box.innerHTML=Object.entries(groups).map(([sub,products])=>
-    '<section class="category-block open"><div class="category-header static"><span>'+escapeHtml(subcategoryLabel(sub))+' <small>'+products.length+'</small></span></div><div class="category-content always-open"><div class="products-grid">'+products.map(productCard).join("")+'</div></div></section>'
+    '<section class="category-block open"><div class="category-header static"><span><span class="subcategory-label" data-subcategory-key="'+escapeHtml(sub)+'">'+escapeHtml(subcategoryLabel(sub))+'</span> <small>'+products.length+'</small></span></div><div class="category-content always-open"><div class="products-grid">'+products.map(productCard).join("")+'</div></div></section>'
   ).join("");
 }
 function productCard(p){
@@ -190,6 +208,26 @@ function renderFeatured(){
   const box=$("featuredGrid");if(!box)return;
   const ids=[1,39,60,68,76,113,128,171,199];
   box.innerHTML=ids.map(getProduct).filter(Boolean).map(productCard).join("");
+}
+function refreshProductCards(){
+  document.querySelectorAll(".product-card[data-product-id]").forEach(card=>{
+    const p=getProduct(card.dataset.productId);
+    if(!p)return;
+    const meta=card.querySelector(".product-meta span"); if(meta)meta.textContent=categoryLabel(p.categorie);
+    const title=card.querySelector("h3"); if(title)title.textContent=displayName(p);
+    const description=card.querySelector(".product-description"); if(description)description.textContent=translateText(p.description||"");
+    const priceNode=card.querySelector(".price");
+    if(priceNode){
+      const isPizza=p.type==="pizza";
+      const minPrice=isPizza&&Array.isArray(p.tailles)&&p.tailles.length?Math.min(...p.tailles.map(s=>Number(s.prix)||0)):Number(p.prix)||0;
+      priceNode.textContent=(isPizza?t("from")+" ":"")+formatPrice(minPrice)+" FCFA";
+    }
+    const badge=card.querySelector(".product-badge"); if(badge)badge.textContent=t("customize");
+    const image=card.querySelector(".product-img"); if(image)image.alt=displayName(p);
+  });
+}
+function refreshSubcategoryHeadings(){
+  document.querySelectorAll("[data-subcategory-key]").forEach(n=>{n.textContent=subcategoryLabel(n.dataset.subcategoryKey);});
 }
 function renderCategoryDirectory(){
   const box=$("categoryDirectory"); if(!box)return;
@@ -211,7 +249,7 @@ function renderCart(){
   const box=$("cartItems");if(!box)return;
   box.innerHTML=cart.length?cart.map(item=>{
     const key=encodeURIComponent(item.key);
-    return '<div class="cart-item"><div class="cart-item-main"><strong>'+escapeHtml(item.qty+" × "+cartName(item))+'</strong>'+(item.optionsText?'<span>'+escapeHtml(translateText(item.optionsText))+'</span>':'')+'<b>'+formatPrice(item.prix*item.qty)+' FCFA</b></div><div class="cart-controls"><button type="button" data-minus="'+key+'">−</button><span>'+item.qty+'</span><button type="button" data-plus="'+key+'">+</button><button type="button" class="remove-item" data-remove="'+key+'" aria-label="×">×</button></div></div>';
+    return '<div class="cart-item"><div class="cart-item-main"><strong>'+escapeHtml(item.qty+" × "+cartName(item))+'</strong>'+(item.optionsText?'<span>'+escapeHtml(displayOptions(item.optionsText))+'</span>':'')+'<b>'+formatPrice(item.prix*item.qty)+' FCFA</b></div><div class="cart-controls"><button type="button" data-minus="'+key+'">−</button><span>'+item.qty+'</span><button type="button" data-plus="'+key+'">+</button><button type="button" class="remove-item" data-remove="'+key+'" aria-label="×">×</button></div></div>';
   }).join(""):'<div class="cart-empty"><span class="cart-empty-icon">🛒</span><strong>'+escapeHtml(t("emptyCart"))+'</strong><span>'+escapeHtml(t("emptyCartNote"))+'</span></div>';
   if($("cartTotal"))$("cartTotal").textContent=formatPrice(getTotal());
   if($("mobileTotal"))$("mobileTotal").textContent=formatPrice(getTotal());
@@ -239,7 +277,7 @@ function sendWhatsApp(){
   msg+="👤 "+client.name+"\n📞 "+client.phone+"\n📍 "+client.zone+"\n🏠 "+client.address+"\n";
   if(comment)msg+="💬 "+comment+"\n";
   msg+="\n*"+t("order")+"*\n";
-  cart.forEach(i=>{msg+="\n• "+i.qty+" × "+cartName(i)+(i.optionsText?" — "+translateText(i.optionsText):"")+" — "+formatPrice(i.prix*i.qty)+" FCFA";});
+  cart.forEach(i=>{msg+="\n• "+i.qty+" × "+cartName(i)+(i.optionsText?" — "+displayOptions(i.optionsText):"")+" — "+formatPrice(i.prix*i.qty)+" FCFA";});
   msg+="\n\n💰 *"+t("total").toUpperCase()+" : "+formatPrice(getTotal())+" FCFA*\n🚚 "+t("deliveryText")+"\n💳 "+t("waveText");
   window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank","noopener,noreferrer");
 }
@@ -274,21 +312,21 @@ function confirmOptions(){
   if(currentProduct.type==="pizza"){
     const i=Number(document.querySelector('input[name="optSize"]:checked')?.value??0),size=currentProduct.tailles[i];
     if(!size)return;
-    price=Number(size.prix)||price;options.push(t("size")+": "+translateOption(size.nom));
+    price=Number(size.prix)||price;options.push("Taille: "+size.nom);
     if($("optionModalBody")?.querySelector('input[name="optPizzaExtra"]:checked')){price+=Number(currentProduct.supplement?.prix||0);options.push(t("extras")+": "+translateOption(currentProduct.supplement?.label||"Supplément"));}
   }
   if(currentProduct.type==="tacos"){
     const meat=document.querySelector('input[name="optMeat"]:checked');if(!meat){showToast(t("chooseOne"));return;}
-    options.push(t("meat")+": "+translateOption(currentProduct.viandes[Number(meat.value)]));
+    options.push("Viande: "+currentProduct.viandes[Number(meat.value)]);
     const sauces=[...document.querySelectorAll('input[name="optSauce"]:checked')].map(n=>currentProduct.sauces[Number(n.value)]);
-    if(sauces.length>(currentProduct.maxSauces||2)){showToast(t("maxSauces"));return;} if(sauces.length)options.push(t("sauces")+": "+sauces.map(translateOption).join(", "));
-    const drink=document.querySelector('input[name="optDrink"]:checked');if(drink)options.push(t("drink")+": "+translateOption(currentProduct.boissons[Number(drink.value)]));
+    if(sauces.length>(currentProduct.maxSauces||2)){showToast(t("maxSauces"));return;} if(sauces.length)options.push("Sauces: "+sauces.join(", "));
+    const drink=document.querySelector('input[name="optDrink"]:checked');if(drink)options.push("Boisson: "+currentProduct.boissons[Number(drink.value)]);
     const extras=[...document.querySelectorAll('input[name="optExtra"]:checked')].map(n=>currentProduct.supplements[Number(n.value)]);
-    if(extras.length){price+=extras.reduce((s,x)=>s+Number(x.prix||0),0);options.push(t("extras")+": "+extras.map(x=>translateOption(x.nom)).join(", "));}
+    if(extras.length){price+=extras.reduce((s,x)=>s+Number(x.prix||0),0);options.push("Suppléments: "+extras.map(x=>x.nom).join(", "));}
   }
   if(currentProduct.choix?.options){
     const choice=document.querySelector('input[name="optChoice"]:checked');if(!choice){showToast(t("chooseOne"));return;}
-    options.push(translateOption(currentProduct.choix.label||"Choix")+": "+translateOption(currentProduct.choix.options[Number(choice.value)]));
+    options.push((currentProduct.choix.label||"Choix")+": "+currentProduct.choix.options[Number(choice.value)]);
     }
   addToCart({productId:currentProduct.id,nom:currentProduct.nom,prix:price,optionsText:options.join(" • ")});closeOptions();
 }
@@ -298,10 +336,11 @@ function setLanguage(next){
   try{localStorage.setItem(LANG_KEY,lang);}catch{}
   renderHeader();
   const page=document.body.dataset.page;
-  if(page==="home"){renderFeatured();}
+  if(page==="home"){refreshProductCards();}
   if(page==="menu"){renderCategoryDirectory();}
-  if(page==="category"){renderCategoryMenu(categoryConfig[document.body.dataset.category]?.key||"ALL");}
-  if(page==="order"||page==="contact"){renderCart();fillClient();}
+  if(page==="category"){refreshProductCards();refreshSubcategoryHeadings();}
+  if(page==="order"){renderCart();fillClient();}
+  if(page==="contact"){renderCart();fillClient();}
 }
 function initEvents(){
   $("languageToggle")?.addEventListener("click",()=>setLanguage(lang==="fr"?"en":"fr"));
@@ -332,6 +371,9 @@ function initApp(){
   if(page==="order"){renderCart();fillClient();}
   if(page==="contact")renderCart();
 }
+const loaderFailsafe=window.setTimeout(()=>renderLoader(false),2500);
+window.addEventListener("error",()=>renderLoader(false),{once:false});
+window.addEventListener("unhandledrejection",()=>renderLoader(false),{once:false});
 try{ initApp(); }
 catch(error){
   console.error(error);
@@ -339,6 +381,12 @@ catch(error){
   if(box){box.hidden=false;box.textContent=t("loadingError");}
 }
 finally{
+  window.clearTimeout(loaderFailsafe);
   renderLoader(false);
   window.setTimeout(()=>document.body.classList.add("ready"),40);
+  if("serviceWorker" in navigator){
+    window.addEventListener("load",()=>{
+      navigator.serviceWorker.register("./sw.js?v=8",{updateViaCache:"none"}).catch(()=>{});
+    },{once:true});
+  }
 }
