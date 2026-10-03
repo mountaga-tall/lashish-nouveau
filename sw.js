@@ -1,4 +1,4 @@
-const CACHE_NAME = "lashish-v8";
+const CACHE_NAME = "lashish-v9";
 
 const FILES_TO_CACHE = [
   "./","./index.html","./menu.html","./commande.html","./contact.html",
