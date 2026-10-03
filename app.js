@@ -377,7 +377,6 @@ function initEvents(){
     const reset=e.target.closest("#emptyReset");if(reset){searchTerm="";if($("searchInput"))$("searchInput").value="";renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);return;}
     const close=e.target.closest("#optionModalCancel,#optionModalCancel2");if(close){closeOptions();return;}
     if(e.target===$("optionModal"))closeOptions();
-    if(!e.target.closest(".site-header"))setMobileMenu(false);
   });
   $("searchInput")?.addEventListener("input",debounce(e=>{searchTerm=e.target.value.trim();renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);},160));
   $("resetSearch")?.addEventListener("click",()=>{searchTerm="";$("searchInput").value="";renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);$("searchInput").focus();});
@@ -385,7 +384,7 @@ function initEvents(){
   ["clientName","clientPhone","clientZone","clientAddress","clientComment"].forEach(id=>$(id)?.addEventListener("input",saveClient));
   $("mobileCartBtn")?.addEventListener("click",()=>{window.location.href="commande.html";});
   $("optionModalConfirm")?.addEventListener("click",confirmOptions);
-  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeOptions();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeOptions();setMobileMenu(false);}});
 }
 function initApp(){
   renderHeader();
