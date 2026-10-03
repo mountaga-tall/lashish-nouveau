@@ -30,7 +30,7 @@ const I18N = {
     phoneLabel:"Téléphone", whatsappLabel:"WhatsApp", deliveryLabel:"Livraison", deliveryText:"Service de livraison pris en charge par le client.",
     waveLabel:"Paiement", waveText:"Paiement Wave avec lien envoyé après validation de la commande.",
     footer:"© La Shish — Commande en ligne", language:"Langue", categoryIntro:"Découvrez cette catégorie et commandez directement.",
-    loading:"Préparation de la page…", loadingError:"La page n’a pas pu être chargée. Actualisez pour réessayer.", categoryChoose:"Choisir une catégorie", categoryChooseNote:"Chaque catégorie possède sa propre page pour parcourir les produits plus facilement.", openMenu:"Ouvrir le menu", closeMenu:"Fermer le menu"
+    loading:"Préparation de la page…", loadingError:"La page n’a pas pu être chargée. Actualisez pour réessayer.", categoryChoose:"Choisir une catégorie", categoryChooseNote:"Chaque catégorie possède sa propre page pour parcourir les produits plus facilement.", openMenu:"Ouvrir le menu", closeMenu:"Fermer le menu", heroTitle:"Le goût qui rassemble.", heroSubtitle:"Cuisine généreuse, service simple et commande directe sur WhatsApp.", heroCta:"Commander maintenant", search:"Rechercher un plat, pizza, tacos…", clear:"Effacer"
   },
   en: {
     home:"Home", menu:"Menu", order:"My order", contact:"Contact", catalog:"All categories",
@@ -57,7 +57,7 @@ const I18N = {
     phoneLabel:"Phone", whatsappLabel:"WhatsApp", deliveryLabel:"Delivery", deliveryText:"Delivery service is paid by the customer.",
     waveLabel:"Payment", waveText:"Wave payment link is sent after your order is validated.",
     footer:"© La Shish — Online ordering", language:"Language", categoryIntro:"Explore this category and order directly.",
-    loading:"Loading page…", loadingError:"This page could not be loaded. Refresh to try again.", categoryChoose:"Choose a category", categoryChooseNote:"Each category has its own page so you can browse products more easily.", openMenu:"Open menu", closeMenu:"Close menu"
+    loading:"Loading page…", loadingError:"This page could not be loaded. Refresh to try again.", categoryChoose:"Choose a category", categoryChooseNote:"Each category has its own page so you can browse products more easily.", openMenu:"Open menu", closeMenu:"Close menu", heroTitle:"Great taste, made to share.", heroSubtitle:"Generous food, simple service and direct ordering on WhatsApp.", heroCta:"Order now", search:"Search a dish, pizza, tacos…", clear:"Clear"
   }
 };
 
@@ -160,6 +160,9 @@ function renderHeader(){
     title.textContent=map[page]||"La Shish";
   }
   document.querySelectorAll("[data-i18n]").forEach(n=>{const key=n.dataset.i18n;if(I18N[lang][key])n.textContent=t(key);});
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(n=>{const key=n.dataset.i18nPlaceholder;if(I18N[lang][key])n.placeholder=t(key);});
+  const setText=(id,key)=>{const n=$(id);if(n&&I18N[lang][key])n.textContent=t(key);};
+  setText("heroTitle","heroTitle"); setText("heroSubtitle","heroSubtitle"); setText("heroCta","heroCta"); setText("discoverBtn","discover");
   const toggle=$("languageToggle");
   if(toggle){
     toggle.setAttribute("aria-label",t("language"));
@@ -207,7 +210,7 @@ function productCard(p){
   const minPrice=isPizza&&Array.isArray(p.tailles)&&p.tailles.length?Math.min(...p.tailles.map(s=>Number(s.prix)||0)):Number(p.prix)||0;
   return '<article class="product-card"><div class="product-media"><img class="product-img" src="'+getImage(p)+'" alt="'+escapeHtml(displayName(p))+'" loading="lazy" decoding="async" data-product-id="'+p.id+'" onerror="handleImageError(this)">'+
     ((isPizza||p.type==="tacos"||p.choix)?'<span class="product-badge">'+escapeHtml(t("customize"))+'</span>':'')+
-    '</div><div class="product-body"><div class="product-meta"><span>'+escapeHtml(categoryLabel(p.categorie))+'</span></div><h3>'+escapeHtml(displayName(p))+'</h3><p>'+escapeHtml(translateText(p.description||""))+'</p>'+
+    '</div><div class="product-body"><div class="product-meta"><span>'+escapeHtml(categoryLabel(p.categorie))+'</span></div><h3>'+escapeHtml(displayName(p))+'</h3><p class="product-description">'+escapeHtml(translateText(p.description||""))+'</p>'+
     '<div class="product-footer"><strong class="price">'+(isPizza?t("from")+" ":"")+formatPrice(minPrice)+' FCFA</strong><button class="add-btn" type="button" data-add="'+p.id+'">'+escapeHtml(t("add"))+'</button></div></div></article>';
 }
 function renderFeatured(){
