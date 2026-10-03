@@ -8,7 +8,7 @@ window.MENU_COCKTAILS = [
     "description": "Sirop de thé framboise, fruits rouges, glace vanille",
     "prix": 5000,
     "disponible": true,
-    "photo": "186.jpg"
+    "photo": "186.webp"
   },
   {
     "id": 187,
@@ -19,7 +19,7 @@ window.MENU_COCKTAILS = [
     "description": "Mangue, coco, ananas",
     "prix": 5000,
     "disponible": true,
-    "photo": "187.jpg"
+    "photo": "187.webp"
   },
   {
     "id": 188,
@@ -30,7 +30,7 @@ window.MENU_COCKTAILS = [
     "description": "Kiwi, framboise, fraise, ananas, mangue…",
     "prix": 5000,
     "disponible": true,
-    "photo": "188.jpg"
+    "photo": "188.webp"
   },
   {
     "id": 189,
@@ -41,7 +41,7 @@ window.MENU_COCKTAILS = [
     "description": "Glace vanille, sauce chocolat, Oreo",
     "prix": 6000,
     "disponible": true,
-    "photo": "189.jpg"
+    "photo": "189.webp"
   },
   {
     "id": 190,
@@ -52,7 +52,7 @@ window.MENU_COCKTAILS = [
     "description": "Glace vanille, sauce caramel, popcorn",
     "prix": 6000,
     "disponible": true,
-    "photo": "190.jpg"
+    "photo": "190.webp"
   },
   {
     "id": 191,
@@ -63,7 +63,7 @@ window.MENU_COCKTAILS = [
     "description": "Glace vanille, fruits de myrtille, lait",
     "prix": 6000,
     "disponible": true,
-    "photo": "191.jpg"
+    "photo": "191.webp"
   },
   {
     "id": 192,
@@ -74,7 +74,7 @@ window.MENU_COCKTAILS = [
     "description": "",
     "prix": 6000,
     "disponible": true,
-    "photo": "192.jpg",
+    "photo": "192.webp",
     "choix": {
       "label": "Choix",
       "options": [
@@ -94,7 +94,7 @@ window.MENU_COCKTAILS = [
     "description": "Glace vanille, ananas, coco",
     "prix": 6000,
     "disponible": true,
-    "photo": "193.jpg"
+    "photo": "193.webp"
   },
   {
     "id": 194,
@@ -105,7 +105,7 @@ window.MENU_COCKTAILS = [
     "description": "Glace citron, citron, menthe",
     "prix": 6000,
     "disponible": true,
-    "photo": "194.jpg"
+    "photo": "194.webp"
   },
   {
     "id": 195,
@@ -116,7 +116,7 @@ window.MENU_COCKTAILS = [
     "description": "Glace vanille, lait, fruits (coco ou fraise ou kiwi)",
     "prix": 6000,
     "disponible": true,
-    "photo": "195.jpg"
+    "photo": "195.webp"
   },
   {
     "id": 196,
@@ -127,7 +127,7 @@ window.MENU_COCKTAILS = [
     "description": "Sirop de thé pêche, eau",
     "prix": 3000,
     "disponible": true,
-    "photo": "196.jpg"
+    "photo": "196.webp"
   },
   {
     "id": 197,
@@ -138,7 +138,7 @@ window.MENU_COCKTAILS = [
     "description": "Sirop de thé framboise, eau",
     "prix": 3000,
     "disponible": true,
-    "photo": "197.jpg"
+    "photo": "197.webp"
   },
   {
     "id": 198,
@@ -149,7 +149,7 @@ window.MENU_COCKTAILS = [
     "description": "Sirop de thé à la mangue, eau",
     "prix": 3000,
     "disponible": true,
-    "photo": "198.jpg"
+    "photo": "198.webp"
   },
   {
     "id": 199,
@@ -160,7 +160,7 @@ window.MENU_COCKTAILS = [
     "description": "Citron, menthe, saveur rhum, eau gazeuse",
     "prix": 5000,
     "disponible": true,
-    "photo": "199.jpg"
+    "photo": "199.webp"
   },
   {
     "id": 200,
@@ -171,7 +171,7 @@ window.MENU_COCKTAILS = [
     "description": "Citron, menthe, sirop fraise, saveur rhum, eau gazeuse",
     "prix": 5000,
     "disponible": true,
-    "photo": "200.jpg"
+    "photo": "200.webp"
   },
   {
     "id": 201,
@@ -182,7 +182,7 @@ window.MENU_COCKTAILS = [
     "description": "Citron, menthe, sirop passion, saveur rhum, eau gazeuse",
     "prix": 5000,
     "disponible": true,
-    "photo": "201.jpg"
+    "photo": "201.webp"
   },
   {
     "id": 202,
@@ -193,7 +193,7 @@ window.MENU_COCKTAILS = [
     "description": "Citron, menthe, sirop à la mangue, saveur rhum, eau gazeuse",
     "prix": 5000,
     "disponible": true,
-    "photo": "202.jpg"
+    "photo": "202.webp"
   },
   {
     "id": 203,
@@ -204,7 +204,7 @@ window.MENU_COCKTAILS = [
     "description": "Sirop d'ananas, limonade, eau gazeuse",
     "prix": 5000,
     "disponible": true,
-    "photo": "203.jpg"
+    "photo": "203.webp"
   },
   {
     "id": 204,
@@ -215,7 +215,7 @@ window.MENU_COCKTAILS = [
     "description": "Sirop de fraise, limonade, eau gazeuse",
     "prix": 5000,
     "disponible": true,
-    "photo": "204.jpg"
+    "photo": "204.webp"
   },
   {
     "id": 205,
@@ -226,7 +226,7 @@ window.MENU_COCKTAILS = [
     "description": "Purée de mangue, limonade, eau gazeuse",
     "prix": 5000,
     "disponible": true,
-    "photo": "205.jpg"
+    "photo": "205.webp"
   },
   {
     "id": 206,
@@ -237,7 +237,7 @@ window.MENU_COCKTAILS = [
     "description": "Purée de passion, limonade, eau gazeuse",
     "prix": 5000,
     "disponible": true,
-    "photo": "206.jpg"
+    "photo": "206.webp"
   },
   {
     "id": 207,
@@ -248,7 +248,7 @@ window.MENU_COCKTAILS = [
     "description": "Ananas, pina colada, saveur rhum",
     "prix": 5000,
     "disponible": true,
-    "photo": "207.jpg"
+    "photo": "207.webp"
   },
   {
     "id": 208,
@@ -259,7 +259,7 @@ window.MENU_COCKTAILS = [
     "description": "Banane, citron vert, saveur rhum",
     "prix": 5000,
     "disponible": true,
-    "photo": "208.jpg"
+    "photo": "208.webp"
   },
   {
     "id": 209,
@@ -270,7 +270,7 @@ window.MENU_COCKTAILS = [
     "description": "Banane, citron vert, saveur rhum",
     "prix": 5000,
     "disponible": true,
-    "photo": "209.jpg"
+    "photo": "209.webp"
   },
   {
     "id": 210,
@@ -281,7 +281,7 @@ window.MENU_COCKTAILS = [
     "description": "Curacao bleu, banane, ananas, lait, saveur rhum",
     "prix": 5000,
     "disponible": true,
-    "photo": "210.jpg"
+    "photo": "210.webp"
   },
   {
     "id": 211,
@@ -292,7 +292,7 @@ window.MENU_COCKTAILS = [
     "description": "Fruit de la passion, Coca-Cola, saveur rhum",
     "prix": 5000,
     "disponible": true,
-    "photo": "211.jpg"
+    "photo": "211.webp"
   },
   {
     "id": 212,
@@ -303,7 +303,7 @@ window.MENU_COCKTAILS = [
     "description": "Jus de citron, Coca-Cola, saveur rhum",
     "prix": 5000,
     "disponible": true,
-    "photo": "212.jpg"
+    "photo": "212.webp"
   },
   {
     "id": 213,
@@ -314,7 +314,7 @@ window.MENU_COCKTAILS = [
     "description": "Curacao bleu, coco, ananas, saveur rhum",
     "prix": 5000,
     "disponible": true,
-    "photo": "213.jpg"
+    "photo": "213.webp"
   },
   {
     "id": 214,
@@ -325,7 +325,7 @@ window.MENU_COCKTAILS = [
     "description": "Jus d'orange, grenadine, tequila",
     "prix": 5000,
     "disponible": true,
-    "photo": "214.jpg"
+    "photo": "214.webp"
   },
   {
     "id": 215,
@@ -336,7 +336,7 @@ window.MENU_COCKTAILS = [
     "description": "Curacao bleu, gin, vodka, rhum blanc, citron, Coca",
     "prix": 6000,
     "disponible": true,
-    "photo": "215.jpg"
+    "photo": "215.webp"
   },
   {
     "id": 216,
@@ -347,7 +347,7 @@ window.MENU_COCKTAILS = [
     "description": "Vodka, tequila, Curacao bleu",
     "prix": 1500,
     "disponible": true,
-    "photo": "216.jpg"
+    "photo": "216.webp"
   },
   {
     "id": 217,
@@ -358,7 +358,7 @@ window.MENU_COCKTAILS = [
     "description": "Vodka, citron, Curacao bleu",
     "prix": 1500,
     "disponible": true,
-    "photo": "217.jpg"
+    "photo": "217.webp"
   },
   {
     "id": 218,
@@ -369,7 +369,7 @@ window.MENU_COCKTAILS = [
     "description": "Rhum, ananas, Curacao bleu",
     "prix": 1500,
     "disponible": true,
-    "photo": "218.jpg"
+    "photo": "218.webp"
   },
   {
     "id": 219,
@@ -380,7 +380,7 @@ window.MENU_COCKTAILS = [
     "description": "Liqueur de menthe, vodka",
     "prix": 1500,
     "disponible": true,
-    "photo": "219.jpg"
+    "photo": "219.webp"
   },
   {
     "id": 220,
@@ -391,7 +391,7 @@ window.MENU_COCKTAILS = [
     "description": "Vodka, tequila",
     "prix": 1500,
     "disponible": true,
-    "photo": "220.jpg"
+    "photo": "220.webp"
   },
   {
     "id": 221,
@@ -402,7 +402,7 @@ window.MENU_COCKTAILS = [
     "description": "Rhum blanc, grenadine",
     "prix": 1500,
     "disponible": true,
-    "photo": "221.jpg"
+    "photo": "221.webp"
   },
   {
     "id": 222,
@@ -413,6 +413,6 @@ window.MENU_COCKTAILS = [
     "description": "Tequila, jus de citron",
     "prix": 1500,
     "disponible": true,
-    "photo": "222.jpg"
+    "photo": "222.webp"
   }
 ];
