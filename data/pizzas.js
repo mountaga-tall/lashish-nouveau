@@ -25,7 +25,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "113.jpg"
+    "photo": "113.webp"
   },
   {
     "id": 114,
@@ -53,7 +53,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "114.jpg"
+    "photo": "114.webp"
   },
   {
     "id": 115,
@@ -81,7 +81,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "115.jpg"
+    "photo": "115.webp"
   },
   {
     "id": 116,
@@ -109,7 +109,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "116.jpg"
+    "photo": "116.webp"
   },
   {
     "id": 117,
@@ -137,7 +137,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "117.jpg"
+    "photo": "117.webp"
   },
   {
     "id": 118,
@@ -165,7 +165,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "118.jpg"
+    "photo": "118.webp"
   },
   {
     "id": 119,
@@ -193,7 +193,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "119.jpg"
+    "photo": "119.webp"
   },
   {
     "id": 120,
@@ -221,7 +221,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "120.jpg"
+    "photo": "120.webp"
   },
   {
     "id": 121,
@@ -249,7 +249,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "121.jpg"
+    "photo": "121.webp"
   },
   {
     "id": 122,
@@ -277,7 +277,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "122.jpg"
+    "photo": "122.webp"
   },
   {
     "id": 123,
@@ -305,7 +305,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "123.jpg"
+    "photo": "123.webp"
   },
   {
     "id": 124,
@@ -333,7 +333,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "124.jpg"
+    "photo": "124.webp"
   },
   {
     "id": 125,
@@ -361,7 +361,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "125.jpg"
+    "photo": "125.webp"
   },
   {
     "id": 126,
@@ -389,7 +389,7 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "126.jpg"
+    "photo": "126.webp"
   },
   {
     "id": 127,
@@ -417,6 +417,6 @@ window.MENU_PIZZAS = [
       "prix": 1000
     },
     "disponible": true,
-    "photo": "127.jpg"
+    "photo": "127.webp"
   }
 ];
