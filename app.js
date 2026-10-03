@@ -119,7 +119,6 @@ function commonText(){
   document.querySelectorAll("[data-i18n]").forEach(n=>{n.textContent=t(n.dataset.i18n);});
   document.querySelectorAll("[data-i18n-aria]").forEach(n=>{n.setAttribute("aria-label",t(n.dataset.i18nAria));});
   const toggle=$("languageToggle"); if(toggle){toggle.setAttribute("aria-label",t("language"));toggle.setAttribute("aria-pressed",String(lang==="en"));toggle.querySelector(".lang-active")?.replaceChildren(document.createTextNode(lang==="fr"?"FR":"EN"));toggle.querySelector(".lang-next")?.replaceChildren(document.createTextNode(lang==="fr"?"EN":"FR"));}
-  document.querySelectorAll(".nav-link").forEach(a=>{a.textContent=t(a.dataset.i18n);});
 }
 
 function productCard(p){
@@ -332,6 +331,7 @@ function initEvents(){
   ["clientName","clientPhone","clientZone","clientAddress","clientComment"].forEach(id=>$(id)?.addEventListener("input",saveClient));
   $("mobileCartBtn")?.addEventListener("click",()=>{window.location.href="commande.html";});
   $("optionModalCancel")?.addEventListener("click",closeOptions);
+  $("optionModalCancel2")?.addEventListener("click",closeOptions);
   $("optionModalConfirm")?.addEventListener("click",confirmOptions);
   $("optionModal")?.addEventListener("click",e=>{if(e.target===$("optionModal"))closeOptions();});
   document.addEventListener("keydown",e=>{if(e.key==="Escape")closeOptions();});
