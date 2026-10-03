@@ -197,6 +197,7 @@ function ensureLocalizedRoute(){
 function renderSiteMenu(){
   const panel=$("siteNav");
   if(!panel)return;
+  panel.setAttribute("aria-hidden",String(!document.querySelector(".site-header")?.classList.contains("menu-open")));
   const activeRoute=currentRoute();
   const general=[
     ["home","home"],["menu","menu"],["order","order"],["contact","contact"]
@@ -209,7 +210,8 @@ function renderSiteMenu(){
       return '<a class="menu-panel-link '+(active?"active":"")+'" href="'+href+'">'+escapeHtml(t(key))+'</a>';
     }).join("")+
     '</div>'+
-    '<div class="menu-panel-label">'+escapeHtml(t("menu"))+'</div>'+
+    '<div class="menu-panel-parent"><a class="menu-panel-parent-link" href="'+localizedPath(lang,"menu")+'">'+escapeHtml(t("menu"))+'</a><span aria-hidden="true">⌄</span></div>'+
+    '<div class="menu-panel-label">'+escapeHtml(t("categoriesTitle"))+'</div>'+
     '<div class="menu-panel-category-grid menu-panel-subcategories">'+
     Object.entries(categoryConfig).map(([slug,c])=>{
       const href=localizedPath(lang,"category",slug);
