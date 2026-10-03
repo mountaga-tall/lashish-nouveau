@@ -85,10 +85,14 @@ let searchTerm = "";
 let currentProduct = null;
 
 const $ = id => document.getElementById(id);
-const allProducts = [
-  ...(window.MENU_PLATS || []), ...(window.MENU_PIZZAS || []),
-  ...(window.MENU_TACOS || []), ...(window.MENU_BOISSONS || [])
-].filter(p => p && p.disponible !== false).sort((a,b) => Number(a.id)-Number(b.id));
+const allProducts = (window.MENU_ALL || [
+  ...(window.MENU_PETIT_DEJEUNER || []), ...(window.MENU_ENTREES || []),
+  ...(window.MENU_SNACKS || []), ...(window.MENU_PLATS || []),
+  ...(window.MENU_SPECIALITES || []), ...(window.MENU_PIZZAS || []),
+  ...(window.MENU_TACOS || []), ...(window.MENU_BOISSONS || []),
+  ...(window.MENU_DESSERTS || []), ...(window.MENU_COCKTAILS || []),
+  ...(window.MENU_VINS || [])
+]).filter(p => p && p.disponible !== false).sort((a,b) => Number(a.id)-Number(b.id));
 
 function t(key){ return I18N[lang][key] || key; }
 function saveCart(){ try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch {} }
