@@ -30,7 +30,7 @@ const I18N = {
     phoneLabel:"Téléphone", whatsappLabel:"WhatsApp", deliveryLabel:"Livraison", deliveryText:"Service de livraison pris en charge par le client.",
     waveLabel:"Paiement", waveText:"Paiement Wave avec lien envoyé après validation de la commande.",
     footer:"© La Shish — Commande en ligne", language:"Langue", categoryIntro:"Découvrez cette catégorie et commandez directement.",
-    loading:"Préparation de la page…", loadingError:"La page n’a pas pu être chargée. Actualisez pour réessayer.", categoryChoose:"Choisir une catégorie", categoryChooseNote:"Chaque catégorie possède sa propre page pour parcourir les produits plus facilement."
+    loading:"Préparation de la page…", loadingError:"La page n’a pas pu être chargée. Actualisez pour réessayer.", categoryChoose:"Choisir une catégorie", categoryChooseNote:"Chaque catégorie possède sa propre page pour parcourir les produits plus facilement.", openMenu:"Ouvrir le menu", closeMenu:"Fermer le menu"
   },
   en: {
     home:"Home", menu:"Menu", order:"My order", contact:"Contact", catalog:"All categories",
@@ -57,7 +57,7 @@ const I18N = {
     phoneLabel:"Phone", whatsappLabel:"WhatsApp", deliveryLabel:"Delivery", deliveryText:"Delivery service is paid by the customer.",
     waveLabel:"Payment", waveText:"Wave payment link is sent after your order is validated.",
     footer:"© La Shish — Online ordering", language:"Language", categoryIntro:"Explore this category and order directly.",
-    loading:"Loading page…", loadingError:"This page could not be loaded. Refresh to try again.", categoryChoose:"Choose a category", categoryChooseNote:"Each category has its own page so you can browse products more easily."
+    loading:"Loading page…", loadingError:"This page could not be loaded. Refresh to try again.", categoryChoose:"Choose a category", categoryChooseNote:"Each category has its own page so you can browse products more easily.", openMenu:"Open menu", closeMenu:"Close menu"
   }
 };
 
@@ -164,6 +164,12 @@ function renderHeader(){
   if(toggle){
     toggle.setAttribute("aria-label",t("language"));
     toggle.setAttribute("aria-pressed",String(lang==="en"));
+  }
+  const mobileToggle=$("mobileMenuToggle");
+  if(mobileToggle){
+    const open=document.querySelector(".site-header")?.classList.contains("menu-open");
+    mobileToggle.setAttribute("aria-label",open?t("closeMenu"):t("openMenu"));
+    mobileToggle.setAttribute("aria-expanded",String(!!open));
   }
   if(document.body.dataset.page==="category"){
     const category=categoryConfig[document.body.dataset.category];
@@ -335,6 +341,9 @@ function setLanguage(next){
   lang=next;
   try{localStorage.setItem(LANG_KEY,lang);}catch{}
   renderHeader();
+  const header=document.querySelector(".site-header");
+  const menuIsOpen=header?.classList.contains("menu-open");
+  if(menuIsOpen)setMobileMenu(true);
   const page=document.body.dataset.page;
   if(page==="home"){renderCategoryDirectory();refreshProductCards();}
   if(page==="menu"){renderCategoryDirectory();}
@@ -342,9 +351,25 @@ function setLanguage(next){
   if(page==="order"){renderCart();fillClient();}
   if(page==="contact"){renderCart();fillClient();}
 }
+function setMobileMenu(open){
+  const header=document.querySelector(".site-header");
+  const toggle=$("mobileMenuToggle");
+  if(!header||!toggle)return;
+  header.classList.toggle("menu-open",open);
+  toggle.setAttribute("aria-expanded",String(open));
+  toggle.setAttribute("aria-label",open?t("closeMenu"):t("openMenu"));
+  document.body.classList.toggle("nav-open",open);
+}
 function initEvents(){
   $("languageToggle")?.addEventListener("click",()=>setLanguage(lang==="fr"?"en":"fr"));
+  $("mobileMenuToggle")?.addEventListener("click",()=>{
+    const header=document.querySelector(".site-header");
+    setMobileMenu(!header?.classList.contains("menu-open"));
+  });
+  document.querySelectorAll(".site-nav a").forEach(link=>link.addEventListener("click",()=>setMobileMenu(false)));
+  window.addEventListener("resize",()=>{if(window.innerWidth>900)setMobileMenu(false);});
   document.addEventListener("click",e=>{
+    if(!e.target.closest(".site-header"))setMobileMenu(false);
     const add=e.target.closest("[data-add]");if(add){const p=getProduct(add.dataset.add);if(p)openOptions(p);return;}
     const plus=e.target.closest("[data-plus]");if(plus){const i=cart.find(x=>x.key===decodeURIComponent(plus.dataset.plus));if(i){i.qty++;saveCart();renderCart();}return;}
     const minus=e.target.closest("[data-minus]");if(minus){const i=cart.find(x=>x.key===decodeURIComponent(minus.dataset.minus));if(i){i.qty--;if(i.qty<=0)cart=cart.filter(x=>x.key!==i.key);saveCart();renderCart();}return;}
@@ -352,6 +377,7 @@ function initEvents(){
     const reset=e.target.closest("#emptyReset");if(reset){searchTerm="";if($("searchInput"))$("searchInput").value="";renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);return;}
     const close=e.target.closest("#optionModalCancel,#optionModalCancel2");if(close){closeOptions();return;}
     if(e.target===$("optionModal"))closeOptions();
+    if(!e.target.closest(".site-header"))setMobileMenu(false);
   });
   $("searchInput")?.addEventListener("input",debounce(e=>{searchTerm=e.target.value.trim();renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);},160));
   $("resetSearch")?.addEventListener("click",()=>{searchTerm="";$("searchInput").value="";renderCategoryMenu(activeCategory==="ALL"?"ALL":categoryConfig[activeCategory]?.key);$("searchInput").focus();});
@@ -386,7 +412,7 @@ finally{
   window.setTimeout(()=>document.body.classList.add("ready"),40);
   if("serviceWorker" in navigator){
     window.addEventListener("load",()=>{
-      navigator.serviceWorker.register("./sw.js?v=8",{updateViaCache:"none"}).catch(()=>{});
+      navigator.serviceWorker.register("./sw.js?v=9",{updateViaCache:"none"}).catch(()=>{});
     },{once:true});
   }
 }

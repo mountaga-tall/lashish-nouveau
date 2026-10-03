@@ -15,12 +15,13 @@
   <div id="appError" class="app-error" hidden></div>
   <header class="site-header">
     <a class="brand-mini" href="index.html"><img src="images/logo.webp" alt="La Shish"></a>
-    <nav class="site-nav" aria-label="Navigation">
+    <nav id="siteNav" class="site-nav" aria-label="Navigation">
       <a class="nav-link" href="index.html" data-i18n="home">Accueil</a>
       <a class="nav-link active" href="menu.html" data-i18n="menu">Menu</a>
       <a class="nav-link order-nav" href="commande.html"><span data-i18n="order">Ma commande</span><span id="cartCountBadge" class="cart-count-badge" hidden>0</span></a>
       <a class="nav-link" href="contact.html" data-i18n="contact">Contact</a>
     </nav>
+    <button id="mobileMenuToggle" class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
     <button id="languageToggle" class="language-switch" type="button" aria-pressed="false" aria-label="Langue"><span class="lang-active">FR</span><span class="switch-knob"></span><span class="lang-next">EN</span></button>
   </header>
 
