@@ -458,6 +458,12 @@ function refreshProductCards(){
     }
     const badge=card.querySelector(".product-badge"); if(badge)badge.textContent=t("customize");
     const image=card.querySelector(".product-img"); if(image)image.alt=displayName(p);
+    const favorite=card.querySelector("[data-favorite]");
+    if(favorite){
+      favorite.classList.toggle("is-favorite",isFavorite(p.id));
+      favorite.textContent=isFavorite(p.id)?"♥":"♡";
+      favorite.setAttribute("aria-label",t(isFavorite(p.id)?"favoriteRemove":"favoriteAdd"));
+    }
   });
 }
 function refreshSubcategoryHeadings(){
