@@ -76,7 +76,8 @@ const categoryConfig = {
 };
 
 const translations = window.MENU_TRANSLATIONS || {names:{},categories:{},subcategories:{},phrases:[]};
-let lang = localStorage.getItem(LANG_KEY) === "en" ? "en" : "fr";
+function readLanguage(){ try { return localStorage.getItem(LANG_KEY)==="en" ? "en" : "fr"; } catch { return "fr"; } }
+let lang = readLanguage();
 let cart = loadCart();
 let activeCategory = document.body.dataset.category || "ALL";
 let searchTerm = "";
