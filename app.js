@@ -457,6 +457,7 @@ function setLanguage(next){
   if(next===lang)return;
   lang=next;
   try{localStorage.setItem(LANG_KEY,lang);}catch{}
+  setTextDirection();
   history.pushState({language:lang},"",localizedPath(lang));
   renderHeader();
   const header=document.querySelector(".site-header");
@@ -509,6 +510,7 @@ function initEvents(){
   document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeOptions();setMobileMenu(false);}});
 }
 function initApp(){
+  setTextDirection();
   ensureLocalizedRoute();
   renderHeader();
   initEvents();
