@@ -299,7 +299,8 @@ function renderSiteMenu(){
       const active=href===activeRoute;
       return '<a class="menu-panel-category '+(active?"active":"")+'" href="'+href+'"><span>'+escapeHtml(c[lang])+'</span><span aria-hidden="true">↗</span></a>';
     }).join("")+
-    '</div>';
+    '</div>'+
+    '<div class="client-space-launch"><button type="button" class="client-space-launch-btn" data-client-view="dashboard"><span class="client-space-launch-icon">'+clientIcon("profile")+'</span><span><b>'+escapeHtml(t("clientSpace"))+'</b><small>'+escapeHtml(t("clientSpaceNote"))+'</small></span><span aria-hidden="true">→</span></button></div>';
 }
 
 function productPrice(p){
