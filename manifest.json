@@ -4,7 +4,7 @@
   "short_name": "La Shish",
   "description": "La Shish — bilingual French and English online ordering",
   "lang": "fr",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
