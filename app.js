@@ -30,7 +30,7 @@ const I18N = {
     phoneLabel:"Téléphone", whatsappLabel:"WhatsApp", deliveryLabel:"Livraison", deliveryText:"Service de livraison pris en charge par le client.",
     waveLabel:"Paiement", waveText:"Paiement Wave avec lien envoyé après validation de la commande.",
     footer:"© La Shish — Commande en ligne", language:"Langue", categoryIntro:"Découvrez cette catégorie et commandez directement.",
-    loading:"Préparation de la page…", loadingError:"La page n’a pas pu être chargée. Actualisez pour réessayer.", categoryChoose:"Choisir une catégorie", categoryChooseNote:"Chaque catégorie possède sa propre page pour parcourir les produits plus facilement."
+    loading:"Préparation de la page…", loadingError:"La page n’a pas pu être chargée. Actualisez pour réessayer.", categoryChoose:"Choisir une catégorie", categoryChooseNote:"Chaque catégorie possède sa propre page pour parcourir les produits plus facilement.", openMenu:"Ouvrir le menu", closeMenu:"Fermer le menu"
   },
   en: {
     home:"Home", menu:"Menu", order:"My order", contact:"Contact", catalog:"All categories",
@@ -57,7 +57,7 @@ const I18N = {
     phoneLabel:"Phone", whatsappLabel:"WhatsApp", deliveryLabel:"Delivery", deliveryText:"Delivery service is paid by the customer.",
     waveLabel:"Payment", waveText:"Wave payment link is sent after your order is validated.",
     footer:"© La Shish — Online ordering", language:"Language", categoryIntro:"Explore this category and order directly.",
-    loading:"Loading page…", loadingError:"This page could not be loaded. Refresh to try again.", categoryChoose:"Choose a category", categoryChooseNote:"Each category has its own page so you can browse products more easily."
+    loading:"Loading page…", loadingError:"This page could not be loaded. Refresh to try again.", categoryChoose:"Choose a category", categoryChooseNote:"Each category has its own page so you can browse products more easily.", openMenu:"Open menu", closeMenu:"Close menu"
   }
 };
 
@@ -335,6 +335,9 @@ function setLanguage(next){
   lang=next;
   try{localStorage.setItem(LANG_KEY,lang);}catch{}
   renderHeader();
+  const header=document.querySelector(".site-header");
+  const menuIsOpen=header?.classList.contains("menu-open");
+  if(menuIsOpen)setMobileMenu(true);
   const page=document.body.dataset.page;
   if(page==="home"){renderCategoryDirectory();refreshProductCards();}
   if(page==="menu"){renderCategoryDirectory();}
@@ -342,8 +345,22 @@ function setLanguage(next){
   if(page==="order"){renderCart();fillClient();}
   if(page==="contact"){renderCart();fillClient();}
 }
+function setMobileMenu(open){
+  const header=document.querySelector(".site-header");
+  const toggle=$("mobileMenuToggle");
+  if(!header||!toggle)return;
+  header.classList.toggle("menu-open",open);
+  toggle.setAttribute("aria-expanded",String(open));
+  toggle.setAttribute("aria-label",open?t("closeMenu"):t("openMenu"));
+  document.body.classList.toggle("nav-open",open);
+}
 function initEvents(){
   $("languageToggle")?.addEventListener("click",()=>setLanguage(lang==="fr"?"en":"fr"));
+  $("mobileMenuToggle")?.addEventListener("click",()=>{
+    const header=document.querySelector(".site-header");
+    setMobileMenu(!header?.classList.contains("menu-open"));
+  });
+  document.querySelectorAll(".site-nav a").forEach(link=>link.addEventListener("click",()=>setMobileMenu(false)));
   document.addEventListener("click",e=>{
     const add=e.target.closest("[data-add]");if(add){const p=getProduct(add.dataset.add);if(p)openOptions(p);return;}
     const plus=e.target.closest("[data-plus]");if(plus){const i=cart.find(x=>x.key===decodeURIComponent(plus.dataset.plus));if(i){i.qty++;saveCart();renderCart();}return;}
