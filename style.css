@@ -67,7 +67,7 @@ img{max-width:100%;display:block}
 .category-header small{font-size:11px;color:var(--muted);margin-left:8px}
 .category-content{display:none;padding:0 18px 18px}
 .category-block.open .category-content{display:block}
-.category-block.open .category-header>span:last-child{transform:rotate(180deg)}
+.category-block.open .category-header:not(.static)>span:last-child{transform:rotate(180deg)}
 .subcategory-block+.subcategory-block{margin-top:24px}
 .subcategory-block h4{margin:0 0 12px;padding-top:4px;font-size:14px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase}
 .products-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
