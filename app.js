@@ -147,13 +147,16 @@ function displayOptions(text){
 function categoryLabel(category){ const c=Object.values(categoryConfig).find(x=>x.key===category); return c ? c[lang] : (translations.categories[category]||category); }
 function subcategoryLabel(v){ return lang==="en" ? (translations.subcategories[v]||v) : v; }
 function getProduct(id){ return allProducts.find(p=>String(p.id)===String(id)); }
-const PNG_IMAGE_IDS=new Set([132,133,134,138,139,140,141,142,143,144,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253]);
-function getImage(p){ const id=Number(p?.id); return PNG_IMAGE_IDS.has(id)?"/images/"+id+".png":"/images/"+id+".jpg"; }
+function getImage(p){
+  const id=Number(p?.id);
+  const photo=String(p?.photo||"").trim();
+  const filename=photo.replace(/\.(jpe?g|png)$/i,".webp");
+  return /^\d+\.webp$/i.test(filename) ? "/images/"+filename : (id ? "/images/"+id+".webp" : "/images/no-image.webp");
+}
 function handleImageError(img){
-  const id=img.dataset.productId, step=img.dataset.try||"webp";
-  if(step==="jpg"){img.dataset.try="png";img.src="/images/"+id+".png";}
-  else if(step==="png"){img.dataset.try="webp";img.src="/images/"+id+".webp";}
-  else{img.onerror=null;img.src="/images/no-image.webp";img.alt=t("noImage");}
+  img.onerror=null;
+  img.src="/images/no-image.webp";
+  img.alt=t("noImage");
 }
 function categorySlugByKey(key){ return Object.entries(categoryConfig).find(([,v])=>v.key===key)?.[0] || ""; }
 function localizedPath(targetLang=lang,page=document.body.dataset.page||"home",category=document.body.dataset.category||""){
@@ -526,7 +529,7 @@ finally{
   window.setTimeout(()=>document.body.classList.add("ready"),40);
   if("serviceWorker" in navigator){
     window.addEventListener("load",()=>{
-      navigator.serviceWorker.register("./sw.js?v=9",{updateViaCache:"none"}).catch(()=>{});
+      navigator.serviceWorker.register("./sw.js?v=10",{updateViaCache:"none"}).catch(()=>{});
     },{once:true});
   }
 }
