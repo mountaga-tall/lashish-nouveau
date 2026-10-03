@@ -650,3 +650,14 @@ button, input, textarea {
         padding: 15px;
     }
 }
+
+.eyebrow,.section-kicker{display:block;font-size:.68rem;font-weight:800;letter-spacing:.18em;color:var(--brand-gold)}
+.hero-cta{display:inline-flex;gap:10px;align-items:center;margin-top:18px;padding:11px 18px;border-radius:999px;background:var(--brand-gold);color:#111;text-decoration:none;font-weight:800}
+.notice{display:grid!important;grid-template-columns:repeat(2,1fr);gap:12px}.notice>div{padding:14px 16px;border:1px solid rgba(215,168,79,.25);border-radius:16px}.notice strong,.notice span,.notice small{display:block}.notice span{margin-top:4px;font-weight:600}.notice small{margin-top:3px;opacity:.6}
+.category-header{width:100%;display:flex;justify-content:space-between;align-items:center}.category-header small{opacity:.45;font-size:.68rem}.category-block:not(.open) .category-content{display:none}
+.product-media{position:relative}.product-badge{position:absolute;left:10px;top:10px;padding:5px 9px;border-radius:999px;background:#111;color:#fff;font-size:.65rem;font-weight:700}
+.product-body{padding:13px 14px 15px}.product-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
+.cart-empty{display:grid;place-items:center;gap:5px;padding:28px 10px;text-align:center;opacity:.7}.cart-empty-icon{font-size:2rem}
+.cart-item{display:flex;justify-content:space-between;gap:10px}.cart-item-main{display:grid;gap:3px}.cart-item-main span{font-size:.7rem;opacity:.55}.cart-controls{display:flex;align-items:center;gap:5px}.cart-controls button{width:30px;height:30px;border-radius:9px}
+.form-attention{animation:attention .7s ease}@keyframes attention{50%{transform:translateY(-2px)}}.checkout-note{margin:8px 0 0;text-align:center;font-size:.68rem;opacity:.55;line-height:1.5}.whatsapp-btn:disabled{opacity:.45;cursor:not-allowed}
+body.modal-open,body.cart-open{overflow:hidden}@media(max-width:700px){.notice{grid-template-columns:1fr!important}.hero-cta{margin-top:14px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
