@@ -3,6 +3,8 @@ const WHATSAPP_NUMBER = "2250140555666";
 const CART_KEY = "laShishCart";
 const LANG_KEY = "laShishLanguage";
 const CLIENT_KEY = "laShishClient";
+const FAVORITES_KEY = "laShishFavorites";
+const HISTORY_KEY = "laShishOrderHistory";
 
 const I18N = {
   fr: {
@@ -83,6 +85,7 @@ let cart = loadCart();
 let activeCategory = document.body.dataset.category || "ALL";
 let searchTerm = "";
 let currentProduct = null;
+let favorites = loadFavorites();
 
 const $ = id => document.getElementById(id);
 const allProducts = (window.MENU_ALL || [
@@ -117,6 +120,36 @@ function saveClient(){
   } catch {}
 }
 function loadClient(){ try { return JSON.parse(localStorage.getItem(CLIENT_KEY)||"{}")||{}; } catch { return {}; } }
+function loadFavorites(){ try { const v=JSON.parse(localStorage.getItem(FAVORITES_KEY)||"[]"); return Array.isArray(v)?v.map(Number).filter(Boolean):[]; } catch { return []; } }
+function saveFavorites(){ try { localStorage.setItem(FAVORITES_KEY,JSON.stringify(favorites)); } catch {} }
+function loadOrderHistory(){ try { const v=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]"); return Array.isArray(v)?v:[]; } catch { return []; } }
+function saveOrderHistory(order){ try { const h=loadOrderHistory(); h.unshift(order); localStorage.setItem(HISTORY_KEY,JSON.stringify(h.slice(0,20))); } catch {} }
+function isFavorite(id){ return favorites.includes(Number(id)); }
+function toggleFavorite(id){
+  id=Number(id);
+  favorites=isFavorite(id)?favorites.filter(x=>x!==id):[...favorites,id];
+  saveFavorites();
+  refreshProductCards();
+  showToast(isFavorite(id)?t("favoriteAdded"):t("favoriteRemoved"));
+}
+function ensureClientSpace(){
+  let modal=$("clientSpaceModal");
+  if(!modal){ modal=document.createElement("div"); modal.id="clientSpaceModal"; modal.className="client-space-modal"; modal.setAttribute("role","dialog"); modal.setAttribute("aria-modal","true"); document.body.appendChild(modal); }
+  return modal;
+}
+function clientIcon(kind){
+  const icons={
+    profile:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.3"/><path d="M5 20c.6-3.4 3.1-5.4 7-5.4s6.4 2 7 5.4"/></svg>',
+    order:'<svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h4M9 12h6M9 16h5"/></svg>',
+    history:'<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v5h5M12 7v5l3 2"/></svg>',
+    heart:'<svg viewBox="0 0 24 24"><path d="M20 8.5c0 5.5-8 10.5-8 10.5S4 14 4 8.5A4.5 4.5 0 0 1 12 5a4.5 4.5 0 0 1 8 3.5Z"/></svg>',
+    bell:'<svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8M10 21h4"/></svg>',
+    coupon:'<svg viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12v4a2 2 0 0 1 0 4v6H6a2 2 0 0 1-2-2z"/><path d="M9 8v8"/></svg>',
+    address:'<svg viewBox="0 0 24 24"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>',
+    message:'<svg viewBox="0 0 24 24"><path d="M5 5h14v11H9l-4 3z"/><path d="M8 9h8M8 12h5"/></svg>'
+  };
+  return icons[kind]||icons.order;
+}
 function formatPrice(n){ return Number(n||0).toLocaleString(lang==="fr"?"fr-FR":"en-US"); }
 function normalize(v){ return String(v||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
 function escapeHtml(v){ return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m])); }
