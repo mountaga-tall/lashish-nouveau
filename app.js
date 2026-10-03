@@ -145,9 +145,14 @@ function renderHeader(){
   if(toggle){
     toggle.setAttribute("aria-label",t("language"));
     toggle.setAttribute("aria-pressed",String(lang==="en"));
-    const active=toggle.querySelector(".lang-active"),next=toggle.querySelector(".lang-next");
-    if(active)active.textContent=lang==="fr"?"FR":"EN";
-    if(next)next.textContent=lang==="fr"?"EN":"FR";
+  }
+  if(document.body.dataset.page==="category"){
+    const category=categoryConfig[document.body.dataset.category];
+    if(category){
+      const kicker=$("categoryKicker"),heading=$("categoryTitle");
+      if(kicker)kicker.textContent=(category[lang]||category.key).toUpperCase();
+      if(heading)heading.textContent=category[lang]||category.key;
+    }
   }
 }
 function renderLoader(show){
