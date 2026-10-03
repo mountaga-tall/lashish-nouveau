@@ -178,8 +178,11 @@ function addToCart(item) {
     showToast("Ajouté au panier 🛒");
 }
 
-function getTotal() {  return cart.reduce((total, item) => { return total + ((Number(item.prix) || 0) * item.qty); }, 0);
-
+function getTotal() {
+    return cart.reduce((total, item) => total + ((Number(item.prix) || 0) * Number(item.qty || 0)), 0);
+}
+function getItemCount() {
+    return cart.reduce((count, item) => count + Number(item.qty || 0), 0);
 }
 
 function renderCart() {
@@ -200,6 +203,9 @@ function renderCart() {
     let total = formatPrice(getTotal());
     el.cartTotal.textContent = total;
     el.mobileTotal.textContent = total;
+    const mobileCount = document.getElementById("mobileCount");
+    if(mobileCount) mobileCount.textContent = getItemCount();
+    if(el.whatsappBtn) el.whatsappBtn.disabled = !cart.length;
 }
 
 function sendWhatsApp() {
@@ -212,13 +218,17 @@ function sendWhatsApp() {
     let phone = document.getElementById("clientPhone").value.trim();
     let zone = document.getElementById("clientZone").value.trim();
     let address = document.getElementById("clientAddress").value.trim();
+    let comment = document.getElementById("clientComment").value.trim();
 
     if(!name || !phone || !zone || !address) {
-        showToast("Complétez vos informations");
+        showToast("Complétez nom, téléphone, zone et adresse");
+        document.querySelector(".client-form")?.classList.add("form-attention");
         return;
     }
 
-    let msg = `🔥 *COMMANDE LA SHISH* 🔥\n\n👤 ${name}\n📞 ${phone}\n📍 ${zone}\n🏠 ${address}\n\n🛒 Commande:\n`;
+    let msg = `🍽️ *COMMANDE LA SHISH*\n\n*Client*\n👤 ${name}\n📞 ${phone}\n📍 ${zone}\n🏠 ${address}\n`;
+    if(comment) msg += `💬 ${comment}\n`;
+    msg += `\n*Commande*\n`;
 
     cart.forEach(i => {
         msg += `\n${i.qty}x ${i.nom}`;
@@ -226,7 +236,7 @@ function sendWhatsApp() {
         msg += `\n${i.prix * i.qty} FCFA\n`;
     });
 
-    msg += `\n💰 TOTAL ${formatPrice(getTotal())} FCFA`;
+    msg += `\n💰 *TOTAL : ${formatPrice(getTotal())} FCFA*\n\n🚚 Livraison à la charge du client.\n💳 Paiement Wave : lien envoyé sur WhatsApp.`;
     window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
@@ -267,6 +277,7 @@ function openPizzaModal(product) {
     `).join("");
 
     pizzaModal.classList.add("open");
+    document.body.classList.add("modal-open");
 }
 
 if (pizzaAdd && pizzaCancel && pizzaModal) {
@@ -303,8 +314,8 @@ if (pizzaAdd && pizzaCancel && pizzaModal) {
 // ==========================================
 
 el.whatsappBtn.addEventListener("click", sendWhatsApp);
-el.mobileCartBtn.addEventListener("click", () => el.cartPanel.classList.add("open"));
-el.closeCartMobile.addEventListener("click", () => el.cartPanel.classList.remove("open"));
+el.mobileCartBtn.addEventListener("click", () => { el.cartPanel.classList.add("open"); document.body.classList.add("cart-open"); });
+el.closeCartMobile.addEventListener("click", () => { el.cartPanel.classList.remove("open"); document.body.classList.remove("cart-open"); });
 
 // Délégation d'événements (pour les éléments générés dynamiquement)
 document.addEventListener("click", e => {
