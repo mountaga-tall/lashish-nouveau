@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useCart } from "./cart-store";
 
 function IconMenu({ open }: { open: boolean }) {
   return (
@@ -15,6 +16,7 @@ function IconMenu({ open }: { open: boolean }) {
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { count } = useCart();
 
   return (
     <>
@@ -28,10 +30,11 @@ export default function SiteHeader() {
           <nav className="hidden items-center gap-7 text-sm font-semibold text-white/75 md:flex">
             <Link href="/menu" className="transition hover:text-[#d4b273]">Menu</Link>
             <Link href="/reserver" className="transition hover:text-[#d4b273]">Réserver</Link>
-            <Link href="/commande" className="transition hover:text-[#d4b273]">Ma commande</Link>
+            <Link href="/commande" className="relative transition hover:text-[#d4b273]">Ma commande{count > 0 ? <span className="ml-1 inline-flex min-w-5 items-center justify-center rounded-full bg-[#d4b273] px-1.5 py-0.5 text-[10px] font-black text-[#11100e]">{count}</span> : null}</Link>
             <Link href="/contact" className="transition hover:text-[#d4b273]">Contact</Link>
           </nav>
 
+          <Link href="/commande" className="mr-2 hidden items-center rounded-full border border-[#d4b273]/40 bg-[#d4b273]/10 px-3 py-2 text-xs font-black text-[#d4b273] sm:flex">Panier {count > 0 ? `(${count})` : ""}</Link>
           <button
             aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={open}
