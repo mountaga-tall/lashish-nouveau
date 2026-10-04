@@ -8,7 +8,6 @@ import Breadcrumbs from "../components/breadcrumbs";
 import PwaRegister from "../components/pwa-register";
 import MobileBar from "../components/mobile-bar";
 import I18nProvider from "../components/i18n-provider";
-import I18nProvider from "../components/i18n-provider";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://menushish.ci"),
