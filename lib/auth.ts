@@ -1,3 +1,5 @@
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+
 const SESSION_COOKIE = "menushish_session";
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30;
 
@@ -32,12 +34,13 @@ export function normalizeEmail(value?: string | null) {
   return value?.trim().toLowerCase() || null;
 }
 
-export function normalizePhone(value?: string | null) {
-  let normalized = value?.trim().replace(/\D/g, "") || "";
+export function normalizePhone(value?: string | null, defaultCountry: string="CI") {
+  const raw = value?.trim() || "";
+  if (!raw) return null;
+  const parsed = parsePhoneNumberFromString(raw, defaultCountry as any);
+  if (parsed && parsed.isValid()) return parsed.number.replace("+","");
+  let normalized = raw.replace(/\D/g,"");
   if (normalized.startsWith("00")) normalized = normalized.slice(2);
-  if (normalized.startsWith("225")) return normalized;
-  if (normalized.length === 10 && normalized.startsWith("0")) return "225" + normalized.slice(1);
-  if (normalized.length === 9) return "225" + normalized;
   return normalized || null;
 }
 
