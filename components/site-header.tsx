@@ -26,7 +26,7 @@ export default function SiteHeader() {
       <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
         <div className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl border border-white/10 bg-[#11100e]/85 px-4 py-3 text-white shadow-2xl backdrop-blur-xl sm:px-5">
           <Link href="/" onClick={() => setOpen(false)} className="group flex items-center gap-3">
-            <Image src="https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/main/images/logo.webp" alt="La Shish" width={88} height={58} priority className="h-14 w-[78px] object-contain transition duration-500 group-hover:scale-110 group-hover:-rotate-1 sm:h-16 sm:w-[92px]" />
+            <Image src="https://raw.githubusercontent.com/mountaga-tall/menushish/main/images/logo.webp" alt="La Shish" width={88} height={58} priority className="h-14 w-[78px] object-contain transition duration-500 group-hover:scale-110 group-hover:-rotate-1 sm:h-16 sm:w-[92px]" />
             <span className="hidden text-sm font-black tracking-[.18em] sm:block">MENU SHISH</span>
           </Link>
 
