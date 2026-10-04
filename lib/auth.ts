@@ -49,7 +49,7 @@ export async function hashPassword(password: string, salt?: Uint8Array) {
   const actualSalt = salt ?? crypto.getRandomValues(new Uint8Array(16));
   const key = await crypto.subtle.importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveBits"]);
   const bits = await crypto.subtle.deriveBits(
-    { name: "PBKDF2", salt: actualSalt, iterations: 120_000, hash: "SHA-256" },
+    { name: "PBKDF2", salt: actualSalt as unknown as BufferSource, iterations: 120_000, hash: "SHA-256" },
     key,
     256
   );
@@ -112,7 +112,7 @@ export async function getAuthUser(db: any, request: Request): Promise<AuthUser |
   const tokenHash = await sha256Hex(token);
   const user = await db.prepare(
     "SELECT u.id,u.email,u.phone,u.display_name,u.created_at FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at > datetime('now') LIMIT 1"
-  ).bind(tokenHash).first<AuthUser>();
+  ).bind(tokenHash).first() as AuthUser | null;
   return user ?? null;
 }
 
