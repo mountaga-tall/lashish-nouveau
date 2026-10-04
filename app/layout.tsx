@@ -1,6 +1,28 @@
 import type { Metadata,Viewport } from "next";
 import "./globals.css";
-const logo="https://raw.githubusercontent.com/mountaga-tall/menushish/main/images/logo.webp";
-export const metadata:Metadata={metadataBase:new URL("https://menushish.ci"),title:{default:"Menu Shish — La Shish Abidjan",template:"%s — Menu Shish"},description:"Menu digital de La Shish à Abidjan.",manifest:"/manifest.webmanifest",applicationName:"Menu Shish",icons:{icon:logo,apple:logo,shortcut:logo},appleWebApp:{capable:true,title:"Menu Shish",statusBarStyle:"black-translucent"}};
-export const viewport:Viewport={width:"device-width",initialScale:1,viewportFit:"cover",themeColor:[{media:"(prefers-color-scheme: light)",color:"#f6f0e6"},{media:"(prefers-color-scheme: dark)",color:"#11100e"}],colorScheme:"light dark"};
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="fr" dir="ltr" suppressHydrationWarning><head><link rel="preconnect" href="https://raw.githubusercontent.com"/><link rel="dns-prefetch" href="https://raw.githubusercontent.com"/><link rel="icon" href={logo} type="image/webp"/><link rel="apple-touch-icon" href={logo}/><script id="theme-init" dangerouslySetInnerHTML={{__html:'(()=>{const t=localStorage.getItem("menushish_theme");const v=t==="dark"||t==="light"||t==="system"?t:"system";const d=v==="system"?(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):v;document.documentElement.dataset.theme=d;document.documentElement.dataset.themePreference=v;document.documentElement.style.colorScheme=d})()'}}/></head><body>{children}</body></html>}
+
+const logo="/logo.webp";
+
+export const metadata:Metadata={
+  metadataBase:new URL("https://menushish.ci"),
+  title:{default:"Menu Shish — La Shish Abidjan",template:"%s — Menu Shish"},
+  description:"Menu digital de La Shish à Abidjan.",
+  manifest:"/manifest.webmanifest",
+  applicationName:"Menu Shish",
+  icons:{icon:[{url:logo,type:"image/webp"}],shortcut:logo,apple:[{url:logo,type:"image/webp"}]},
+  appleWebApp:{capable:true,title:"Menu Shish",statusBarStyle:"black-translucent"},
+  formatDetection:{telephone:false,address:false,email:false}
+};
+export const viewport:Viewport={
+  width:"device-width",initialScale:1,viewportFit:"cover",
+  themeColor:[{media:"(prefers-color-scheme: light)",color:"#f6f0e6"},{media:"(prefers-color-scheme: dark)",color:"#11100e"}],
+  colorScheme:"light dark"
+};
+
+export default function RootLayout({children}:{children:React.ReactNode}){
+ return <html lang="fr" dir="ltr" suppressHydrationWarning><head>
+  <link rel="preconnect" href="https://raw.githubusercontent.com"/><link rel="dns-prefetch" href="https://raw.githubusercontent.com"/>
+  <link rel="icon" href={logo} type="image/webp"/><link rel="apple-touch-icon" href={logo}/>
+  <script id="theme-init" dangerouslySetInnerHTML={{__html:'(()=>{try{const t=localStorage.getItem("menushish_theme");const v=t==="dark"||t==="light"||t==="system"?t:"system";const d=v==="system"?(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):v;document.documentElement.dataset.theme=d;document.documentElement.dataset.themePreference=v;document.documentElement.style.colorScheme=d}catch{document.documentElement.dataset.theme="light";document.documentElement.dataset.themePreference="system";document.documentElement.style.colorScheme="light"}})()'}}/>
+ </head><body>{children}</body></html>
+}
