@@ -10,6 +10,15 @@
   },
   "observability": {
     "enabled": true
-  }
-  // Add D1/R2 bindings here after the Cloudflare resources are created.
+  },
+  "routes": [
+    {
+      "pattern": "menushish.ci",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.menushish.ci",
+      "custom_domain": true
+    }
+  ]
 }
