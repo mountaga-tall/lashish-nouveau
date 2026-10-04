@@ -22,7 +22,7 @@ export default function ReservePage() {
       `Personnes : ${party}`,
       notes ? `Notes : ${notes}` : ""
     ].filter(Boolean).join("\n");
-    window.open(`https://wa.me/2250140555666?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    void fetch("/api/reservations", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ customerName: name, customerPhone: phone, reservationDate: date, reservationTime: time, partySize: Number(party), notes }) }).then(() => { window.open("https://wa.me/2250140555666?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer"); });
   };
 
   return (
