@@ -5,6 +5,11 @@ import { useCart } from "./cart-store";
 
 export default function OrderPanel() {
   const { items, total, remove, clear } = useCart();
+  const checkout = () => {
+    const lines = items.map((item) => `- ${item.qty}× ${item.nom} — ${(item.qty * item.prix).toLocaleString("fr-FR")} F`).join("\\n");
+    const message = `Bonjour La Shish, je souhaite passer cette commande :\\n\\n${lines}\\n\\nTotal estimé : ${total.toLocaleString("fr-FR")} F\\n\\nNom :\\nTéléphone :\\nLivraison / retrait :`;
+    window.open(`https://wa.me/2250140555666?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+  };
 
   if (!items.length) {
     return (
@@ -41,7 +46,7 @@ export default function OrderPanel() {
         <div className="mt-6 flex items-center justify-between text-white/60"><span>Sous-total</span><strong className="text-white">{total.toLocaleString("fr-FR")} F</strong></div>
         <div className="mt-3 flex items-center justify-between text-white/60"><span>Livraison</span><span>À confirmer</span></div>
         <div className="mt-6 border-t border-white/10 pt-6"><div className="flex items-end justify-between"><span className="text-white/60">Total</span><strong className="text-3xl">{total.toLocaleString("fr-FR")} F</strong></div></div>
-        <button className="mt-7 w-full rounded-full bg-[#d4b273] px-5 py-3.5 text-sm font-black text-[#11100e] hover:bg-white">Continuer la commande</button>
+        <button onClick={checkout} className="mt-7 w-full rounded-full bg-[#d4b273] px-5 py-3.5 text-sm font-black text-[#11100e] hover:bg-white">Commander sur WhatsApp</button>
       </aside>
     </div>
   );
