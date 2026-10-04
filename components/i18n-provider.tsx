@@ -26,7 +26,7 @@ const dictionaries: Record<Locale, Dict> = {
     "order.info":"Informations de commande","order.name":"Nom complet","order.phone":"Téléphone","order.fulfillment":"Mode de retrait","order.pickup":"À emporter","order.onsite":"Sur place","order.delivery":"Livraison",
     "order.address":"Adresse / quartier","order.notes":"Note pour le restaurant","order.summary":"Récapitulatif","order.subtotal":"Sous-total","order.deliveryFee":"Livraison","order.toConfirm":"À confirmer","order.total":"Total","order.prepare":"Préparation…","order.whatsapp":"Commander sur WhatsApp",
     "tracking.label":"Suivi","tracking.order":"Commande","tracking.status":"Statut","tracking.total":"Total :","tracking.error":"Impossible de charger le suivi.",
-    "status.received":"Commande reçue","status.preparing":"En préparation","status.ready":"Prête","status.delivering":"En livraison","status.completed":"Terminée",
+    "status.received":"Commande reçue","status.preparing":"En préparation","status.ready":"Prête","status.delivering":"En livraison","status.completed":"Terminée","status.pending":"En attente","status.confirmed":"Confirmée","status.cancelled":"Annulée",
     "account.eyebrow":"Espace client","account.title":"Mon espace.","account.desc":"Créez votre compte pour retrouver vos commandes, réservations et points de fidélité sur tous vos passages.",
     "account.customer":"Compte client","account.welcome":"Bienvenue.","account.createSpace":"Créez votre espace.","account.secure":"Retrouvez vos commandes, réservations et points de fidélité grâce à un compte sécurisé.",
     "account.ordersHistory":"Historique des commandes","account.reservationsHistory":"Historique des réservations","account.loyaltyLinked":"Fidélité reliée au compte",
@@ -63,7 +63,7 @@ const dictionaries: Record<Locale, Dict> = {
     "order.info":"Order information","order.name":"Full name","order.phone":"Phone","order.fulfillment":"Fulfillment","order.pickup":"Takeaway","order.onsite":"Dine-in","order.delivery":"Delivery",
     "order.address":"Address / area","order.notes":"Note for the restaurant","order.summary":"Summary","order.subtotal":"Subtotal","order.deliveryFee":"Delivery","order.toConfirm":"To confirm","order.total":"Total","order.prepare":"Preparing…","order.whatsapp":"Order on WhatsApp",
     "tracking.label":"Tracking","tracking.order":"Order","tracking.status":"Status","tracking.total":"Total:","tracking.error":"Unable to load tracking.",
-    "status.received":"Order received","status.preparing":"Preparing","status.ready":"Ready","status.delivering":"Out for delivery","status.completed":"Completed",
+    "status.received":"Order received","status.preparing":"Preparing","status.ready":"Ready","status.delivering":"Out for delivery","status.completed":"Completed","status.pending":"Pending","status.confirmed":"Confirmed","status.cancelled":"Cancelled",
     "account.eyebrow":"Customer space","account.title":"My account.","account.desc":"Create your account to keep your orders, reservations and loyalty points with you.",
     "account.customer":"Customer account","account.welcome":"Welcome.","account.createSpace":"Create your space.","account.secure":"Keep your orders, reservations and loyalty points with a secure customer account.",
     "account.ordersHistory":"Order history","account.reservationsHistory":"Reservation history","account.loyaltyLinked":"Loyalty linked to account",
@@ -100,7 +100,7 @@ const dictionaries: Record<Locale, Dict> = {
     "order.info":"معلومات الطلب","order.name":"الاسم الكامل","order.phone":"الهاتف","order.fulfillment":"طريقة الاستلام","order.pickup":"استلام خارجي","order.onsite":"في المطعم","order.delivery":"توصيل",
     "order.address":"العنوان / الحي","order.notes":"ملاحظة للمطعم","order.summary":"ملخص الطلب","order.subtotal":"المجموع الفرعي","order.deliveryFee":"التوصيل","order.toConfirm":"يُحدد لاحقاً","order.total":"الإجمالي","order.prepare":"جارٍ التحضير…","order.whatsapp":"اطلب عبر واتساب",
     "tracking.label":"تتبع","tracking.order":"الطلب","tracking.status":"الحالة","tracking.total":"الإجمالي:","tracking.error":"تعذر تحميل التتبع.",
-    "status.received":"تم استلام الطلب","status.preparing":"قيد التحضير","status.ready":"جاهز","status.delivering":"في الطريق","status.completed":"مكتمل",
+    "status.received":"تم استلام الطلب","status.preparing":"قيد التحضير","status.ready":"جاهز","status.delivering":"في الطريق","status.completed":"مكتمل","status.pending":"قيد الانتظار","status.confirmed":"مؤكد","status.cancelled":"ملغى",
     "account.eyebrow":"مساحة العميل","account.title":"حسابي.","account.desc":"أنشئ حسابك للاحتفاظ بطلباتك وحجوزاتك ونقاط الولاء.",
     "account.customer":"حساب العميل","account.welcome":"مرحباً.","account.createSpace":"أنشئ مساحتك.","account.secure":"احتفظ بطلباتك وحجوزاتك ونقاط الولاء من خلال حساب آمن.",
     "account.ordersHistory":"سجل الطلبات","account.reservationsHistory":"سجل الحجوزات","account.loyaltyLinked":"الولاء مرتبط بالحساب",
@@ -198,7 +198,11 @@ function replaceDigits(root: Node, locale: Locale) {
   }
   const toArabic = (value: string) => value.replace(/[0-9]/g, (d) => "٠١٢٣٤٥٦٧٨٩"[Number(d)]);
   const toLatin = (value: string) => value.replace(/[٠-٩]/g, (d) => String("٠١٢٣٤٥٦٧٨٩".indexOf(d)));
-  for (const text of nodes) text.nodeValue = locale === "ar" ? toArabic(text.nodeValue || "") : toLatin(text.nodeValue || "");
+  for (const text of nodes) {
+    const current = text.nodeValue || "";
+    const next = locale === "ar" ? toArabic(current) : toLatin(current);
+    if (next !== current) text.nodeValue = next;
+  }
 }
 
 const titles: Record<string, Record<Locale, string>> = {
@@ -252,7 +256,7 @@ export function useI18n() {
 }
 
 export default function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(readInitialLocale);
+  const [locale, setLocaleState] = useState<Locale>("fr");
 
   const setLocale = (next: Locale) => {
     setLocaleState(next);
@@ -261,6 +265,8 @@ export default function I18nProvider({ children }: { children: React.ReactNode }
   };
 
   useEffect(() => {
+    const saved = readInitialLocale();
+    if (saved !== locale) { setLocaleState(saved); return; }
     document.documentElement.dataset.locale = locale;
     document.documentElement.lang = locale;
     document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";

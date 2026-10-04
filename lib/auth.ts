@@ -78,23 +78,23 @@ export async function createSession(db: any, userId: string) {
   return token;
 }
 
-export function sessionCookie(token: string) {
+export function sessionCookie(token: string, request?: Request) {
   return [
     SESSION_COOKIE + "=" + token,
     "Path=/",
     "HttpOnly",
-    "Secure",
+    ...(request?.url.startsWith("https://") ? ["Secure"] : []),
     "SameSite=Lax",
     "Max-Age=" + SESSION_MAX_AGE,
   ].join("; ");
 }
 
-export function clearSessionCookie() {
+export function clearSessionCookie(request?: Request) {
   return [
     SESSION_COOKIE + "=",
     "Path=/",
     "HttpOnly",
-    "Secure",
+    ...(request?.url.startsWith("https://") ? ["Secure"] : []),
     "SameSite=Lax",
     "Max-Age=0",
   ].join("; ");

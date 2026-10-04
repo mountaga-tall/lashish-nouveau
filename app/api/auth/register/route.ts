@@ -48,6 +48,6 @@ export async function POST(request: Request) {
   const token = await createSession(db, userId);
   return Response.json(
     { ok: true, user: { id: userId, email, phone, display_name: name } },
-    { headers: { "Set-Cookie": sessionCookie(token) } }
+    { headers: { "Set-Cookie": sessionCookie(token, request) } }
   );
 }
