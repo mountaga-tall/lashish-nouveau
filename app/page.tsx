@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { slugify, imageUrl } from "../lib/catalog";
 import FeaturedProducts from "../components/featured-products";
-import { I18nText, menuLabel } from "../components/i18n-provider";
+import { I18nText } from "../components/i18n-provider";
+import { menuLabel } from "../lib/menu-localization";
 import menu from "../data/menu.json";
 
 const featured = menu.products.filter((p) => p.disponible && typeof p.prix === "number").slice(0,6);

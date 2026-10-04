@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useMemo,useState } from "react";
 import { useCart } from "./cart-store";
 import FavoriteButton from "./favorite-button";
-import { useI18n,menuLabel } from "./i18n-provider";
+import { useI18n } from "./i18n-provider";
+import { menuLabel } from "../lib/menu-localization";
 import { imageUrl } from "../lib/catalog";
 
 type Product={id:number;categorie:string;sousCategorie?:string;nom:string;description?:string;prix?:number;disponible:boolean;photo?:string;type?:string;tailles?:{nom:string;prix:number}[]};
