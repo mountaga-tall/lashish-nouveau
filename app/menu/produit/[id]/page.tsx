@@ -44,7 +44,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             ) : null}
             <div className="mt-8 flex items-end justify-between gap-6">
               <div><span className="text-xs font-bold uppercase tracking-[.2em] text-black/40">À partir de</span><p className="mt-1 text-4xl font-black">{price ? price.toLocaleString("fr-FR") : "—"} <span className="text-base">F</span></p></div>
-              <ProductAction product={{ id: p.id, nom: p.nom, prix: price ?? 0, photo: p.photo }} />
+              <ProductAction product={{ id: p.id, nom: p.nom, prix: price ?? 0, photo: p.photo, tailles: p.tailles }} />
             </div>
             <p className="mt-6 text-xs text-black/40">Référence produit #{p.id} · <span className={p.disponible ? "text-emerald-700" : "text-red-700"}>{p.disponible ? "Disponible" : "Indisponible"}</span></p>
           </div>
