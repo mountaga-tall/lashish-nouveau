@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "./locale-link";
 import { useState } from "react";
 import { useCart } from "./cart-store";
 import { useI18n } from "./i18n-provider";
