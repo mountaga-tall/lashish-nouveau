@@ -12,9 +12,9 @@ export default function ContactPage() {
             <h2 className="mt-3 text-3xl font-black">Riviera Bonoumin</h2>
             <p className="mt-3 text-white/60">Voie de la Djibi, Abidjan</p>
             <div className="mt-8 space-y-4 text-sm">
-              <a className="block font-semibold text-[#d4b273]" href="tel:+2250700000000">Téléphone →</a>
+              <a className="block font-semibold text-[#d4b273]" href="tel:+2250140555666">Téléphone →</a>
               <a className="block font-semibold text-[#d4b273]" href="mailto:lashish2@bonoumin.ci">lashish2@bonoumin.ci →</a>
-              <a className="block font-semibold text-[#d4b273]" href="https://wa.me/" target="_blank" rel="noreferrer">WhatsApp →</a>
+              <a className="block font-semibold text-[#d4b273]" href="https://wa.me/2250140555666?text=Bonjour%20La%20Shish%2C%20je%20souhaite%20vous%20contacter." target="_blank" rel="noreferrer">WhatsApp →</a>
             </div>
           </div>
           <div className="min-h-[420px] overflow-hidden rounded-[2rem] border border-black/10 bg-white">
