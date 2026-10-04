@@ -9,13 +9,14 @@ import { useI18n } from "./i18n-provider";
 import { menuLabel } from "../lib/menu-localization";
 import { imageUrl } from "../lib/catalog";
 import { ProductName, ProductDescription } from "./product-text";
+import { productName, productDescription } from "../lib/product-localization";
 
 type Product={id:number;categorie:string;sousCategorie?:string;nom:string;description?:string;prix?:number;disponible:boolean;photo?:string;type?:string;tailles?:{nom:string;prix:number}[]};
 
 export default function MenuBrowser({products,categories}:{products:Product[];categories:string[]}) {
   const [query,setQuery]=useState(""); const [active,setActive]=useState("Tous"); const [addedId,setAddedId]=useState<number|null>(null);
   const {add}=useCart(); const {t,money,locale}=useI18n();
-  const visible=useMemo(()=>{const q=query.trim().toLowerCase();return products.filter(p=>{const categoryOk=active==="Tous"||p.categorie===active;const queryOk=!q||[p.nom,p.description,p.sousCategorie].filter(Boolean).join(" ").toLowerCase().includes(q);return categoryOk&&queryOk})},[products,active,query]);
+  const visible=useMemo(()=>{const q=query.trim().toLowerCase();return products.filter(p=>{const categoryOk=active==="Tous"||p.categorie===active;const searchable=[p.nom,p.description,p.sousCategorie,productName(p.nom,"en"),productName(p.nom,"ar"),productDescription(p.description,"en"),productDescription(p.description,"ar")].filter(Boolean).join(" ").toLowerCase();const queryOk=!q||searchable.includes(q);return categoryOk&&queryOk})},[products,active,query]);
   return <div className="mt-10">
     <div className="sticky top-[84px] z-30 rounded-3xl border border-black/10 bg-[#f5f0e7]/90 p-3 backdrop-blur-xl sm:p-4">
       <div className="flex flex-col gap-3 lg:flex-row">

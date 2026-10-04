@@ -49,7 +49,7 @@ export default function OrderPanel() {
       <section className="rounded-[2rem] border border-black/10 bg-white/70 p-6 sm:p-8">
         <div className="flex items-center justify-between"><h2 className="text-2xl font-black">Votre sélection</h2><button type="button" onClick={clear} className="text-sm font-bold text-black/45 hover:text-red-700">Vider</button></div>
         <div className="mt-6 divide-y divide-black/8">
-          {items.map((item) => <div key={item.id} className="flex items-center justify-between gap-4 py-5"><div><p className="font-black">{item.nom}</p><p className="mt-1 text-sm text-black/45">{item.qty} × {item.prix.toLocaleString("fr-FR")} F</p></div><button type="button" onClick={() => remove(item.id)} className="rounded-full border border-black/10 px-4 py-2 text-xs font-bold">− 1</button></div>)}
+          {items.map((item) => <div key={item.key} className="flex items-center justify-between gap-4 py-5"><div><p className="font-black">{item.nom}</p><p className="mt-1 text-sm text-black/45">{item.qty} × {item.prix.toLocaleString("fr-FR")} F</p></div><button type="button" onClick={() => remove(item.id)} className="rounded-full border border-black/10 px-4 py-2 text-xs font-bold">− 1</button></div>)}
         </div>
         <div className="mt-6 border-t border-black/8 pt-6">
           <h3 className="text-lg font-black">Informations de commande</h3>

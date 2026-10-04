@@ -20,7 +20,7 @@ export default function PwaInstall() {
   const label = locale === "ar" ? "تثبيت التطبيق" : locale === "en" ? "Install app" : "Installer l’app";
   return (
     <button type="button" onClick={async () => { await event.prompt(); await event.userChoice.catch(() => undefined); setEvent(null); }}
-      className="hidden rounded-full border border-[#d4b273]/40 bg-[#d4b273]/10 px-3 py-2 text-[10px] font-black text-[#d4b273] sm:block">
+      className="inline-flex items-center justify-center rounded-full border border-[#d4b273]/40 bg-[#d4b273]/10 px-3 py-2 text-[10px] font-black text-[#d4b273] sm:block">
       {label}
     </button>
   );
