@@ -20,7 +20,7 @@ type Product = {
   supplement?: { label: string; prix: number };
 };
 
-const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/v2-nextjs/images/";
+const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/main/images/";
 
 export default function MenuBrowser({ products, categories }: { products: Product[]; categories: string[] }) {
   const [query, setQuery] = useState("");
