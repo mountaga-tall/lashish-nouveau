@@ -1,7 +1,6 @@
 name: Validate site
 
 on:
-  push:
   pull_request:
 
 jobs:
