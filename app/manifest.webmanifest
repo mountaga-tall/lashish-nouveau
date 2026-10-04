@@ -1,0 +1,10 @@
+{
+  "name": "Menu Shish",
+  "short_name": "Menu Shish",
+  "description": "Menu digital La Shish",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#11100e",
+  "theme_color": "#11100e",
+  "lang": "fr"
+}

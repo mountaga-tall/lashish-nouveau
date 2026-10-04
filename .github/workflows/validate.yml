@@ -1,11 +1,24 @@
-name: Validate static site
+name: Validate site
 
 on:
-  push:
   pull_request:
 
 jobs:
-  syntax:
+  nextjs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install dependencies
+        run: npm install
+      - name: Build Next.js application
+        run: npm run build
+
+  legacy-syntax:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -14,7 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Check JavaScript syntax
+      - name: Check legacy JavaScript syntax
         shell: bash
         run: |
           set -e
