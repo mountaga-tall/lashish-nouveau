@@ -1,3 +1,6 @@
+import { localizedMetadata } from "../../../lib/seo";
+import type { Locale } from "../../../lib/menu-localization";
+export async function generateMetadata({params}:{params:Promise<{locale:string}>}){const {locale}=await params;const meta=localizedMetadata(locale as Locale,"reserver","/"+locale+"/reserver");return meta;}
 "use client";
 
 import { useState } from "react";
