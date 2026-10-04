@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { slugify } from "../lib/catalog";
 import menu from "../data/menu.json";
 
 const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/v2-nextjs/images/";
@@ -58,7 +59,7 @@ export default function HomePage() {
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map(([label], i) => (
-              <Link key={label} href="/menu" className="card-shine group rounded-3xl border border-black/8 bg-white/60 p-6 backdrop-blur transition hover:-translate-y-1 hover:bg-white">
+              <Link key={label} href={`/menu/${slugify(label)}`} className="card-shine group rounded-3xl border border-black/8 bg-white/60 p-6 backdrop-blur transition hover:-translate-y-1 hover:bg-white">
                 <span className="text-xs font-bold text-[#b68a42]">0{i + 1}</span>
                 <h3 className="mt-12 text-2xl font-black">{label}</h3>
                 <p className="mt-2 text-sm text-black/55">Sélection La Shish</p>
