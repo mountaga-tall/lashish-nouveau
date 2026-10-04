@@ -1,0 +1,77 @@
+'use client';
+
+import Link from "next/link";
+import { useState } from "react";
+
+function IconMenu({ open }: { open: boolean }) {
+  return (
+    <span className="relative block h-5 w-6">
+      <span className={`absolute left-0 top-1 block h-px w-6 bg-current transition ${open ? "translate-y-2 rotate-45" : ""}`} />
+      <span className={`absolute left-0 top-3 block h-px w-6 bg-current transition ${open ? "opacity-0" : ""}`} />
+      <span className={`absolute left-0 top-5 block h-px w-6 bg-current transition ${open ? "-translate-y-2 -rotate-45" : ""}`} />
+    </span>
+  );
+}
+
+export default function SiteHeader() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
+        <div className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl border border-white/10 bg-[#11100e]/85 px-4 py-3 text-white shadow-2xl backdrop-blur-xl sm:px-5">
+          <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-3">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#d4b273]/40 bg-[#d4b273]/10 text-sm font-black text-[#d4b273]">LS</span>
+            <span className="hidden text-sm font-black tracking-wide sm:block">MENU SHISH</span>
+          </Link>
+
+          <nav className="hidden items-center gap-7 text-sm font-semibold text-white/75 md:flex">
+            <Link href="/menu" className="transition hover:text-[#d4b273]">Menu</Link>
+            <Link href="/reserver" className="transition hover:text-[#d4b273]">Réserver</Link>
+            <Link href="/commande" className="transition hover:text-[#d4b273]">Ma commande</Link>
+            <Link href="/contact" className="transition hover:text-[#d4b273]">Contact</Link>
+          </nav>
+
+          <button
+            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="group flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition hover:scale-105 hover:border-[#d4b273]/50 hover:text-[#d4b273]"
+          >
+            <IconMenu open={open} />
+          </button>
+        </div>
+      </header>
+
+      {open && (
+        <div className="fixed inset-0 z-40 bg-[#11100e] px-5 pb-10 pt-28 text-white">
+          <div className="mx-auto flex h-full max-w-7xl flex-col justify-between">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                ["Le menu", "/menu"],
+                ["Commander", "/commande"],
+                ["Réserver", "/reserver"],
+                ["Mon espace", "/compte"],
+                ["Mes favoris", "/favoris"],
+                ["Fidélité", "/fidelite"],
+                ["Promotions", "/promotions"],
+                ["Nous trouver", "/contact"],
+              ].map(([label, href], i) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setOpen(false)}
+                  className="rounded-3xl border border-white/10 bg-white/[.03] p-6 transition hover:-translate-y-1 hover:border-[#d4b273]/50 hover:bg-[#d4b273]/10"
+                >
+                  <span className="text-xs font-bold text-[#d4b273]">0{i + 1}</span>
+                  <span className="mt-8 block text-2xl font-black">{label}</span>
+                </Link>
+              ))}
+            </div>
+            <div className="border-t border-white/10 pt-7 text-sm text-white/50">La Shish • Abidjan • Riviera Bonoumin</div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
