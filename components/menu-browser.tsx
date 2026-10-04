@@ -11,7 +11,7 @@ type Product = {
   sousCategorie?: string;
   nom: string;
   description?: string;
-  prix: number;
+  prix?: number;
   disponible: boolean;
   photo?: string;
   type?: string;
@@ -26,6 +26,7 @@ export default function MenuBrowser({ products, categories }: { products: Produc
   const [active, setActive] = useState("Tous");
   const [addedId, setAddedId] = useState<number | null>(null);
   const { add } = useCart();
+  const getPrice = (p: Product) => p.prix ?? p.tailles?.reduce((min, size) => Math.min(min, size.prix), Number.POSITIVE_INFINITY);
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -68,10 +69,10 @@ export default function MenuBrowser({ products, categories }: { products: Produc
                   <h2 className="text-lg font-black">{p.nom}</h2>
                   {p.sousCategorie ? <p className="mt-1 text-xs font-semibold text-[#b68a42]">{p.sousCategorie}</p> : null}
                 </div>
-                <span className="shrink-0 text-sm font-black">{p.prix.toLocaleString("fr-FR")} F</span>
+                <span className="shrink-0 text-sm font-black">{(getPrice(p) ?? 0).toLocaleString("fr-FR")} F</span>
               </div>
               <p className="mt-3 min-h-12 text-sm leading-6 text-black/55">{p.description}</p>
-              <button onClick={() => { add({ id: p.id, nom: p.nom, prix: p.prix, photo: p.photo }); setAddedId(p.id); window.setTimeout(() => setAddedId(null), 700); }} className="mt-5 w-full rounded-2xl bg-[#11100e] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#b68a42] hover:text-[#11100e]">{addedId === p.id ? "Ajouté ✓" : "Ajouter au panier"}</button>
+              <button onClick={() => { const price = getPrice(p); if (typeof price !== "number" || !Number.isFinite(price)) return; add({ id: p.id, nom: p.nom, prix: price, photo: p.photo }); setAddedId(p.id); window.setTimeout(() => setAddedId(null), 700); }} className="mt-5 w-full rounded-2xl bg-[#11100e] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#b68a42] hover:text-[#11100e]">{addedId === p.id ? "Ajouté ✓" : "Ajouter au panier"}</button>
             </div>
           </article>
         ))}
