@@ -14,6 +14,9 @@ type Product = {
   prix: number;
   disponible: boolean;
   photo?: string;
+  type?: string;
+  tailles?: { nom: string; prix: number }[];
+  supplement?: { label: string; prix: number };
 };
 
 const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/v2-nextjs/images/";
