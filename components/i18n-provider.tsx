@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 export type Locale = "fr" | "en" | "ar";
 
@@ -179,8 +180,11 @@ type I18nContext = {
 
 const I18n = createContext<I18nContext | null>(null);
 
+function pathLocale(): Locale | null { if (typeof window === "undefined") return null; const match = window.location.pathname.match(/^\/(fr|en|ar)(?:\/|$)/); return (match?.[1] as Locale | undefined) ?? null; }
 function readInitialLocale(): Locale {
   if (typeof window === "undefined") return "fr";
+  const fromPath = pathLocale();
+  if (fromPath) return fromPath;
   const saved = window.localStorage.getItem("menushish_locale");
   if (saved === "fr" || saved === "en" || saved === "ar") return saved;
   const browser = navigator.language.toLowerCase();
@@ -237,16 +241,19 @@ export function I18nText({ fr, en, ar, className="" }: { fr:string; en:string; a
 
 export function LanguageSwitcher({ compact=false }: { compact?: boolean }) {
   const { locale, setLocale, t } = useI18n();
-  return (
-    <div aria-label={t("lang.label")} className={"flex items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1 " + (compact ? "" : "shadow-inner")}>
-      {(["fr","en","ar"] as Locale[]).map((item) => (
-        <button key={item} type="button" onClick={() => setLocale(item)} aria-pressed={locale === item}
-          className={"min-h-8 rounded-full px-2.5 text-[10px] font-black uppercase tracking-wider transition " + (locale === item ? "bg-[#d4b273] text-[#11100e]" : "text-white/60 hover:text-white")}>
-          {item === "ar" ? "ع" : item.toUpperCase()}
-        </button>
-      ))}
-    </div>
-  );
+  const router = useRouter();
+  const pathname = usePathname();
+  const index = ["fr","en","ar"].indexOf(locale);
+  const choose = (next:Locale) => {
+    if(next===locale)return;
+    setLocale(next);
+    const stripped = pathname.replace(/^\/(fr|en|ar)(?=\/|$)/,"") || "";
+    router.push("/"+next+stripped);
+  };
+  return <div aria-label={t("lang.label")} className={"language-switcher relative grid grid-cols-3 items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1.5 " + (compact ? "w-[132px]" : "w-[176px]")} dir="ltr">
+    <span aria-hidden="true" className="language-switcher-pill pointer-events-none absolute bottom-1.5 top-1.5 left-1.5 w-[calc((100%-12px)/3)] rounded-full bg-[#d4b273] shadow-[0_0_24px_rgba(212,178,115,.35)] transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)]" style={{transform:"translateX(calc("+index+" * (100% + 4px)))"}} />
+    {(["fr","en","ar"] as Locale[]).map(item=><button key={item} type="button" onClick={()=>choose(item)} aria-pressed={locale===item} className={"relative z-10 min-h-9 rounded-full px-2 text-[10px] font-black uppercase tracking-[.16em] transition " + (locale===item ? "text-[#11100e]" : "text-white/65 hover:text-white")}>{item==="ar" ? "ع" : item.toUpperCase()}</button>)}
+  </div>;
 }
 
 export function useI18n() {
@@ -256,7 +263,7 @@ export function useI18n() {
 }
 
 export default function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("fr");
+  const [locale, setLocaleState] = useState<Locale>(readInitialLocale);
 
   const setLocale = (next: Locale) => {
     setLocaleState(next);
@@ -272,7 +279,7 @@ export default function I18nProvider({ children }: { children: React.ReactNode }
     document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
     document.documentElement.setAttribute("data-language-ready", "true");
 
-    const path = window.location.pathname;
+    const path = window.location.pathname.replace(/^\/(fr|en|ar)(?=\/|$)/,"") || "/";
     const exact = titles[path];
     if (exact) document.title = exact[locale];
 
