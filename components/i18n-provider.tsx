@@ -7,7 +7,7 @@ const dictionaries: Record<Locale, Dict> = {
   fr: {
     "nav.menu":"Menu","nav.reserve":"Réserver","nav.favorites":"Favoris","nav.order":"Ma commande","nav.account":"Compte","nav.contact":"Contact",
     "nav.cart":"Panier","nav.call":"Appeler","nav.whatsapp":"WhatsApp","nav.loyalty":"Fidélité","nav.promos":"Promotions","nav.find":"Nous trouver",
-    "nav.accountSpace":"Mon espace","nav.close":"Fermer le menu","nav.open":"Ouvrir le menu","lang.label":"Langue",
+    "nav.accountSpace":"Mon espace","theme.label":"Thème","theme.system":"Système","theme.light":"Clair","theme.dark":"Sombre","breadcrumb.label":"Fil d’Ariane","nav.close":"Fermer le menu","nav.open":"Ouvrir le menu","lang.label":"Langue",
     "home.eyebrow":"La Shish • Abidjan","home.title1":"L’expérience","home.title2":"Shish commence ici.","home.description":"Un menu digital premium, rapide, élégant et pensé pour commander, réserver et retrouver vos favoris.",
     "home.menu":"Découvrir le menu","home.reserve":"Réserver une table","home.explore":"Explorer","home.menuElse":"Le menu, autrement.","home.allProducts":"Voir les 253 produits →",
     "home.selection":"Sélection La Shish","home.exploreArrow":"Explorer →","home.tasting":"À goûter","home.favorites":"Nos favoris du moment","home.fullMenu":"Tout le menu →",
@@ -44,7 +44,7 @@ const dictionaries: Record<Locale, Dict> = {
   en: {
     "nav.menu":"Menu","nav.reserve":"Reserve","nav.favorites":"Favorites","nav.order":"My order","nav.account":"Account","nav.contact":"Contact",
     "nav.cart":"Cart","nav.call":"Call","nav.whatsapp":"WhatsApp","nav.loyalty":"Loyalty","nav.promos":"Offers","nav.find":"Find us",
-    "nav.accountSpace":"My space","nav.close":"Close menu","nav.open":"Open menu","lang.label":"Language",
+    "nav.accountSpace":"My space","theme.label":"Theme","theme.system":"System","theme.light":"Light","theme.dark":"Dark","breadcrumb.label":"Breadcrumb","nav.close":"Close menu","nav.open":"Open menu","lang.label":"Language",
     "home.eyebrow":"La Shish • Abidjan","home.title1":"The Shish","home.title2":"experience starts here.","home.description":"A premium digital menu that is fast, elegant and built for ordering, reservations and favorites.",
     "home.menu":"Explore the menu","home.reserve":"Reserve a table","home.explore":"Explore","home.menuElse":"The menu, reimagined.","home.allProducts":"See all 253 products →",
     "home.selection":"La Shish selection","home.exploreArrow":"Explore →","home.tasting":"Must-try","home.favorites":"Our favorites right now","home.fullMenu":"Full menu →",
@@ -81,7 +81,7 @@ const dictionaries: Record<Locale, Dict> = {
   ar: {
     "nav.menu":"القائمة","nav.reserve":"احجز","nav.favorites":"المفضلة","nav.order":"طلبي","nav.account":"حسابي","nav.contact":"تواصل معنا",
     "nav.cart":"السلة","nav.call":"اتصل","nav.whatsapp":"واتساب","nav.loyalty":"الولاء","nav.promos":"العروض","nav.find":"موقعنا",
-    "nav.accountSpace":"مساحتي","nav.close":"إغلاق القائمة","nav.open":"فتح القائمة","lang.label":"اللغة",
+    "nav.accountSpace":"مساحتي","theme.label":"المظهر","theme.system":"النظام","theme.light":"فاتح","theme.dark":"داكن","breadcrumb.label":"مسار التنقل","nav.close":"إغلاق القائمة","nav.open":"فتح القائمة","lang.label":"اللغة",
     "home.eyebrow":"La Shish • أبيدجان","home.title1":"تجربة","home.title2":"Shish تبدأ من هنا.","home.description":"قائمة رقمية راقية وسريعة وأنيقة للطلب والحجز وحفظ أطباقك المفضلة.",
     "home.menu":"اكتشف القائمة","home.reserve":"احجز طاولة","home.explore":"استكشف","home.menuElse":"القائمة بطريقة مختلفة.","home.allProducts":"عرض جميع المنتجات الـ ٢٥٣ →",
     "home.selection":"اختيارات La Shish","home.exploreArrow":"استكشف →","home.tasting":"جرّبها","home.favorites":"مفضلاتنا الآن","home.fullMenu":"القائمة كاملة →",
@@ -157,9 +157,9 @@ export function LanguageSwitcher({ compact=false }: { compact?: boolean }) {
     const stripped = pathname.replace(/^\/(fr|en|ar)(?=\/|$)/,"") || "";
     router.push("/"+next+stripped);
   };
-  return <div aria-label={t("lang.label")} className={"language-switcher relative grid grid-cols-3 items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1.5 " + (compact ? "w-[132px]" : "w-[176px]")} dir="ltr">
+  return <div aria-label={t("lang.label")} className={"language-switcher relative grid grid-cols-3 items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1.5 " + (compact ? "w-[146px]" : "w-[194px]")} dir="ltr">
     <span aria-hidden="true" className="language-switcher-pill pointer-events-none absolute bottom-1.5 top-1.5 left-1.5 w-[calc((100%-12px)/3)] rounded-full bg-[#d4b273] shadow-[0_0_24px_rgba(212,178,115,.35)] transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)]" style={{transform:"translateX(calc("+index+" * (100% + 4px)))"}} />
-    {(["fr","en","ar"] as Locale[]).map(item=><button key={item} type="button" onClick={()=>choose(item)} aria-pressed={locale===item} className={"relative z-10 min-h-9 rounded-full px-2 text-[10px] font-black uppercase tracking-[.16em] transition " + (locale===item ? "text-[#11100e]" : "text-white/65 hover:text-white")}>{item==="ar" ? "ع" : item.toUpperCase()}</button>)}
+    {(["fr","en","ar"] as Locale[]).map(item=><button key={item} type="button" onClick={()=>choose(item)} aria-pressed={locale===item} className={"relative z-10 min-h-9 rounded-full px-2 text-[10px] font-black uppercase tracking-[.16em] transition " + (locale===item ? "text-[#11100e]" : "text-white/65 hover:text-white")}>{item==="ar" ? "العربية" : item.toUpperCase()}</button>)}
   </div>;
 }
 export function useI18n() {
