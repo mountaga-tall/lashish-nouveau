@@ -13,41 +13,42 @@ export const metadata: Metadata = {
     template: "%s — Menu Shish",
   },
   description: "Le menu digital premium de La Shish à Abidjan : découvrez, commandez, réservez et profitez de vos favoris.",
-  alternates: {
-    canonical: "https://menushish.ci",
-  },
+  alternates: { canonical: "https://menushish.ci" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    name: "La Shish",
+    url: "https://menushish.ci",
+    telephone: "+2250140555666",
+    email: "lashish2@bonoumin.ci",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Voie de la Djibi",
+      addressLocality: "Riviera Bonoumin, Cocody",
+      addressCountry: "CI",
+    },
+    sameAs: ["https://instagram.com/restaurantlashish"],
+    menu: "https://menushish.ci/menu",
+  };
+
   return (
     <html lang="fr">
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Restaurant",
-            name: "La Shish",
-            url: "https://menushish.ci",
-            telephone: "+2250140555666",
-            email: "lashish2@bonoumin.ci",
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: "Voie de la Djibi",
-              addressLocality: "Riviera Bonoumin, Cocody",
-              addressCountry: "CI"
-            },
-            sameAs: ["https://instagram.com/restaurantlashish"],
-            menu: "https://menushish.ci/menu"
-          }) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <FavoriteProvider>
-        <CartProvider>
-          <SiteHeader />
-          <Breadcrumbs />
-          {children}
-          <SiteFooter />
-        </CartProvider>
+          <CartProvider>
+            <SiteHeader />
+            <Breadcrumbs />
+            {children}
+            <SiteFooter />
+          </CartProvider>
+        </FavoriteProvider>
       </body>
     </html>
   );
