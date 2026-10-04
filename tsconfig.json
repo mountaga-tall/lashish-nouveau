@@ -21,9 +21,6 @@
       {
         "name": "next"
       }
-    ],
-    "types": [
-      "@cloudflare/workers-types"
     ]
   },
   "include": [
