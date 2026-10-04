@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { products, slugify } from "../../lib/catalog";
+import { products, slugify } from "../../../lib/catalog";
 
 export async function generateStaticParams() {
   return [...new Set(products.map((p) => p.categorie))].map((category) => ({ category: slugify(category) }));
