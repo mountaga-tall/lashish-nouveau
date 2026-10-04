@@ -4,7 +4,7 @@ import menu from "../data/menu.json";
 
 const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/v2-nextjs/images/";
 
-const featured = menu.products.filter((p) => p.disponible).slice(0, 6);
+const featured = menu.products.filter((p) => p.disponible && typeof p.prix === "number").slice(0, 6);
 const categories = [
   ["Plats", "plats.html"],
   ["Spécialités", "specialites.html"],
