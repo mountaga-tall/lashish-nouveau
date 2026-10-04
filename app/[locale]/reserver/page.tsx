@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useI18n } from "../../../components/i18n-provider;
+import { useI18n } from "../../../components/i18n-provider";
 
 export default function ReservePage(){
   const {t,locale}=useI18n(); const [name,setName]=useState(""); const [phone,setPhone]=useState(""); const [date,setDate]=useState(""); const [time,setTime]=useState(""); const [party,setParty]=useState("2"); const [notes,setNotes]=useState(""); const [busy,setBusy]=useState(false); const [error,setError]=useState("");
