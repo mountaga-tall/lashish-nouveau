@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { products, priceOf, slugify } from "../../../lib/catalog";
+import { products, priceOf, slugify } from "../../../../lib/catalog";
 
 const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/v2-nextjs/images/";
 
