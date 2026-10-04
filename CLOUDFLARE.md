@@ -1,40 +1,78 @@
-# Menu Shish — production Cloudflare setup
+# Menu Shish — production Cloudflare
 
-The V2 is built as a Next.js 16 application and prepared for Cloudflare Workers using OpenNext.
+La V2 est une application Next.js 16 + TypeScript préparée pour Cloudflare Workers avec OpenNext.
 
-## Cloudflare resources
+## Architecture
 
-Create:
-- a Workers application named `menushish`
-- one D1 database for application data
-- one R2 bucket for product and editorial images
+- GitHub = source et historique
+- Next.js + React = application
+- Cloudflare Workers = production
+- Cloudflare D1 = comptes, commandes, réservations, favoris, fidélité, coupons
+- Cloudflare R2 = images/médias
+- Cloudflare DNS = domaine, HTTPS, CDN et protection
 
-Then add the generated D1 and R2 bindings to `wrangler.jsonc`.
+Cloudflare recommande aujourd'hui vinext pour les nouvelles applications Next.js sur Workers. OpenNext reste documenté pour les applications Next.js déjà structurées sur cette voie. La V2 utilise OpenNext pour conserver un chemin de migration stable et explicite.
 
-## Deployment
+## Ressources à créer dans Cloudflare
 
-Install:
-`npm install`
+Créer :
+- Worker : `menushish`
+- Base D1 : `menushish-db`
+- Bucket R2 : `menushish-images`
 
-Build for Cloudflare:
-`npm run deploy:cloudflare`
+Puis copier la structure de `wrangler.example.jsonc` dans `wrangler.jsonc` en remplaçant uniquement le vrai `database_id`.
 
-Local Workers preview:
-`npm run preview:cloudflare`
+Appliquer ensuite :
+- `db/schema.sql`
+- `db/seed.sql`
 
-## DNS
+Le seed contient les 253 produits déjà normalisés.
 
-Keep the domain at Netim. Point the authoritative nameservers to Cloudflare, then attach:
-- `menushish.ci`
-- `www.menushish.ci`
+## GitHub Actions
 
-Do not change the DNS while the V2 is under validation.
+Le workflow `.github/workflows/deploy-cloudflare.yml` est volontairement manuel.
 
-## D1 free plan
+Ajouter dans GitHub :
+Settings → Secrets and variables → Actions
 
-D1 remains available on the Workers Free plan for prototyping. Cloudflare began enforcing daily free-tier row read/write limits on September 1, 2026, so the production application should use indexed, small queries and monitor usage.
+Secrets attendus :
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
 
+Aucun token n'est stocké dans le dépôt.
 
-## Bindings template
+## Commandes
 
-Use `wrangler.example.jsonc` to copy the D1 and R2 binding structure into `wrangler.jsonc` after creating the resources in the Cloudflare dashboard. Never commit API tokens, database secrets, or real credential values.
+```bash
+npm install
+npm run build
+npm run preview:cloudflare
+npm run deploy:cloudflare
+```
+
+Les scripts utilisent l'adaptateur OpenNext Cloudflare.
+
+## Domaine
+
+Le domaine reste chez Netim.
+
+Après validation de la V2 :
+1. récupérer les nameservers fournis par Cloudflare ;
+2. les mettre chez Netim ;
+3. ajouter `menushish.ci` et `www.menushish.ci` au Worker ;
+4. vérifier le certificat HTTPS ;
+5. tester `https://menushish.ci`, `https://www.menushish.ci`, `/api/health`, `/menu`, une fiche produit, le panier, la réservation et le suivi.
+
+Ne rebranche pas le domaine sur GitHub Pages.
+
+## D1 / R2
+
+Le code ne suppose aucun identifiant avant la création des ressources. Après provisionnement, les bindings `DB` et `IMAGES` doivent être définis dans Wrangler.
+
+## Note sur le plan gratuit
+
+D1 et Workers disposent d'un niveau gratuit, mais les limites et règles du free tier doivent être surveillées en production. La V2 utilise des requêtes ciblées et des index pour limiter les lectures inutiles.
+
+## Validation
+
+Le dépôt principal doit rester la seule source de production. Les anciennes pages HTML de la V1 ont été retirées de `main`.
