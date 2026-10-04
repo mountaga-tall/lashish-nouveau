@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "./cart-store";
 import { useFavorites } from "./favorite-store";
-import { LanguageSwitcher, PwaInstall, useI18n } from "./i18n-provider";
+import { LanguageSwitcher, useI18n } from "./i18n-provider";
+import PwaInstall from "./pwa-install";
 
 function IconMenu({ open }: { open: boolean }) {
   return (
