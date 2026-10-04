@@ -50,5 +50,5 @@ ar:{title:"تتبع الطلب — Menu Shish",description:"تابع حالة ط
 export function localizedMetadata(locale:Locale,page:keyof typeof data,path:string):Metadata{
   const item=data[page][locale];
   const clean=path.replace(/^\/(fr|en|ar)/,"");
-  return {title:item.title,description:item.description,keywords:item.keywords,alternates:{canonical:base+path,languages:{fr:base+"/fr"+clean,en:base+"/en"+clean,ar:base+"/ar"+clean}},openGraph:{title:item.title,description:item.description,url:base+path,siteName:"Menu Shish",locale:locale==="fr"?"fr_FR":locale==="en"?"en_US":"ar_SA",type:"website"},twitter:{card:"summary",title:item.title,description:item.description}};
+  return {title:item.title,description:item.description,keywords:item.keywords,alternates:{canonical:base+path,languages:{fr:base+"/fr"+clean,en:base+"/en"+clean,ar:base+"/ar"+clean,"x-default":base+"/fr"+clean}},openGraph:{title:item.title,description:item.description,url:base+path,siteName:"Menu Shish",locale:locale==="fr"?"fr_FR":locale==="en"?"en_US":"ar_SA",type:"website"},twitter:{card:"summary",title:item.title,description:item.description}};
 }
