@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { products,slugify } from "../lib/catalog";
 const base="https://menushish.ci";
 const locales=["fr","en","ar"] as const;
-const staticPaths=["","/menu","/commande","/reserver","/contact","/compte","/favoris","/fidelite"];
+const staticPaths=["","/menu","/reserver","/contact","/fidelite"];
 export default function sitemap():MetadataRoute.Sitemap{
  const now=new Date();
  const entries:MetadataRoute.Sitemap=[];
