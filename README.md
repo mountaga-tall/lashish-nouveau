@@ -1,53 +1,43 @@
-# La Shish — Online Ordering
+# Menu Shish V2
 
-Bilingual mobile-first ordering website for La Shish.
+Nouvelle application web La Shish, construite avec Next.js 16, TypeScript et Tailwind CSS.
 
-## Languages
+## Architecture
 
-The interface is available in **French (FR)** and **English (EN)**. The selected language is saved in the browser and the WhatsApp order summary uses the same language.
+- GitHub : source code et CI
+- Next.js 16 / React 19 : application
+- Cloudflare Workers + OpenNext : production
+- Cloudflare D1 : données clients, commandes, réservations, fidélité
+- Cloudflare R2 : images et médias
+- Cloudflare DNS : domaine et HTTPS
 
-The menu keeps the restaurant's official product names and data; interface labels, checkout instructions, categories where applicable, notifications and order messages are localized.
+## Catalogue
 
-## Features
+Les 253 produits existants sont centralisés dans `data/menu.json`.
+Le seed D1 correspondant est dans `db/seed.sql`.
 
-- Responsive menu with categories and instant search.
-- Persistent cart using localStorage.
-- Pizza size selection.
-- Customer and delivery information validation.
-- Bilingual WhatsApp order summary.
-- Wave payment and delivery information.
-- PWA / service worker support.
-- Graceful image fallbacks.
-- Reduced-motion support.
-- No build step required.
+## Développement
 
-## Project structure
-
-```text
-/
-├── index.html
-├── style.css
-├── app.js
-├── manifest.json
-├── sw.js
-├── data/
-│   ├── plats.js
-│   ├── pizzas.js
-│   ├── tacos.js
-│   └── boissons.js
-└── images/
+```bash
+npm install
+npm run dev
 ```
 
-## Menu data
+## Vérification
 
-Products are stored in `data/*.js`. Prices and availability can be changed without modifying the ordering engine.
+```bash
+npm run build
+```
 
-## WhatsApp
+## Cloudflare
 
-The destination number is configured in `app.js`. The generated message includes customer details, delivery address, items, options, total, and optional comments.
+```bash
+npm run preview:cloudflare
+npm run deploy:cloudflare
+```
 
-## Maintenance notes
+Le workflow `.github/workflows/deploy-cloudflare.yml` est manuel afin de ne jamais déployer par accident sur le domaine de production.
 
-The cart key `laShishCart` is kept for compatibility with existing browser sessions. Invalid or corrupted cart data is safely discarded instead of breaking the application.
+## Statut
 
-The interface is intentionally static: it can be deployed directly to GitHub Pages, Vercel, or another static host.
+La branche `v2-nextjs` est une préproduction. Le domaine `menushish.ci` ne doit être basculé qu'après validation complète.
