@@ -5,8 +5,7 @@ import Link from "next/link";
 import menu from "../../data/menu.json";
 import { useFavorites } from "../../components/favorite-store";
 import FavoriteButton from "../../components/favorite-button";
-
-const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/main/images/";
+import { imageUrl } from "../../lib/catalog";
 
 export default function FavoritesPage() {
   const { ids } = useFavorites();
@@ -29,12 +28,12 @@ export default function FavoritesPage() {
               <article key={p.id} className="overflow-hidden rounded-3xl border border-black/8 bg-white/60">
                 <div className="relative aspect-[4/3]">
                   <FavoriteButton id={p.id} />
-                  <Image src={raw + p.photo} alt={p.nom} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                  <Image src={imageUrl(p.photo) ?? "https://raw.githubusercontent.com/mountaga-tall/menushish/main/images/no-image.webp"} alt={p.nom} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                 </div>
                 <div className="p-5">
                   <h2 className="font-black">{p.nom}</h2>
                   <p className="mt-2 text-sm text-black/55">{p.description}</p>
-                  <Link href="/menu" className="mt-5 inline-flex rounded-full bg-[#11100e] px-4 py-2 text-xs font-bold text-white">Retour au menu</Link>
+                  <Link href={"/menu/produit/" + p.id} className="mt-5 inline-flex rounded-full bg-[#11100e] px-4 py-2 text-xs font-bold text-white">Voir le produit</Link>
                 </div>
               </article>
             ))}
