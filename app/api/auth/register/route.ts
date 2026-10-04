@@ -1,4 +1,5 @@
 import { getDatabase } from "../../../../lib/db";
+import { validPhone, validEmail, domainHasMailRecords } from "../../../../lib/contact-validation";
 import { apiMessage } from "../../../../lib/server-locale";
 import { createSession, hashPassword, normalizeEmail, normalizePhone, sessionCookie, validatePassword } from "../../../../lib/auth";
 
@@ -8,16 +9,23 @@ export async function POST(request: Request) {
     email?: string;
     phone?: string;
     password?: string;
+    emailConfirm?: string;
+    phoneCountry?: string;
   } | null;
 
   const name = body?.name?.trim() ?? "";
   const email = normalizeEmail(body?.email);
-  const phone = normalizePhone(body?.phone);
+  const emailConfirm = normalizeEmail(body?.emailConfirm);
+  const phoneCountry = (body?.phoneCountry || "CI").toUpperCase();
+  const phoneE164 = body?.phone ? validPhone(body.phone, phoneCountry) : null;
+  const phone = normalizePhone(phoneE164, phoneCountry);
 
   if (name.length < 2 || name.length > 80) return Response.json({ error: apiMessage(request,"nameInvalid") }, { status: 400 });
   if (!email && !phone) return Response.json({ error: apiMessage(request,"contactRequired") }, { status: 400 });
-  if (email && !/^([^\s@]+)@([^\s@]+)\.([^\s@]+)$/.test(email)) return Response.json({ error: apiMessage(request,"emailInvalid") }, { status: 400 });
-  if (phone && (phone.length < 9 || phone.length > 15)) return Response.json({ error: apiMessage(request,"phoneInvalid") }, { status: 400 });
+  if (email && !validEmail(email)) return Response.json({ error: apiMessage(request,"emailInvalid") }, { status: 400 });
+  if (email && emailConfirm !== email) return Response.json({ error: apiMessage(request,"emailConfirm") }, { status: 400 });
+  if (email && !(await domainHasMailRecords(email))) return Response.json({ error: apiMessage(request,"emailDomain") }, { status: 400 });
+  if (body?.phone && !phoneE164) return Response.json({ error: apiMessage(request,"phoneFormat") }, { status: 400 });
   if (!validatePassword(body?.password)) return Response.json({ error: apiMessage(request,"passwordInvalid") }, { status: 400 });
 
   const db = getDatabase();
