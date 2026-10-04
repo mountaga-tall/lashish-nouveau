@@ -16,7 +16,7 @@ const messages:Record<string,Record<ServerLocale,string>>={
   accountExists:{fr:"Un compte existe déjà avec cet email ou ce téléphone. Connectez-vous.",en:"An account already exists with this email or phone. Sign in.",ar:"يوجد حساب بهذا البريد أو الهاتف. سجّل الدخول."},
   dbAccount:{fr:"Le compte client nécessite la base Cloudflare D1.",en:"Customer accounts require Cloudflare D1.",ar:"تتطلب حسابات العملاء قاعدة Cloudflare D1."},
   identifierRequired:{fr:"Identifiant et mot de passe requis.",en:"Identifier and password are required.",ar:"البريد أو الهاتف وكلمة المرور مطلوبان."},
-  credentialsInvalid:{fr:"Identifiants incorrects.",en:"Incorrect credentials.",ar:"بيانات تسجيل الدخول غير صحيحة."}
+  credentialsInvalid:{fr:"Identifiants incorrects.",en:"Incorrect credentials.",ar:"بيانات تسجيل الدخول غير صحيحة."},emailConfirm:{fr:"Les deux emails doivent être identiques.",en:"The two email addresses must match.",ar:"يجب أن يتطابق عنوانا البريد الإلكتروني."},emailDomain:{fr:"Le domaine email ne semble pas accepter les emails.",en:"The email domain does not appear to accept email.",ar:"يبدو أن نطاق البريد الإلكتروني لا يستقبل رسائل البريد."},phoneFormat:{fr:"Numéro de téléphone invalide pour cet indicatif.",en:"Phone number is invalid for this country code.",ar:"رقم الهاتف غير صالح لهذا الرمز."}
 };
 function localeFromRequest(request:Request):ServerLocale{
   const match=request.headers.get("cookie")?.match(/(?:^|;\s*)menushish_locale=(fr|en|ar)(?:;|$)/)?.[1];
