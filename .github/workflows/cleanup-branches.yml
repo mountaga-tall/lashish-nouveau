@@ -1,4 +1,4 @@
-name: Cleanup legacy branches
+name: Clean production repository
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pages: write
 
 jobs:
   cleanup:
@@ -33,5 +34,24 @@ jobs:
                 core.info(`Deleted ${branch.name}`);
               } catch (error) {
                 core.warning(`Could not delete ${branch.name}: ${error.message}`);
+              }
+            }
+      - name: Disable GitHub Pages
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.request("DELETE /repos/{owner}/{repo}/pages", {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                headers: { "X-GitHub-Api-Version": "2022-11-28" }
+              });
+              core.info("GitHub Pages disabled.");
+            } catch (error) {
+              const status = error.status ?? 0;
+              if (status === 404) {
+                core.info("GitHub Pages is already disabled.");
+              } else {
+                core.warning(`GitHub Pages could not be disabled: ${error.message}`);
               }
             }
