@@ -7,9 +7,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "raw.githubusercontent.com",
-        pathname: "/mountaga-tall/lashish-nouveau/**",
+        pathname: "/mountaga-tall/menushish/**",
       },
     ],
+    unoptimized: true,
   },
   async headers() {
     return [
