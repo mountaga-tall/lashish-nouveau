@@ -33,7 +33,11 @@ export function normalizeEmail(value?: string | null) {
 }
 
 export function normalizePhone(value?: string | null) {
-  const normalized = value?.trim().replace(/\D/g, "") || "";
+  let normalized = value?.trim().replace(/\D/g, "") || "";
+  if (normalized.startsWith("00")) normalized = normalized.slice(2);
+  if (normalized.startsWith("225")) return normalized;
+  if (normalized.length === 10 && normalized.startsWith("0")) return "225" + normalized.slice(1);
+  if (normalized.length === 9) return "225" + normalized;
   return normalized || null;
 }
 
@@ -58,9 +62,7 @@ export async function hashPassword(password: string, salt?: Uint8Array) {
 export async function verifyPassword(password: string, salt: string, expectedHash: string) {
   try {
     const actual = await hashPassword(password, base64UrlToBytes(salt));
-    const a = actual.hash;
-    const b = expectedHash;
-    return a === b;
+    return actual.hash === expectedHash;
   } catch {
     return false;
   }
