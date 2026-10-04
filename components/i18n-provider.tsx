@@ -116,53 +116,6 @@ const dictionaries: Record<Locale, Dict> = {
     "brand":"MENU SHISH"
   }
 };
-const menuLabels: Record<string, Record<Locale, string>> = {
-  "Boisson": { fr:"Boisson", en:"Beverages", ar:"المشروبات" },
-  "Cocktail": { fr:"Cocktail", en:"Cocktails", ar:"كوكتيلات" },
-  "Dessert": { fr:"Dessert", en:"Desserts", ar:"الحلويات" },
-  "Entrée froide": { fr:"Entrée froide", en:"Cold starters", ar:"مقبلات باردة" },
-  "Petit Déjeuner": { fr:"Petit Déjeuner", en:"Breakfast", ar:"الفطور" },
-  "Pizza": { fr:"Pizza", en:"Pizza", ar:"البيتزا" },
-  "Nos plats": { fr:"Nos plats", en:"Main dishes", ar:"أطباقنا" },
-  "Snack gourmand": { fr:"Snack gourmand", en:"Gourmet snacks", ar:"وجبات خفيفة" },
-  "Spécialités": { fr:"Spécialités", en:"Specialties", ar:"التخصصات" },
-  "French Tacos": { fr:"French Tacos", en:"French Tacos", ar:"فرنش تاكوس" },
-  "Vin Et Liqueur": { fr:"Vin et liqueur", en:"Wine & spirits", ar:"النبيذ والمشروبات" },
-  "Boisson Chaude": { fr:"Boisson Chaude", en:"Hot drinks", ar:"مشروبات ساخنة" },
-  "Boisson Froide": { fr:"Boisson Froide", en:"Cold drinks", ar:"مشروبات باردة" },
-  "Jus de fruit naturel": { fr:"Jus de fruit naturel", en:"Fresh fruit juice", ar:"عصائر طبيعية" },
-  "Smoothie": { fr:"Smoothie", en:"Smoothies", ar:"سموثي" },
-  "Milkshake et frappé": { fr:"Milkshake et frappé", en:"Milkshakes & frappés", ar:"ميلك شيك وفرابيه" },
-  "Thé glacé": { fr:"Thé glacé", en:"Iced tea", ar:"شاي مثلج" },
-  "Special Mojito": { fr:"Special Mojito", en:"Special Mojito", ar:"موهيتو خاص" },
-  "Special Limonade": { fr:"Special Limonade", en:"Special Lemonade", ar:"ليمونادة خاصة" },
-  "Cocktail et Mocktails": { fr:"Cocktail et Mocktails", en:"Cocktails & Mocktails", ar:"كوكتيلات وموكتيل" },
-  "Shooters": { fr:"Shooters", en:"Shooters", ar:"شوتر" },
-  "Crêpe": { fr:"Crêpe", en:"Crêpes", ar:"كريب" },
-  "Coupe de glace": { fr:"Coupe de glace", en:"Ice cream cups", ar:"آيس كريم" },
-  "Mezzah froide": { fr:"Mezzah froide", en:"Cold mezze", ar:"مزة باردة" },
-  "Mezzah chaude": { fr:"Mezzah chaude", en:"Hot mezze", ar:"مزة ساخنة" },
-  "Salades": { fr:"Salades", en:"Salads", ar:"سلطات" },
-  "Formule": { fr:"Formule", en:"Set menu", ar:"وجبة" },
-  "Omelette": { fr:"Omelette", en:"Omelette", ar:"عجة" },
-  "Croque & Club": { fr:"Croque & Club", en:"Croque & Club", ar:"كروك وكلوب" },
-  "Manaiche": { fr:"Manaiche", en:"Manakish", ar:"مناقيش" },
-  "Pizzas": { fr:"Pizzas", en:"Pizzas", ar:"بيتزا" },
-  "Nos pâtes": { fr:"Nos pâtes", en:"Pasta", ar:"المعكرونة" },
-  "Nos riz": { fr:"Nos riz", en:"Rice dishes", ar:"أطباق الأرز" },
-  "Nos brochettes": { fr:"Nos brochettes", en:"Skewers", ar:"مشاوي" },
-  "Plats snack": { fr:"Plats snack", en:"Snack plates", ar:"أطباق خفيفة" },
-  "Burgers": { fr:"Burgers", en:"Burgers", ar:"برغر" },
-  "Hot dog": { fr:"Hot dog", en:"Hot dogs", ar:"هوت دوغ" },
-  "Kebab": { fr:"Kebab", en:"Kebab", ar:"كباب" },
-  "Sandwich": { fr:"Sandwich", en:"Sandwiches", ar:"ساندويتش" },
-  "Africaine": { fr:"Africaine", en:"African", ar:"أفريقية" },
-  "Vin Rouge": { fr:"Vin Rouge", en:"Red wine", ar:"نبيذ أحمر" },
-  "Vin Blanc": { fr:"Vin Blanc", en:"White wine", ar:"نبيذ أبيض" },
-  "Vin Rosé": { fr:"Vin Rosé", en:"Rosé wine", ar:"نبيذ وردي" },
-  "Liqueur": { fr:"Liqueur", en:"Liqueur", ar:"مشروبات روحية" },
-  "Champagne Et Mousseux": { fr:"Champagne Et Mousseux", en:"Champagne & sparkling", ar:"شمبانيا ومشروبات فوارة" }
-};
 type I18nContext = {
   locale: Locale;
   setLocale: (locale: Locale) => void;
@@ -172,16 +125,6 @@ type I18nContext = {
   date: (value: string) => string;
 };
 const I18n = createContext<I18nContext | null>(null);
-function pathLocale(): Locale | null { if (typeof window === "undefined") return null; const match = window.location.pathname.match(/^\/(fr|en|ar)(?:\/|$)/); return (match?.[1] as Locale | undefined) ?? null; }
-function readInitialLocale(): Locale {
-  if (typeof window === "undefined") return "fr";
-  const fromPath = pathLocale();
-  if (fromPath) return fromPath;
-  const saved = window.localStorage.getItem("menushish_locale");
-  if (saved === "fr" || saved === "en" || saved === "ar") return saved;
-  const browser = navigator.language.toLowerCase();
-  return browser.startsWith("ar") ? "ar" : browser.startsWith("en") ? "en" : "fr";
-}
 function replaceDigits(root: Node, locale: Locale) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   const nodes: Text[] = [];
@@ -198,12 +141,6 @@ function replaceDigits(root: Node, locale: Locale) {
     const next = locale === "ar" ? toArabic(current) : toLatin(current);
     if (next !== current) text.nodeValue = next;
   }
-}
-export function toArabicDigits(value: string | number) {
-  return String(value).replace(/[0-9]/g, (d) => "٠١٢٣٤٥٦٧٨٩"[Number(d)]);
-}
-export function menuLabel(value: string) {
-  return menuLabels[value] ?? { fr:value, en:value, ar:value };
 }
 export function I18nText({ fr, en, ar, className="" }: { fr:string; en:string; ar:string; className?:string }) {
  const { locale }=useI18n();
@@ -238,8 +175,6 @@ export default function I18nProvider({ children, initialLocale="fr" }: { childre
     document.cookie = "menushish_locale=" + next + "; Path=/; Max-Age=31536000; SameSite=Lax";
   };
   useEffect(() => {
-    const saved = readInitialLocale();
-    if (saved !== locale) { setLocaleState(saved); return; }
     document.documentElement.dataset.locale = locale;
     document.documentElement.lang = locale;
     document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
