@@ -8,7 +8,6 @@ import { LanguageSwitcher,useI18n } from "./i18n-provider";
 import PwaInstall from "./pwa-install";
 import ThemeSwitcher from "./theme-switcher";
 import MegaMenu from "./mega-menu";
-import { imageUrl } from "../lib/catalog";
 function IconMenu({open}:{open:boolean}){return <span className="relative block h-5 w-6" aria-hidden="true"><span className={"absolute left-0 top-1 block h-px w-6 bg-current transition "+(open?"translate-y-2 rotate-45":"")}/><span className={"absolute left-0 top-3 block h-px w-6 bg-current transition "+(open?"opacity-0":"")}/><span className={"absolute left-0 top-5 block h-px w-6 bg-current transition "+(open?"-translate-y-2 -rotate-45":"")}/></span>}
 export default function SiteHeader(){const [open,setOpen]=useState(false);const {count}=useCart();const {ids}=useFavorites();const {t}=useI18n();const links=[[t("nav.menu"),"/menu"],[t("nav.reserve"),"/reserver"],[t("nav.favorites"),"/favoris"],[t("nav.order"),"/commande"],[t("nav.account"),"/compte"],[t("nav.contact"),"/contact"]];return <>
 <header className="sticky top-0 z-50 px-3 py-2 sm:px-5"><div className="mx-auto flex max-w-7xl items-center gap-2 rounded-2xl border border-[color:var(--border)] bg-[color:var(--header)] px-3 py-2.5 text-[color:var(--header-text)] shadow-[0_18px_48px_rgba(0,0,0,.12)] backdrop-blur-xl sm:px-5">

@@ -4,7 +4,7 @@ import Link from "./locale-link";
 import { useI18n } from "./i18n-provider";
 
 function Svg({ children }: { children: React.ReactNode }) {
-  return <span className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/50">{children}</span>;
+  return <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--border)] bg-[color:var(--surface)]">{children}</span>;
 }
 function PathIcon({ d }: { d: string }) {
   return <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-none stroke-current stroke-[1.8]"><path d={d} /></svg>;
@@ -13,7 +13,7 @@ function PathIcon({ d }: { d: string }) {
 export default function SiteFooter() {
   const { t } = useI18n();
   return (
-    <footer className="bg-[#ece4d7] px-5 py-14 pb-28 sm:px-8 lg:px-12 lg:pb-14">
+    <footer className="site-footer px-5 py-14 pb-28 text-[color:var(--text)] sm:px-8 lg:px-12 lg:pb-14">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_1fr_1fr]">
         <div>
           <div className="text-2xl font-black">MENU SHISH</div>
