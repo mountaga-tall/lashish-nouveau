@@ -33,3 +33,8 @@ Do not change the DNS while the V2 is under validation.
 ## D1 free plan
 
 D1 remains available on the Workers Free plan for prototyping. Cloudflare began enforcing daily free-tier row read/write limits on September 1, 2026, so the production application should use indexed, small queries and monitor usage.
+
+
+## Bindings template
+
+Use `wrangler.example.jsonc` to copy the D1 and R2 binding structure into `wrangler.jsonc` after creating the resources in the Cloudflare dashboard. Never commit API tokens, database secrets, or real credential values.
