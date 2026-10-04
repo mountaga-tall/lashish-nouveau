@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "./cart-store";
+import { useFavorites } from "./favorite-store";
 
 function IconMenu({ open }: { open: boolean }) {
   return (
@@ -17,6 +18,7 @@ function IconMenu({ open }: { open: boolean }) {
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const { count } = useCart();
+  const { ids: favoriteIds } = useFavorites();
 
   return (
     <>
@@ -30,6 +32,7 @@ export default function SiteHeader() {
           <nav className="hidden items-center gap-7 text-sm font-semibold text-white/75 md:flex">
             <Link href="/menu" className="transition hover:text-[#d4b273]">Menu</Link>
             <Link href="/reserver" className="transition hover:text-[#d4b273]">Réserver</Link>
+            <Link href="/favoris" className="relative transition hover:text-[#d4b273]">Favoris{favoriteIds.length ? <span className="ml-1 inline-flex min-w-5 items-center justify-center rounded-full bg-[#d4b273] px-1.5 py-0.5 text-[10px] font-black text-[#11100e]">{favoriteIds.length}</span> : null}</Link>
             <Link href="/commande" className="relative transition hover:text-[#d4b273]">Ma commande{count > 0 ? <span className="ml-1 inline-flex min-w-5 items-center justify-center rounded-full bg-[#d4b273] px-1.5 py-0.5 text-[10px] font-black text-[#11100e]">{count}</span> : null}</Link>
             <Link href="/contact" className="transition hover:text-[#d4b273]">Contact</Link>
           </nav>
