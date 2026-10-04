@@ -21,5 +21,8 @@ export default async function LocaleLayout({children,params}:{children:React.Rea
  const {locale}=await params;
  if(!locales.includes(locale as Locale))notFound();
  const selected=locale as Locale;
- return <I18nProvider initialLocale={selected}><FavoriteProvider><CartProvider><SiteHeader/><Breadcrumbs/>{children}<SiteFooter/><PwaRegister/><MobileBar/></CartProvider></FavoriteProvider></I18nProvider>;
+ const url="https://menushish.ci/"+selected;
+ const structuredData={"@context":"https://schema.org","@type":"Restaurant","name":"La Shish","url":url,"telephone":"+2250140555666","email":"lashish2@bonoumin.ci","servesCuisine":["Lebanese","Ivorian","Pizza","Grill"],"address":{"@type":"PostalAddress","streetAddress":"Voie de la Djibi","addressLocality":"Riviera Bonoumin, Cocody","addressCountry":"CI"},"sameAs":["https://instagram.com/restaurantlashish"],"menu":url+"/menu"};
+ const jsonLd={"@context":"https://schema.org","@type":"WebSite","name":"Menu Shish","url":url,"inLanguage":selected,"potentialAction":{"@type":"SearchAction","target":url+"/menu?query={search_term_string}","query-input":"required name=search_term_string"}};
+ return <I18nProvider initialLocale={selected}><FavoriteProvider><CartProvider><SiteHeader/><Breadcrumbs/><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(structuredData)}}/><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/>{children}<SiteFooter/><PwaRegister/><MobileBar/></CartProvider></FavoriteProvider></I18nProvider>;
 }
