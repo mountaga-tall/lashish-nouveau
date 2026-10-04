@@ -15,7 +15,8 @@
     {
       "binding": "DB",
       "database_name": "menushish-db",
-      "database_id": "8d71abf1-1797-4cb1-b500-46b2c2ea479b"
+      "database_id": "8d71abf1-1797-4cb1-b500-46b2c2ea479b",
+      "migrations_dir": "db/migrations"
     }
   ],
   "r2_buckets": [
