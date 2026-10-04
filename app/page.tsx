@@ -74,6 +74,7 @@ export default function HomePage() {
             <Link href="/menu" className="hidden text-sm font-bold text-[#d4b273] sm:block">Tout le menu →</Link>
           </div>
           <FeaturedProducts products={featured} />
+        </div>
       </section>
 
       <section className="bg-[#f5f0e7] px-5 py-20 sm:px-8 lg:px-12">
