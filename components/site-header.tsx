@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "./locale-link";
 import { useState } from "react";
 import { useCart } from "./cart-store";
 import { useFavorites } from "./favorite-store";
 import { LanguageSwitcher, useI18n } from "./i18n-provider";
 import PwaInstall from "./pwa-install";
+import { imageUrl } from "../lib/catalog";
 
 function IconMenu({ open }: { open: boolean }) {
   return (
@@ -35,11 +36,11 @@ export default function SiteHeader() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
+      <header className="sticky top-0 z-50 px-3 py-3 sm:px-5">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 rounded-2xl border border-white/10 bg-[#11100e]/90 px-3 py-2.5 text-white shadow-2xl backdrop-blur-xl sm:px-5 sm:py-3">
           <Link href="/" onClick={() => setOpen(false)} className="group flex min-w-0 items-center gap-2.5">
             <span className="brand-logo-shell relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#d4b273]/55 bg-[#11100e] sm:h-14 sm:w-14">
-              <Image src="https://raw.githubusercontent.com/mountaga-tall/menushish/main/images/logo.webp" alt="La Shish" width={72} height={72} priority unoptimized className="brand-logo h-11 w-11 rounded-full object-contain sm:h-12 sm:w-12" />
+              <Image src={imageUrl("logo.webp")} alt="La Shish" width={72} height={72} priority unoptimized className="brand-logo h-11 w-11 rounded-full object-contain sm:h-12 sm:w-12" />
             </span>
             <span className="hidden text-sm font-black tracking-[.18em] sm:block">{t("brand")}</span>
           </Link>
@@ -61,7 +62,7 @@ export default function SiteHeader() {
             </Link>
           </div>
           <div className="ml-auto flex items-center gap-2 md:hidden">
-            <LanguageSwitcher compact />
+            <LanguageSwitcher compact /><span className="hidden min-[390px]:inline-flex"><PwaInstall /></span>
             <button aria-label={open ? t("nav.close") : t("nav.open")} aria-expanded={open} onClick={() => setOpen((v) => !v)}
               className="group flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 transition hover:scale-105 hover:border-[#d4b273]/50 hover:text-[#d4b273]">
               <IconMenu open={open} />
