@@ -1,5 +1,6 @@
 export type Locale = "fr" | "en" | "ar";
-const menuLabels: Record<string, Record<Locale, string>> = const menuLabels: Record<string, Record<Locale, string>> = {
+
+const menuLabels: Record<string, Record<Locale, string>> = {
   "Boisson": { fr:"Boisson", en:"Beverages", ar:"المشروبات" },
   "Cocktail": { fr:"Cocktail", en:"Cocktails", ar:"كوكتيلات" },
   "Dessert": { fr:"Dessert", en:"Desserts", ar:"الحلويات" },
@@ -45,6 +46,12 @@ const menuLabels: Record<string, Record<Locale, string>> = const menuLabels: Rec
   "Vin Rosé": { fr:"Vin Rosé", en:"Rosé wine", ar:"نبيذ وردي" },
   "Liqueur": { fr:"Liqueur", en:"Liqueur", ar:"مشروبات روحية" },
   "Champagne Et Mousseux": { fr:"Champagne Et Mousseux", en:"Champagne & sparkling", ar:"شمبانيا ومشروبات فوارة" }
-};;
-export function menuLabel(value:string):Record<Locale,string>{return menuLabels[value]??{fr:value,en:value,ar:value};}
-export function toArabicDigits(value:string|number){return String(value).replace(/[0-9]/g,d=>"٠١٢٣٤٥٦٧٨٩"[Number(d)]);}
+};
+
+export function menuLabel(value: string): Record<Locale,string> {
+  return menuLabels[value] ?? { fr: value, en: value, ar: value };
+}
+
+export function toArabicDigits(value: string | number) {
+  return String(value).replace(/[0-9]/g, (d) => "٠١٢٣٤٥٦٧٨٩"[Number(d)]);
+}
