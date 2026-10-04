@@ -1,3 +1,6 @@
+import { localizedMetadata } from "../../../lib/seo";
+import type { Locale } from "../../../lib/menu-localization";
+export async function generateMetadata({params}:{params:Promise<{locale:string}>}){const {locale}=await params;const meta=localizedMetadata(locale as Locale,"commande","/"+locale+"/commande");return {...meta,robots:{index:false,follow:false}};}
 import OrderPanel from "../../../components/order-panel";
 import { I18nText } from "../../../components/i18n-provider";
 
