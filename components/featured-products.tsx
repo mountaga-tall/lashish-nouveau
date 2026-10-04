@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "./locale-link";
 import { useCart } from "./cart-store";
 import FavoriteButton from "./favorite-button";
 import { useI18n } from "./i18n-provider";
