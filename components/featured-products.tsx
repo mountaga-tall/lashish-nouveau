@@ -6,7 +6,7 @@ import { useCart } from "./cart-store";
 import FavoriteButton from "./favorite-button";
 
 type Product = { id: number; nom: string; prix?: number; description?: string; photo?: string };
-const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/v2-nextjs/images/";
+const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/main/images/";
 
 export default function FeaturedProducts({ products }: { products: Product[] }) {
   const { add } = useCart();
