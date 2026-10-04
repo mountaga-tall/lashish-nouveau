@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SiteHeader from "../components/site-header";
 import { CartProvider } from "../components/cart-store";
+import { FavoriteProvider } from "../components/favorite-store";
 import SiteFooter from "../components/site-footer";
 import Breadcrumbs from "../components/breadcrumbs";
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="fr">
       <body>
+        <FavoriteProvider>
         <CartProvider>
           <SiteHeader />
           <Breadcrumbs />
