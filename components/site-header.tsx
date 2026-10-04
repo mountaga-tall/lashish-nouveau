@@ -81,7 +81,7 @@ export default function SiteHeader() {
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 [t("nav.menu"), "/menu"], [t("nav.order"), "/commande"], [t("nav.reserve"), "/reserver"], [t("nav.accountSpace"), "/compte"],
-                [t("nav.favorites"), "/favoris"], [t("nav.loyalty"), "/fidelite"], [t("nav.promos"), "/promotions"], [t("nav.find"), "/contact"]
+                [t("nav.favorites"), "/favoris"], [t("nav.loyalty"), "/fidelite"], [t("nav.find"), "/contact"]
               ].map(([label, href], i) => (
                 <Link key={href} href={href} onClick={() => setOpen(false)}
                   className="rounded-3xl border border-white/10 bg-white/[.03] p-5 transition hover:-translate-y-1 hover:border-[#d4b273]/50 hover:bg-[#d4b273]/10 sm:p-6">
