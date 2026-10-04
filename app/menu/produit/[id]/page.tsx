@@ -3,7 +3,7 @@ import Link from "next/link";
 import ProductAction from "../../../../components/product-action";
 import { products, priceOf, slugify } from "../../../../lib/catalog";
 
-const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/v2-nextjs/images/";
+const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/main/images/";
 
 export async function generateStaticParams() {
   return products.map((p) => ({ id: String(p.id) }));
