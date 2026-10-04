@@ -23,6 +23,12 @@ export function priceOf(product: CatalogProduct) {
   return prices.length ? Math.min(...prices) : null;
 }
 
+export function imageUrl(photo?: string) {
+  return photo
+    ? "https://raw.githubusercontent.com/mountaga-tall/menushish/main/images/" + photo
+    : null;
+}
+
 export function slugify(value: string) {
   return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
