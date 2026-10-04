@@ -41,7 +41,7 @@ const dictionaries: Record<Locale, Dict> = {
     "reserve.name":"Nom","reserve.phone":"Téléphone","reserve.failed":"Impossible d’envoyer la réservation.","reserve.date":"Date","reserve.time":"Heure","reserve.people":"Nombre de personnes","reserve.special":"Demande particulière","reserve.specialPlaceholder":"Anniversaire, emplacement souhaité, etc.","reserve.send":"Envoyer la demande sur WhatsApp",
     "loyalty.eyebrow":"Programme client","loyalty.title":"Votre fidélité mérite plus.","loyalty.current":"Solde actuel","loyalty.desc":"Le moteur de points est relié à votre compte client et à l’historique des commandes.",
     "promos.eyebrow":"Offres","promos.title":"Les bons plans.","promos.soon":"Bientôt","promos.sub":"Des offres ciblées, pas du spam.","promos.desc":"Les promotions pourront être programmées par catégorie, produit, période ou profil client.",
-    "footer.tag":"La nouvelle expérience digitale La Shish. Menu, commande, réservation et fidélité dans un seul espace.","footer.nav":"Navigation","footer.contact":"Contact & réseaux","footer.legal":"© 2026 Menu Shish — La Shish Abidjan.",
+    "footer.tag":"La nouvelle expérience digitale La Shish. Menu, commande, réservation et fidélité dans un seul espace.","footer.nav":"Navigation","footer.contact":"Contact & réseaux","footer.legal":"© 2026 Menu Shish — La Shish Abidjan.","notfound.title":"This page does not exist.","notfound.desc":"Go back to the menu to find your next order.","notfound.back":"Back to menu","notfound.title":"Cette page n’existe pas.","notfound.desc":"Retournez au menu pour retrouver votre prochaine commande.","notfound.back":"Retour au menu",
     "brand":"MENU SHISH"
   },
   en: {
@@ -115,7 +115,7 @@ const dictionaries: Record<Locale, Dict> = {
     "reserve.name":"الاسم","reserve.phone":"رقم الهاتف","reserve.failed":"تعذر إرسال الحجز.","reserve.date":"التاريخ","reserve.time":"الوقت","reserve.people":"عدد الأشخاص","reserve.special":"طلب خاص","reserve.specialPlaceholder":"عيد ميلاد، مكان مفضل، إلخ.","reserve.send":"إرسال الطلب عبر واتساب",
     "loyalty.eyebrow":"برنامج العملاء","loyalty.title":"ولاؤك يستحق المزيد.","loyalty.current":"الرصيد الحالي","loyalty.desc":"النقاط مرتبطة بحساب العميل وسجل الطلبات.",
     "promos.eyebrow":"العروض","promos.title":"أفضل العروض.","promos.soon":"قريباً","promos.sub":"عروض مخصصة بلا إزعاج.","promos.desc":"يمكن جدولة العروض حسب الفئة أو المنتج أو الفترة أو ملف العميل.",
-    "footer.tag":"التجربة الرقمية الجديدة لـ La Shish. القائمة والطلبات والحجوزات والولاء في مساحة واحدة.","footer.nav":"التنقل","footer.contact":"التواصل والشبكات","footer.legal":"© ٢٠٢٦ Menu Shish — La Shish Abidjan.",
+    "footer.tag":"التجربة الرقمية الجديدة لـ La Shish. القائمة والطلبات والحجوزات والولاء في مساحة واحدة.","footer.nav":"التنقل","footer.contact":"التواصل والشبكات","footer.legal":"© ٢٠٢٦ Menu Shish — La Shish Abidjan.","notfound.title":"هذه الصفحة غير موجودة.","notfound.desc":"ارجع إلى القائمة للعثور على طلبك القادم.","notfound.back":"العودة إلى القائمة",
     "brand":"MENU SHISH"
   }
 };
