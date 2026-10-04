@@ -4,7 +4,7 @@ import { slugify } from "../lib/catalog";
 import FeaturedProducts from "../components/featured-products";
 import menu from "../data/menu.json";
 
-const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/v2-nextjs/images/";
+const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/main/images/";
 
 const featured = menu.products.filter((p) => p.disponible && typeof p.prix === "number").slice(0, 6);
 const categories = [...new Set(menu.products.map((p) => p.categorie))].slice(0, 6);
