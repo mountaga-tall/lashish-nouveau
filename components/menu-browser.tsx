@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useCart } from "./cart-store";
+import FavoriteButton from "./favorite-button";
 
 type Product = {
   id: number;
@@ -61,6 +62,7 @@ export default function MenuBrowser({ products, categories }: { products: Produc
         {visible.map((p) => (
           <article key={p.id} className="overflow-hidden rounded-3xl border border-black/8 bg-white/60 transition hover:-translate-y-1 hover:bg-white">
             <div className="relative aspect-[4/3] bg-black/[.04]">
+              <FavoriteButton id={p.id} />
               {p.photo ? <Image src={raw + p.photo} alt={p.nom} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" /> : null}
             </div>
             <div className="p-5">
