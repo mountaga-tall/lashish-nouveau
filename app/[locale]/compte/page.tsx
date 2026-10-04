@@ -1,4 +1,4 @@
-import AccountPanel from "../../../components/account-panel;
+import AccountPanel from "../../../components/account-panel";
 
 
 export default function AccountPage() {
