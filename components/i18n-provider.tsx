@@ -230,13 +230,8 @@ export function menuLabel(value: string) {
 }
 
 export function I18nText({ fr, en, ar, className="" }: { fr:string; en:string; ar:string; className?:string }) {
-  return (
-    <span className={className}>
-      <span className="i18n-fr">{fr}</span>
-      <span className="i18n-en">{en}</span>
-      <span className="i18n-ar">{ar}</span>
-    </span>
-  );
+ const { locale }=useI18n();
+ return <span className={className}>{locale==="ar"?ar:locale==="en"?en:fr}</span>;
 }
 
 export function LanguageSwitcher({ compact=false }: { compact?: boolean }) {
@@ -262,8 +257,8 @@ export function useI18n() {
   return value;
 }
 
-export default function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("fr");
+export default function I18nProvider({ children, initialLocale="fr" }: { children: React.ReactNode; initialLocale?: Locale }) {
+  const [locale, setLocaleState] = useState<Locale>(initialLocale);
 
   const setLocale = (next: Locale) => {
     setLocaleState(next);
