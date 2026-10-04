@@ -1,12 +1,8 @@
 "use client";
-
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-
 export type Locale = "fr" | "en" | "ar";
-
 type Dict = Record<string, string>;
-
 const dictionaries: Record<Locale, Dict> = {
   fr: {
     "nav.menu":"Menu","nav.reserve":"Réserver","nav.favorites":"Favoris","nav.order":"Ma commande","nav.account":"Compte","nav.contact":"Contact",
@@ -120,7 +116,6 @@ const dictionaries: Record<Locale, Dict> = {
     "brand":"MENU SHISH"
   }
 };
-
 const menuLabels: Record<string, Record<Locale, string>> = {
   "Boisson": { fr:"Boisson", en:"Beverages", ar:"المشروبات" },
   "Cocktail": { fr:"Cocktail", en:"Cocktails", ar:"كوكتيلات" },
@@ -168,7 +163,6 @@ const menuLabels: Record<string, Record<Locale, string>> = {
   "Liqueur": { fr:"Liqueur", en:"Liqueur", ar:"مشروبات روحية" },
   "Champagne Et Mousseux": { fr:"Champagne Et Mousseux", en:"Champagne & sparkling", ar:"شمبانيا ومشروبات فوارة" }
 };
-
 type I18nContext = {
   locale: Locale;
   setLocale: (locale: Locale) => void;
@@ -177,9 +171,7 @@ type I18nContext = {
   money: (value: number) => string;
   date: (value: string) => string;
 };
-
 const I18n = createContext<I18nContext | null>(null);
-
 function pathLocale(): Locale | null { if (typeof window === "undefined") return null; const match = window.location.pathname.match(/^\/(fr|en|ar)(?:\/|$)/); return (match?.[1] as Locale | undefined) ?? null; }
 function readInitialLocale(): Locale {
   if (typeof window === "undefined") return "fr";
@@ -190,7 +182,6 @@ function readInitialLocale(): Locale {
   const browser = navigator.language.toLowerCase();
   return browser.startsWith("ar") ? "ar" : browser.startsWith("en") ? "en" : "fr";
 }
-
 function replaceDigits(root: Node, locale: Locale) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   const nodes: Text[] = [];
@@ -208,32 +199,16 @@ function replaceDigits(root: Node, locale: Locale) {
     if (next !== current) text.nodeValue = next;
   }
 }
-
-const titles: Record<string, Record<Locale, string>> = {
-  "/": { fr:"Menu Shish — La Shish Abidjan", en:"Menu Shish — La Shish Abidjan", ar:"Menu Shish — La Shish أبيدجان" },
-  "/menu": { fr:"Menu — Menu Shish", en:"Menu — Menu Shish", ar:"القائمة — Menu Shish" },
-  "/commande": { fr:"Ma commande — Menu Shish", en:"My order — Menu Shish", ar:"طلبي — Menu Shish" },
-  "/compte": { fr:"Mon espace — Menu Shish", en:"My account — Menu Shish", ar:"حسابي — Menu Shish" },
-  "/favoris": { fr:"Mes favoris — Menu Shish", en:"My favorites — Menu Shish", ar:"مفضلاتي — Menu Shish" },
-  "/reserver": { fr:"Réserver — Menu Shish", en:"Reserve — Menu Shish", ar:"الحجز — Menu Shish" },
-  "/contact": { fr:"Contact — Menu Shish", en:"Contact — Menu Shish", ar:"تواصل معنا — Menu Shish" },
-  "/fidelite": { fr:"Fidélité — Menu Shish", en:"Loyalty — Menu Shish", ar:"الولاء — Menu Shish" },
-  "/promotions": { fr:"Promotions — Menu Shish", en:"Offers — Menu Shish", ar:"العروض — Menu Shish" }
-};
-
 export function toArabicDigits(value: string | number) {
   return String(value).replace(/[0-9]/g, (d) => "٠١٢٣٤٥٦٧٨٩"[Number(d)]);
 }
-
 export function menuLabel(value: string) {
   return menuLabels[value] ?? { fr:value, en:value, ar:value };
 }
-
 export function I18nText({ fr, en, ar, className="" }: { fr:string; en:string; ar:string; className?:string }) {
  const { locale }=useI18n();
  return <span className={className}>{locale==="ar"?ar:locale==="en"?en:fr}</span>;
 }
-
 export function LanguageSwitcher({ compact=false }: { compact?: boolean }) {
   const { locale, setLocale, t } = useI18n();
   const router = useRouter();
@@ -250,22 +225,18 @@ export function LanguageSwitcher({ compact=false }: { compact?: boolean }) {
     {(["fr","en","ar"] as Locale[]).map(item=><button key={item} type="button" onClick={()=>choose(item)} aria-pressed={locale===item} className={"relative z-10 min-h-9 rounded-full px-2 text-[10px] font-black uppercase tracking-[.16em] transition " + (locale===item ? "text-[#11100e]" : "text-white/65 hover:text-white")}>{item==="ar" ? "ع" : item.toUpperCase()}</button>)}
   </div>;
 }
-
 export function useI18n() {
   const value = useContext(I18n);
   if (!value) throw new Error("useI18n must be used inside I18nProvider");
   return value;
 }
-
 export default function I18nProvider({ children, initialLocale="fr" }: { children: React.ReactNode; initialLocale?: Locale }) {
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
-
   const setLocale = (next: Locale) => {
     setLocaleState(next);
     window.localStorage.setItem("menushish_locale", next);
     document.cookie = "menushish_locale=" + next + "; Path=/; Max-Age=31536000; SameSite=Lax";
   };
-
   useEffect(() => {
     const saved = readInitialLocale();
     if (saved !== locale) { setLocaleState(saved); return; }
@@ -273,28 +244,11 @@ export default function I18nProvider({ children, initialLocale="fr" }: { childre
     document.documentElement.lang = locale;
     document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
     document.documentElement.setAttribute("data-language-ready", "true");
-
-    const path = window.location.pathname.replace(/^\/(fr|en|ar)(?=\/|$)/,"") || "/";
-    const exact = titles[path];
-    if (exact) document.title = exact[locale];
-
-    const description = document.querySelector('meta[name="description"]');
-    if (description) {
-      description.setAttribute("content",
-        locale === "fr"
-          ? "Le menu digital premium de La Shish à Abidjan : découvrez, commandez, réservez et profitez de vos favoris."
-          : locale === "en"
-            ? "La Shish premium digital menu in Abidjan: discover, order, reserve and keep your favorites."
-            : "القائمة الرقمية الراقية لـ La Shish في أبيدجان: اكتشف واطلب واحجز واحتفظ بمفضلاتك."
-      );
-    }
-
     replaceDigits(document.body, locale);
     const observer = new MutationObserver(() => replaceDigits(document.body, locale));
     observer.observe(document.body, { subtree:true, childList:true, characterData:true });
     return () => observer.disconnect();
   }, [locale]);
-
   const value = useMemo<I18nContext>(() => ({
     locale,
     setLocale,
@@ -303,6 +257,5 @@ export default function I18nProvider({ children, initialLocale="fr" }: { childre
     money: (value) => new Intl.NumberFormat(locale === "ar" ? "ar-CI-u-nu-arab" : locale === "en" ? "en-US" : "fr-FR").format(value) + " F CFA",
     date: (value) => new Intl.DateTimeFormat(locale === "ar" ? "ar-CI-u-nu-arab" : locale === "en" ? "en-US" : "fr-FR", { dateStyle:"medium" }).format(new Date(value))
   }), [locale]);
-
   return <I18n.Provider value={value}>{children}</I18n.Provider>;
 }
