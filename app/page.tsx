@@ -1,19 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { slugify } from "../lib/catalog";
+import FeaturedProducts from "../components/featured-products";
 import menu from "../data/menu.json";
 
 const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/v2-nextjs/images/";
 
 const featured = menu.products.filter((p) => p.disponible && typeof p.prix === "number").slice(0, 6);
-const categories = [
-  ["Plats", "plats.html"],
-  ["Spécialités", "specialites.html"],
-  ["Pizzas", "pizzas.html"],
-  ["Tacos", "tacos.html"],
-  ["Boissons", "boissons.html"],
-  ["Desserts", "desserts.html"],
-];
+const categories = [...new Set(menu.products.map((p) => p.categorie))].slice(0, 6);
 
 export default function HomePage() {
   return (
@@ -58,7 +52,7 @@ export default function HomePage() {
             <Link href="/menu" className="text-sm font-bold underline decoration-[#b68a42] underline-offset-8">Voir les 253 produits →</Link>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {categories.map(([label], i) => (
+            {categories.map((label, i) => (
               <Link key={label} href={`/menu/${slugify(label)}`} className="card-shine group rounded-3xl border border-black/8 bg-white/60 p-6 backdrop-blur transition hover:-translate-y-1 hover:bg-white">
                 <span className="text-xs font-bold text-[#b68a42]">0{i + 1}</span>
                 <h3 className="mt-12 text-2xl font-black">{label}</h3>
@@ -79,14 +73,7 @@ export default function HomePage() {
             </div>
             <Link href="/menu" className="hidden text-sm font-bold text-[#d4b273] sm:block">Tout le menu →</Link>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((p) => (
-              <article key={p.id} className="card-shine overflow-hidden rounded-3xl border border-white/10 bg-white/5">
-                <div className="relative aspect-[4/3] bg-white/5">
-                  <Image src={raw + p.photo} alt={p.nom} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition duration-700 group-hover:scale-105" />
-                  <span className="absolute left-4 top-4 rounded-full bg-black/55 px-3 py-1 text-[11px] font-bold uppercase tracking-wider backdrop-blur">La Shish</span>
-                </div>
-                <div className="p-5">
+          <FeaturedProducts products={featured} />               <div className="p-5">
                   <div className="flex items-start justify-between gap-4">
                     <h3 className="text-xl font-black">{p.nom}</h3>
                     <span className="shrink-0 text-sm font-black text-[#d4b273]">{(p.prix ?? 0).toLocaleString("fr-FR")} F</span>
