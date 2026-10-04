@@ -263,7 +263,7 @@ export function useI18n() {
 }
 
 export default function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(readInitialLocale);
+  const [locale, setLocaleState] = useState<Locale>("fr");
 
   const setLocale = (next: Locale) => {
     setLocaleState(next);
