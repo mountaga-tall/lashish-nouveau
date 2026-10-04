@@ -5,6 +5,7 @@ import { CartProvider } from "../components/cart-store";
 import { FavoriteProvider } from "../components/favorite-store";
 import SiteFooter from "../components/site-footer";
 import Breadcrumbs from "../components/breadcrumbs";
+import PwaRegister from "../components/pwa-register";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://menushish.ci"),
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Breadcrumbs />
             {children}
             <SiteFooter />
+            <PwaRegister />
           </CartProvider>
         </FavoriteProvider>
       </body>
