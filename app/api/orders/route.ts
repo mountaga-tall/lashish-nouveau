@@ -1,3 +1,4 @@
+import { apiMessage } from "../../../lib/server-locale";
 import { getDatabase } from "../../../lib/db";
 import { getAuthUser } from "../../../lib/auth";
 
@@ -12,15 +13,15 @@ export async function POST(request: Request) {
   } | null;
 
   if (!body?.customerName || !body.customerPhone || !Array.isArray(body.items) || body.items.length === 0) {
-    return Response.json({ error: "Informations de commande incomplètes." }, { status: 400 });
+    return Response.json({ error: apiMessage(request,"incompleteOrder") }, { status: 400 });
   }
 
   const db = getDatabase();
-  if (!db) return Response.json({ persisted: false, message: "Commande prête pour WhatsApp." });
+  if (!db) return Response.json({ persisted: false, message: apiMessage(request,"dbOrder") });
 
   const user = await getAuthUser(db, request);
   const ids = [...new Set(body.items.map((item) => Number(item.id)).filter(Number.isInteger))];
-  if (!ids.length) return Response.json({ error: "Articles invalides." }, { status: 400 });
+  if (!ids.length) return Response.json({ error: apiMessage(request,"invalidItems") }, { status: 400 });
 
   const placeholders = ids.map(() => "?").join(",");
   const result = await db.prepare("SELECT id, name, price, available FROM products WHERE id IN (" + placeholders + ")").bind(...ids).all();
@@ -36,7 +37,7 @@ export async function POST(request: Request) {
     return { productId: p.id, name: p.name, price: p.price, quantity };
   }).filter(Boolean) as Array<{ productId: number; name: string; price: number; quantity: number }>;
 
-  if (!normalized.length) return Response.json({ error: "Aucun article disponible." }, { status: 400 });
+  if (!normalized.length) return Response.json({ error: apiMessage(request,"noneAvailable") }, { status: 400 });
 
   const id = "LS-" + crypto.randomUUID().slice(0, 8).toUpperCase();
   const statements = [

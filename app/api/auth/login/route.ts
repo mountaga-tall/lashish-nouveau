@@ -1,4 +1,5 @@
 import { getDatabase } from "../../../../lib/db";
+import { apiMessage } from "../../../../lib/server-locale";
 import { createSession, sessionCookie, verifyPassword, normalizeEmail, normalizePhone } from "../../../../lib/auth";
 
 export async function POST(request: Request) {
@@ -6,10 +7,10 @@ export async function POST(request: Request) {
   const identifier = body?.identifier?.trim() ?? "";
   const password = body?.password ?? "";
 
-  if (!identifier || !password) return Response.json({ error: "Identifiant et mot de passe requis." }, { status: 400 });
+  if (!identifier || !password) return Response.json({ error: apiMessage(request,"identifierRequired") }, { status: 400 });
 
   const db = getDatabase();
-  if (!db) return Response.json({ error: "Le compte client nécessite la base Cloudflare D1." }, { status: 503 });
+  if (!db) return Response.json({ error: apiMessage(request,"dbAccount") }, { status: 503 });
 
   const email = normalizeEmail(identifier);
   const phone = normalizePhone(identifier);
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
   } | null;
 
   if (!user?.password_hash || !user.password_salt || !(await verifyPassword(password, user.password_salt, user.password_hash))) {
-    return Response.json({ error: "Identifiants incorrects." }, { status: 401 });
+    return Response.json({ error: apiMessage(request,"credentialsInvalid") }, { status: 401 });
   }
 
   const token = await createSession(db, user.id);

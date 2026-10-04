@@ -1,4 +1,5 @@
 import { getDatabase } from "../../../../lib/db";
+import { apiMessage } from "../../../../lib/server-locale";
 import { createSession, hashPassword, normalizeEmail, normalizePhone, sessionCookie, validatePassword } from "../../../../lib/auth";
 
 export async function POST(request: Request) {
@@ -13,14 +14,14 @@ export async function POST(request: Request) {
   const email = normalizeEmail(body?.email);
   const phone = normalizePhone(body?.phone);
 
-  if (name.length < 2 || name.length > 80) return Response.json({ error: "Indiquez votre nom complet." }, { status: 400 });
-  if (!email && !phone) return Response.json({ error: "Ajoutez un email ou un numéro de téléphone." }, { status: 400 });
-  if (email && !/^([^\s@]+)@([^\s@]+)\.([^\s@]+)$/.test(email)) return Response.json({ error: "Adresse email invalide." }, { status: 400 });
-  if (phone && (phone.length < 9 || phone.length > 15)) return Response.json({ error: "Numéro de téléphone invalide." }, { status: 400 });
-  if (!validatePassword(body?.password)) return Response.json({ error: "Le mot de passe doit contenir entre 8 et 128 caractères." }, { status: 400 });
+  if (name.length < 2 || name.length > 80) return Response.json({ error: apiMessage(request,"nameInvalid") }, { status: 400 });
+  if (!email && !phone) return Response.json({ error: apiMessage(request,"contactRequired") }, { status: 400 });
+  if (email && !/^([^\s@]+)@([^\s@]+)\.([^\s@]+)$/.test(email)) return Response.json({ error: apiMessage(request,"emailInvalid") }, { status: 400 });
+  if (phone && (phone.length < 9 || phone.length > 15)) return Response.json({ error: apiMessage(request,"phoneInvalid") }, { status: 400 });
+  if (!validatePassword(body?.password)) return Response.json({ error: apiMessage(request,"passwordInvalid") }, { status: 400 });
 
   const db = getDatabase();
-  if (!db) return Response.json({ error: "Le compte client nécessite la base Cloudflare D1." }, { status: 503 });
+  if (!db) return Response.json({ error: apiMessage(request,"dbAccount") }, { status: 503 });
 
   const existing = email
     ? await db.prepare("SELECT id FROM users WHERE email=? LIMIT 1").bind(email).first()
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
     : null;
 
   if (existing || existingPhone) {
-    return Response.json({ error: "Un compte existe déjà avec cet email ou ce téléphone. Connectez-vous." }, { status: 409 });
+    return Response.json({ error: apiMessage(request,"accountExists") }, { status: 409 });
   }
 
   const { salt, hash } = await hashPassword(body!.password!);

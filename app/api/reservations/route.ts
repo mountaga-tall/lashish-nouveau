@@ -1,3 +1,4 @@
+import { apiMessage } from "../../../lib/server-locale";
 import { getDatabase } from "../../../lib/db";
 import { getAuthUser } from "../../../lib/auth";
 
@@ -12,11 +13,11 @@ export async function POST(request: Request) {
   } | null;
 
   if (!body?.customerName || !body.customerPhone || !body.reservationDate || !body.reservationTime) {
-    return Response.json({ error: "Informations de réservation incomplètes." }, { status: 400 });
+    return Response.json({ error: apiMessage(request,"incompleteReservation") }, { status: 400 });
   }
 
   const db = getDatabase();
-  if (!db) return Response.json({ persisted: false, message: "Demande prête pour WhatsApp." });
+  if (!db) return Response.json({ persisted: false, message: apiMessage(request,"dbReservation") });
 
   const user = await getAuthUser(db, request);
   const id = "RSV-" + crypto.randomUUID().slice(0, 8).toUpperCase();
