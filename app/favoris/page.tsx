@@ -6,7 +6,7 @@ import menu from "../../data/menu.json";
 import { useFavorites } from "../../components/favorite-store";
 import FavoriteButton from "../../components/favorite-button";
 
-const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/v2-nextjs/images/";
+const raw = "https://raw.githubusercontent.com/mountaga-tall/lashish-nouveau/main/images/";
 
 export default function FavoritesPage() {
   const { ids } = useFavorites();
