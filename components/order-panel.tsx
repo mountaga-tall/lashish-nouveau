@@ -19,7 +19,7 @@ export default function OrderPanel() {
       const data=await response.json(); if(!response.ok)throw new Error(data.error||"Unable to prepare order.");
       const orderId=data.orderId||"LOCAL";
       const lines=items.map(item=>"- "+item.qty+"× "+productName(item.nom,locale)+" — "+money(item.qty*item.prix)).join("\n");
-      const tracking=orderId!=="LOCAL"?"\n"+(locale==="ar"?"التتبع: ":locale==="en"?"Tracking: ":"Suivi : ")+"https://menushish.ci/commande/suivi/"+orderId:"";
+      const tracking=orderId!=="LOCAL"?"\n"+(locale==="ar"?"التتبع: ":locale==="en"?"Tracking: ":"Suivi : ")+"https://menushish.ci/"+locale+"/commande/suivi/"+orderId:"";
       const message=(locale==="ar"?"مرحباً La Shish، أريد تقديم هذا الطلب.":locale==="en"?"Hello La Shish, I would like to place this order.":"Bonjour La Shish, je souhaite passer cette commande.")+"\n\n"+lines+"\n\n"+(locale==="ar"?"الإجمالي: ":locale==="en"?"Estimated total: ":"Total estimé : ")+money(total)+"\n"+(locale==="ar"?"الطلب: ":locale==="en"?"Order: ":"Commande : ")+orderId+tracking+"\n\n"+(locale==="ar"?"الاسم: ":locale==="en"?"Name: ":"Nom : ")+name+"\n"+(locale==="ar"?"الهاتف: ":locale==="en"?"Phone: ":"Téléphone : ")+phone+"\n"+(locale==="ar"?"الطريقة: ":locale==="en"?"Mode: ":"Mode : ")+fulfillment+(address?"\n"+(locale==="ar"?"العنوان: ":locale==="en"?"Address: ":"Adresse : ")+address:"")+(notes?"\n"+(locale==="ar"?"ملاحظات: ":locale==="en"?"Notes: ":"Notes : ")+notes:"");
       window.open("https://wa.me/2250140555666?text="+encodeURIComponent(message),"_blank","noopener,noreferrer");
     } catch(err){setError(err instanceof Error?err.message:"Une erreur est survenue.");}
