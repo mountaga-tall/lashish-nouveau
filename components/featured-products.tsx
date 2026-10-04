@@ -21,10 +21,10 @@ export default function FeaturedProducts({ products }: { products: Product[] }) 
           </div>
           <div className="p-5">
             <div className="flex items-start justify-between gap-4">
-              <h3 className="text-xl font-black">{p.nom}</h3>
+              <h3 className="text-xl font-black"><ProductName value={p.nom}/></h3>
               <span className="shrink-0 text-sm font-black text-[#d4b273]">{(p.prix ?? 0).toLocaleString("fr-FR")} F</span>
             </div>
-            <p className="mt-2 min-h-12 text-sm leading-6 text-white/55">{p.description}</p>
+            <p className="mt-2 min-h-12 text-sm leading-6 text-white/55"><ProductDescription value={p.description}/></p>
             <div className="mt-5 flex gap-2">
               <button onClick={() => typeof p.prix === "number" && add({ id: p.id, nom: p.nom, prix: p.prix, photo: p.photo })} className="flex-1 rounded-full bg-[#d4b273] px-4 py-2.5 text-sm font-black text-[#11100e] hover:bg-white">Ajouter</button>
               <Link href={"/menu/produit/" + p.id} className="rounded-full border border-white/15 px-4 py-2.5 text-sm font-bold hover:border-[#d4b273] hover:text-[#d4b273]">Détails</Link>
