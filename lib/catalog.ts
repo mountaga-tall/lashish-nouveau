@@ -1,21 +1,8 @@
 import menu from "../data/menu.json";
 
-export type CatalogProduct = {
-  id: number;
-  type?: string;
-  categorie: string;
-  sousCategorie?: string;
-  nom: string;
-  description?: string;
-  prix?: number;
-  disponible: boolean;
-  photo?: string;
-  tailles?: { nom: string; prix: number }[];
-  choix?: unknown[];
-  supplement?: { label: string; prix: number };
-};
+export type CatalogProduct = (typeof menu.products)[number];
 
-export const products = menu.products as CatalogProduct[];
+export const products = menu.products;
 
 export function priceOf(product: CatalogProduct) {
   if (typeof product.prix === "number") return product.prix;
@@ -24,11 +11,10 @@ export function priceOf(product: CatalogProduct) {
 }
 
 export function imageUrl(photo?: string) {
-  return photo
-    ? "https://raw.githubusercontent.com/mountaga-tall/menushish/main/images/" + photo
-    : null;
+  const base = "https://raw.githubusercontent.com/mountaga-tall/menushish/main/images/";
+  return base + (photo || "no-image.webp");
 }
 
 export function slugify(value: string) {
-  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
 }
