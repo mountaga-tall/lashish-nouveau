@@ -74,7 +74,7 @@ export default function MenuBrowser({ products, categories }: { products: Produc
                 <span className="shrink-0 text-sm font-black">{(getPrice(p) ?? 0).toLocaleString("fr-FR")} F</span>
               </div>
               <p className="mt-3 min-h-12 text-sm leading-6 text-black/55">{p.description}</p>
-              <button onClick={() => { const price = getPrice(p); if (typeof price !== "number" || !Number.isFinite(price)) return; add({ id: p.id, nom: p.nom, prix: price, photo: p.photo }); setAddedId(p.id); window.setTimeout(() => setAddedId(null), 700); }} className="mt-5 w-full rounded-2xl bg-[#11100e] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#b68a42] hover:text-[#11100e]">{addedId === p.id ? "Ajouté ✓" : "Ajouter au panier"}</button>
+              <button onClick={() => { const price = getPrice(p); if (typeof price !== "number" || !Number.isFinite(price)) return; add({ id: p.id, nom: p.nom, prix: price, photo: p.photo }); setAddedId(p.id); window.setTimeout(() => setAddedId(null), 700); }} className="mt-5 w-full rounded-2xl bg-[#11100e] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#b68a42] hover:text-[#11100e]">{addedId === p.id ? "Ajouté ✓" : p.tailles?.length ? "Choisir une taille" : "Ajouter au panier"}</button>
             </div>
           </article>
         ))}
