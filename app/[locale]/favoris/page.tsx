@@ -1,6 +1,3 @@
-import { localizedMetadata } from "../../../lib/seo";
-import type { Locale } from "../../../lib/menu-localization";
-export async function generateMetadata({params}:{params:Promise<{locale:string}>}){const {locale}=await params;const meta=localizedMetadata(locale as Locale,"favoris","/"+locale+"/favoris");return {...meta,robots:{index:false,follow:false}};}
 "use client";
 
 import Image from "next/image";
