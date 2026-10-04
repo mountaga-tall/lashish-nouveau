@@ -22,6 +22,25 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="fr">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Restaurant",
+            name: "La Shish",
+            url: "https://menushish.ci",
+            telephone: "+2250140555666",
+            email: "lashish2@bonoumin.ci",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "Voie de la Djibi",
+              addressLocality: "Riviera Bonoumin, Cocody",
+              addressCountry: "CI"
+            },
+            sameAs: ["https://instagram.com/restaurantlashish"],
+            menu: "https://menushish.ci/menu"
+          }) }}
+        />
         <FavoriteProvider>
         <CartProvider>
           <SiteHeader />
