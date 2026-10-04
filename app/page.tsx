@@ -73,18 +73,7 @@ export default function HomePage() {
             </div>
             <Link href="/menu" className="hidden text-sm font-bold text-[#d4b273] sm:block">Tout le menu →</Link>
           </div>
-          <FeaturedProducts products={featured} />               <div className="p-5">
-                  <div className="flex items-start justify-between gap-4">
-                    <h3 className="text-xl font-black">{p.nom}</h3>
-                    <span className="shrink-0 text-sm font-black text-[#d4b273]">{(p.prix ?? 0).toLocaleString("fr-FR")} F</span>
-                  </div>
-                  <p className="mt-2 min-h-12 text-sm leading-6 text-white/55">{p.description}</p>
-                  <Link href="/commande" className="mt-5 inline-flex rounded-full border border-white/15 px-4 py-2 text-sm font-bold transition hover:border-[#d4b273] hover:text-[#d4b273]">Ajouter</Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
+          <FeaturedProducts products={featured} />
       </section>
 
       <section className="bg-[#f5f0e7] px-5 py-20 sm:px-8 lg:px-12">
