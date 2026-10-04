@@ -14,15 +14,15 @@ export async function POST(request: Request) {
   const email = normalizeEmail(identifier);
   const phone = normalizePhone(identifier);
   const user = await db.prepare(
-    "SELECT id,email,phone,display_name,password_hash,password_salt FROM users WHERE (email=? OR phone=?) LIMIT 1"
-  ).bind(email, phone).first<{
+    "SELECT u.id,u.email,u.phone,u.display_name,c.password_hash,c.password_salt FROM users u JOIN user_credentials c ON c.user_id=u.id WHERE (u.email=? OR u.phone=?) LIMIT 1"
+  ).bind(email, phone).first() as {
     id: string;
     email: string | null;
     phone: string | null;
     display_name: string | null;
     password_hash: string | null;
     password_salt: string | null;
-  }>();
+  } | null;
 
   if (!user?.password_hash || !user.password_salt || !(await verifyPassword(password, user.password_salt, user.password_hash))) {
     return Response.json({ error: "Identifiants incorrects." }, { status: 401 });
