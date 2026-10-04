@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "../../components/locale-link";
-import { imageUrl } from "../../lib/catalog";
 import FeaturedProducts from "../../components/featured-products";
 import CategoryMosaic from "../../components/category-mosaic";
 import { I18nText } from "../../components/i18n-provider";
@@ -46,7 +45,7 @@ export default function HomePage() {
             <div className="flex items-center gap-8 sm:gap-10">
               <div className="float-in brand-signature">
                 <div className="brand-logo-shell rounded-full p-2">
-                  <Image src={imageUrl("logo.webp")} alt="La Shish" width={180} height={180} priority unoptimized className="h-20 w-20 rounded-full object-cover sm:h-24 sm:w-24" />
+                  <Image src="/logo.webp" alt="La Shish" width={180} height={180} priority unoptimized className="h-20 w-20 rounded-full object-cover sm:h-24 sm:w-24" />
                 </div>
               </div>
               <Link href="/menu" className="discover-chip discover-chip-hero group ms-4 mt-3 inline-flex translate-y-1 items-center gap-2 rounded-full border border-[#d4b273]/45 bg-[#d4b273]/10 px-4 py-3 text-[10px] font-black uppercase tracking-[.18em] text-[#e2c17e]">
