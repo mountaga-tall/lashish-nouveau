@@ -29,7 +29,7 @@ export default function OrderPanel() {
       const message=orderMessage(locale,{lines:items.map(item=>"- "+item.qty+"× "+productName(item.nom,locale)+" — "+money(item.qty*item.prix)),total:money(total),orderId,trackingUrl:orderId!=="LOCAL"?"https://menushish.ci/"+locale+"/commande/suivi/"+orderId:undefined,name,phone,fulfillment:fulfillmentLabel||fulfillment,address,notes});
       const url=whatsappUrl(message);
       if(popup) popup.location.href=url; else window.location.assign(url);
-    } catch(err){setError(err instanceof DOMException&&err.name==="AbortError"?t("order.timeout"):(err instanceof Error?err.message:t("order.failed")));}
+    } catch(err){if(popup)popup.close();setError(err instanceof DOMException&&err.name==="AbortError"?t("order.timeout"):(err instanceof Error?err.message:t("order.failed")));}
     finally{setBusy(false);}
   };
 
