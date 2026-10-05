@@ -13,8 +13,8 @@ function buildReservationId() {
 }
 
 function validDateTime(date: string, time: string) {
-  const dateMatch = /^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(date);
-  const timeMatch = /^(\\d{2}):(\\d{2})$/.exec(time);
+  const dateMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
+  const timeMatch = /^(\d{2}):(\d{2})$/.exec(time);
   if (!dateMatch || !timeMatch) return false;
   const year = Number(dateMatch[1]);
   const month = Number(dateMatch[2]);
