@@ -7,13 +7,8 @@ export default function PwaRegister(){
     if(!("serviceWorker" in navigator))return;
     let cancelled=false;
     const register=()=>{if(!cancelled)navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(()=>undefined)};
-    const handle=()=>register();
-    if("requestIdleCallback" in window){
-      const id=window.requestIdleCallback(register,{timeout:2500});
-      return()=>{cancelled=true;window.cancelIdleCallback?.(id)};
-    }
-    const id=window.setTimeout(handle,1500);
-    return()=>{cancelled=true;window.clearTimeout(id)};
+    const timer=window.setTimeout(register,1500);
+    return()=>{cancelled=true;window.clearTimeout(timer)};
   },[]);
   return null;
 }
