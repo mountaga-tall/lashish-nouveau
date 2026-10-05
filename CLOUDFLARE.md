@@ -1,4 +1,4 @@
-# Menu Shish — production Cloudflare
+# LA SHISH — production Cloudflare
 
 La production utilise Next.js 16 + OpenNext sur Cloudflare Workers.
 
