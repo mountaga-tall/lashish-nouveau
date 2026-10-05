@@ -38,8 +38,8 @@ const dictionaries: Record<Locale, Dict> = {
     "reserve.name":"Nom","reserve.phone":"Téléphone","reserve.failed":"Impossible d’envoyer la réservation.","reserve.date":"Date","reserve.time":"Heure","reserve.people":"Nombre de personnes","reserve.special":"Demande particulière","reserve.specialPlaceholder":"Anniversaire, emplacement souhaité, etc.","reserve.send":"Envoyer la demande sur WhatsApp",
     "loyalty.eyebrow":"Programme client","loyalty.title":"Votre fidélité mérite plus.","loyalty.current":"Solde actuel","loyalty.desc":"Le moteur de points est relié à votre compte client et à l’historique des commandes.",
     "promos.eyebrow":"Offres","promos.title":"Les bons plans.","promos.soon":"Bientôt","promos.sub":"Des offres ciblées, pas du spam.","promos.desc":"Les promotions pourront être programmées par catégorie, produit, période ou profil client.",
-    "footer.tag":"La nouvelle expérience digitale La Shish. Menu, commande, réservation et fidélité dans un seul espace.","footer.nav":"Navigation","footer.contact":"Contact & réseaux","footer.legal":"© 2026 Menu Shish — La Shish Abidjan.","notfound.title":"Cette page n’existe pas.","notfound.desc":"Retournez au menu pour retrouver votre prochaine commande.","notfound.back":"Retour au menu",
-    "brand":"MENU SHISH"
+    "footer.tag":"La nouvelle expérience digitale La Shish. Menu, commande, réservation et fidélité dans un seul espace.","footer.nav":"Navigation","footer.contact":"Contact & réseaux","footer.legal":"© 2026 LA SHISH — Abidjan.","notfound.title":"Cette page n’existe pas.","notfound.desc":"Retournez au menu pour retrouver votre prochaine commande.","notfound.back":"Retour au menu",
+    "brand":"LA SHISH"
   },
   en: {
     "nav.menu":"Menu","nav.reserve":"Reserve","nav.favorites":"Favorites","nav.order":"My order","nav.account":"Account","nav.contact":"Contact",
@@ -75,8 +75,8 @@ const dictionaries: Record<Locale, Dict> = {
     "reserve.name":"Name","reserve.phone":"Phone","reserve.failed":"Unable to send the reservation.","reserve.date":"Date","reserve.time":"Time","reserve.people":"Number of people","reserve.special":"Special request","reserve.specialPlaceholder":"Birthday, preferred seating, etc.","reserve.send":"Send request on WhatsApp",
     "loyalty.eyebrow":"Customer program","loyalty.title":"Your loyalty deserves more.","loyalty.current":"Current balance","loyalty.desc":"Points are connected to your customer account and order history.",
     "promos.eyebrow":"Offers","promos.title":"Good deals.","promos.soon":"Coming soon","promos.sub":"Targeted offers, never spam.","promos.desc":"Promotions can be scheduled by category, product, period or customer profile.",
-    "footer.tag":"The new La Shish digital experience. Menu, ordering, reservations and loyalty in one place.","footer.nav":"Navigation","footer.contact":"Contact & social","footer.legal":"© 2026 Menu Shish — La Shish Abidjan.",
-    "brand":"MENU SHISH"
+    "footer.tag":"The new La Shish digital experience. Menu, ordering, reservations and loyalty in one place.","footer.nav":"Navigation","footer.contact":"Contact & social","footer.legal":"© 2026 LA SHISH — Abidjan.",
+    "brand":"LA SHISH"
   },
   ar: {
     "nav.menu":"القائمة","nav.reserve":"احجز","nav.favorites":"المفضلة","nav.order":"طلبي","nav.account":"حسابي","nav.contact":"تواصل معنا",
@@ -112,8 +112,8 @@ const dictionaries: Record<Locale, Dict> = {
     "reserve.name":"الاسم","reserve.phone":"رقم الهاتف","reserve.failed":"تعذر إرسال الحجز.","reserve.date":"التاريخ","reserve.time":"الوقت","reserve.people":"عدد الأشخاص","reserve.special":"طلب خاص","reserve.specialPlaceholder":"عيد ميلاد، مكان مفضل، إلخ.","reserve.send":"إرسال الطلب عبر واتساب",
     "loyalty.eyebrow":"برنامج العملاء","loyalty.title":"ولاؤك يستحق المزيد.","loyalty.current":"الرصيد الحالي","loyalty.desc":"النقاط مرتبطة بحساب العميل وسجل الطلبات.",
     "promos.eyebrow":"العروض","promos.title":"أفضل العروض.","promos.soon":"قريباً","promos.sub":"عروض مخصصة بلا إزعاج.","promos.desc":"يمكن جدولة العروض حسب الفئة أو المنتج أو الفترة أو ملف العميل.",
-    "footer.tag":"التجربة الرقمية الجديدة لـ La Shish. القائمة والطلبات والحجوزات والولاء في مساحة واحدة.","footer.nav":"التنقل","footer.contact":"التواصل والشبكات","footer.legal":"© ٢٠٢٦ Menu Shish — La Shish Abidjan.","notfound.title":"هذه الصفحة غير موجودة.","notfound.desc":"ارجع إلى القائمة للعثور على طلبك القادم.","notfound.back":"العودة إلى القائمة",
-    "brand":"MENU SHISH"
+    "footer.tag":"التجربة الرقمية الجديدة لـ La Shish. القائمة والطلبات والحجوزات والولاء في مساحة واحدة.","footer.nav":"التنقل","footer.contact":"التواصل والشبكات","footer.legal":"© ٢٠٢٦ LA SHISH — أبيدجان.","notfound.title":"هذه الصفحة غير موجودة.","notfound.desc":"ارجع إلى القائمة للعثور على طلبك القادم.","notfound.back":"العودة إلى القائمة",
+    "brand":"LA SHISH"
   }
 };
 type I18nContext = {
@@ -179,10 +179,7 @@ export default function I18nProvider({ children, initialLocale="fr" }: { childre
     document.documentElement.lang = locale;
     document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
     document.documentElement.setAttribute("data-language-ready", "true");
-    replaceDigits(document.body, locale);
-    const observer = new MutationObserver(() => replaceDigits(document.body, locale));
-    observer.observe(document.body, { subtree:true, childList:true, characterData:true });
-    return () => observer.disconnect();
+
   }, [locale]);
   const value = useMemo<I18nContext>(() => ({
     locale,
