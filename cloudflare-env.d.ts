@@ -5,6 +5,7 @@ declare global {
     DB: D1Database;
     IMAGES: R2Bucket;
     GOOGLE_PLACES_API_KEY?: string;
+    GOOGLE_PLACE_ID?: string;
   }
 }
 
