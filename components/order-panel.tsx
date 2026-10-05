@@ -15,7 +15,10 @@ export default function OrderPanel() {
   const checkout=async(e:React.FormEvent)=>{
     e.preventDefault(); if(!items.length)return; setBusy(true); setError("");
     try {
+      const controller=new AbortController();
+      const timeout=window.setTimeout(()=>controller.abort(),10000);
       const response=await fetch("/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({customerName:name,customerPhone:phone,fulfillmentType:fulfillment,address,notes,items:items.map(item=>({id:item.id,quantity:item.qty}))})});
+      window.clearTimeout(timeout);
       const data=await response.json(); if(!response.ok)throw new Error(data.error||"Unable to prepare order.");
       const orderId=data.orderId||"LOCAL";
       const fulfillmentLabel=locale==="ar"?({pickup:"استلام خارجي",onsite:"في المطعم",delivery:"توصيل"} as Record<string,string>)[fulfillment]:locale==="en"?({pickup:"Takeaway",onsite:"Dine-in",delivery:"Delivery"} as Record<string,string>)[fulfillment]:({pickup:"À emporter",onsite:"Sur place",delivery:"Livraison"} as Record<string,string>)[fulfillment];
@@ -23,7 +26,7 @@ export default function OrderPanel() {
       const tracking=orderId!=="LOCAL"?"\n"+(locale==="ar"?"تتبع الطلب: ":locale==="en"?"Order tracking: ":"Suivi de commande : ")+"https://menushish.ci/"+locale+"/commande/suivi/"+orderId:"";
       const message=(locale==="ar"?"مرحباً LA SHISH، أريد تقديم هذا الطلب.":locale==="en"?"Hello LA SHISH, I would like to place this order.":"Bonjour LA SHISH, je souhaite passer cette commande.")+"\n\n"+lines+"\n\n"+(locale==="ar"?"الإجمالي: ":locale==="en"?"Estimated total: ":"Total estimé : ")+money(total)+"\n"+(locale==="ar"?"رقم الطلب: ":locale==="en"?"Order number: ":"N° de commande : ")+orderId+tracking+"\n\n"+(locale==="ar"?"الاسم: ":locale==="en"?"Name: ":"Nom : ")+name+"\n"+(locale==="ar"?"الهاتف: ":locale==="en"?"Phone: ":"Téléphone : ")+phone+"\n"+(locale==="ar"?"طريقة الاستلام: ":locale==="en"?"Fulfillment: ":"Mode de retrait : ")+(fulfillmentLabel||fulfillment)+(address?"\n"+(locale==="ar"?"العنوان: ":locale==="en"?"Address: ":"Adresse : ")+address:"")+(notes?"\n"+(locale==="ar"?"ملاحظات: ":locale==="en"?"Notes: ":"Notes : ")+notes:"")+"\n\n"+(locale==="ar"?"شكراً لكم — LA SHISH":locale==="en"?"Thank you — LA SHISH":"Merci — LA SHISH");
       window.open("https://wa.me/2250140555666?text="+encodeURIComponent(message),"_blank","noopener,noreferrer");
-    } catch(err){setError(err instanceof Error?err.message:"Une erreur est survenue.");}
+    } catch(err){setError(err instanceof DOMException&&err.name==="AbortError"?t("order.timeout"):(err instanceof Error?err.message:t("order.failed")));}
     finally{setBusy(false);}
   };
 
