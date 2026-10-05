@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS orders (
   customer_phone TEXT,
   delivery_address TEXT,
   notes TEXT,
+  loyalty_awarded INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
@@ -109,10 +110,10 @@ CREATE TABLE IF NOT EXISTS coupons (
   code TEXT PRIMARY KEY,
   title TEXT NOT NULL,
   description TEXT,
-  discount_type TEXT NOT NULL,
-  discount_value INTEGER NOT NULL,
   starts_at TEXT,
   ends_at TEXT,
+  discount_type TEXT NOT NULL,
+  discount_value INTEGER NOT NULL,
   max_uses INTEGER,
   active INTEGER NOT NULL DEFAULT 1
 );
@@ -122,5 +123,6 @@ CREATE INDEX IF NOT EXISTS idx_orders_user ON orders(user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
 CREATE INDEX IF NOT EXISTS idx_reservations_date ON reservations(reservation_date);
 CREATE INDEX IF NOT EXISTS idx_loyalty_events_user ON loyalty_events(user_id);
+CREATE INDEX IF NOT EXISTS idx_loyalty_events_reference ON loyalty_events(user_id, reference_id, reason);
 CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions(expires_at);
