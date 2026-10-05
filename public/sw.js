@@ -1,4 +1,4 @@
-const VERSION="menushish-v8";
+const VERSION="la-shish-v9";
 const SHELL=["/fr","/en","/ar","/fr/menu","/en/menu","/ar/menu","/fr/commande","/en/commande","/ar/commande","/fr/compte","/en/compte","/ar/compte","/fr/reserver","/en/reserver","/ar/reserver","/fr/contact","/en/contact","/ar/contact","/manifest.webmanifest","/logo.webp"];
 self.addEventListener("install",event=>event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==VERSION).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
