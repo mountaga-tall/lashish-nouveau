@@ -15,7 +15,7 @@ type Product={id:number;categorie:string;sousCategorie?:string;nom:string;descri
 
 export default function MenuBrowser({products,categories}:{products:Product[];categories:string[]}) {
   const [query,setQuery]=useState(""); const [active,setActive]=useState("Tous"); const [addedId,setAddedId]=useState<number|null>(null);
-  const {add}=useCart(); const {t,money,locale}=useI18n();
+  const {add}=useCart(); const {t,money,number,locale}=useI18n();
   const visible=useMemo(()=>{const q=query.trim().toLowerCase();return products.filter(p=>{const categoryOk=active==="Tous"||p.categorie===active;const searchable=[p.nom,p.description,p.sousCategorie,productName(p.nom,"en"),productName(p.nom,"ar"),productDescription(p.description,"en"),productDescription(p.description,"ar")].filter(Boolean).join(" ").toLowerCase();const queryOk=!q||searchable.includes(q);return categoryOk&&queryOk})},[products,active,query]);
   return <div className="mt-10">
     <div className="sticky top-[84px] z-30 rounded-3xl border border-black/10 bg-[#f5f0e7]/90 p-3 backdrop-blur-xl sm:p-4">
@@ -26,7 +26,7 @@ export default function MenuBrowser({products,categories}:{products:Product[];ca
         </div>
       </div>
     </div>
-    <div className="mt-8 flex items-center justify-between gap-4 text-sm text-black/50"><span>{visible.length} {visible.length>1?t("menu.results"):t("menu.result")}</span><Link href="/commande" className="font-bold text-[#b68a42]">{t("menu.myOrder")}</Link></div>
+    <div className="mt-8 flex items-center justify-between gap-4 text-sm text-black/50"><span>{number(visible.length)} {visible.length>1?t("menu.results"):t("menu.result")}</span><Link href="/commande" className="font-bold text-[#b68a42]">{t("menu.myOrder")}</Link></div>
     {visible.length===0?<div className="mt-8 rounded-[2rem] border border-black/10 bg-white/60 p-8 text-sm font-semibold text-black/55">{locale==="ar"?"لا توجد نتائج مطابقة.":locale==="en"?"No matching results.":"Aucun résultat correspondant."}</div>:<div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {visible.map(p=>{const price=p.prix??p.tailles?.reduce((min,size)=>Math.min(min,size.prix),Infinity);const sub=p.sousCategorie?menuLabel(p.sousCategorie)[locale]:"";return <article key={p.id} className="overflow-hidden rounded-3xl border border-black/8 bg-white/60 transition hover:-translate-y-1 hover:bg-white">
         <div className="relative aspect-[4/3] bg-black/[.04]"><FavoriteButton id={p.id}/><Image src={imageUrl(p.photo)} alt={p.nom} fill unoptimized sizes="(max-width:768px) 100vw, 33vw" className="object-cover"/></div>
