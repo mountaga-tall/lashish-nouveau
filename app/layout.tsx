@@ -5,12 +5,12 @@ const logo="/logo.webp";
 
 export const metadata:Metadata={
   metadataBase:new URL("https://menushish.ci"),
-  title:{default:"Menu Shish — La Shish Abidjan",template:"%s — Menu Shish"},
+  title:{default:"LA SHISH — Abidjan",template:"%s — LA SHISH"},
   description:"Menu digital de La Shish à Abidjan.",
   manifest:"/manifest.webmanifest",
-  applicationName:"Menu Shish",
+  applicationName:"LA SHISH",
   icons:{icon:[{url:logo,type:"image/webp"}],shortcut:logo,apple:[{url:logo,type:"image/webp"}]},
-  appleWebApp:{capable:true,title:"Menu Shish",statusBarStyle:"black-translucent"},
+  appleWebApp:{capable:true,title:"LA SHISH",statusBarStyle:"black-translucent"},
   formatDetection:{telephone:false,address:false,email:false}
 };
 export const viewport:Viewport={
