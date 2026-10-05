@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "../../components/locale-link";
 import FeaturedProducts from "../../components/featured-products";
 import CategoryMosaic from "../../components/category-mosaic";
+import GoogleReviews from "../../components/google-reviews";
 import { I18nText } from "../../components/i18n-provider";
 import menu from "../../data/menu.json";
 
@@ -59,6 +60,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <GoogleReviews />
 
       <section className="px-5 py-16 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
