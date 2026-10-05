@@ -3,49 +3,49 @@ import type { Locale } from "./menu-localization";
 const base="https://menushish.ci";
 const data:Record<string,Record<Locale,{title:string;description:string;keywords:string[]}>>={
 home:{
-fr:{title:"LA SHISH — La Shish Abidjan",description:"Menu digital de La Shish à Abidjan : découvrez le menu, commandez, réservez votre table et gérez votre fidélité.",keywords:["La Shish Abidjan","restaurant Abidjan","menu La Shish","commande restaurant Abidjan"]},
-en:{title:"LA SHISH — La Shish Abidjan",description:"La Shish digital menu in Abidjan: explore dishes, order online, reserve your table and manage loyalty.",keywords:["La Shish Abidjan","restaurant Abidjan","La Shish menu","restaurant order Abidjan"]},
-ar:{title:"LA SHISH — La Shish أبيدجان",description:"القائمة الرقمية لمطعم La Shish في أبيدجان: اكتشف الأطباق واطلب واحجز وأدر برنامج الولاء.",keywords:["مطعم أبيدجان","La Shish","قائمة المطعم","طلب طعام أبيدجان"]}
+fr:{title:"LA SHISH — LA SHISH Abidjan",description:"Menu digital de LA SHISH à Abidjan : découvrez le menu, commandez, réservez votre table et gérez votre fidélité.",keywords:["LA SHISH Abidjan","restaurant Abidjan","menu LA SHISH","commande restaurant Abidjan"]},
+en:{title:"LA SHISH — LA SHISH Abidjan",description:"LA SHISH digital menu in Abidjan: explore dishes, order online, reserve your table and manage loyalty.",keywords:["LA SHISH Abidjan","restaurant Abidjan","LA SHISH menu","restaurant order Abidjan"]},
+ar:{title:"LA SHISH — LA SHISH أبيدجان",description:"القائمة الرقمية لمطعم LA SHISH في أبيدجان: اكتشف الأطباق واطلب واحجز وأدر برنامج الولاء.",keywords:["مطعم أبيدجان","LA SHISH","قائمة المطعم","طلب طعام أبيدجان"]}
 },
 menu:{
-fr:{title:"Menu La Shish — Plats, pizzas et boissons à Abidjan",description:"Découvrez les 253 produits de La Shish : plats, pizzas, grillades, boissons, desserts et spécialités.",keywords:["menu restaurant Abidjan","pizza Abidjan","grillades Abidjan","La Shish menu"]},
-en:{title:"La Shish Menu — Dishes, pizzas and drinks in Abidjan",description:"Explore 253 La Shish products: dishes, pizzas, grilled specialties, drinks and desserts.",keywords:["restaurant menu Abidjan","pizza Abidjan","grilled food Abidjan","La Shish menu"]},
-ar:{title:"قائمة La Shish — أطباق وبيتزا ومشروبات في أبيدجان",description:"اكتشف ٢٥٣ منتجاً من La Shish: أطباق وبيتزا ومشاوي ومشروبات وحلويات.",keywords:["قائمة مطعم أبيدجان","بيتزا أبيدجان","مشاوي أبيدجان","La Shish"]}
+fr:{title:"Menu LA SHISH — Plats, pizzas et boissons à Abidjan",description:"Découvrez les 253 produits de LA SHISH : plats, pizzas, grillades, boissons, desserts et spécialités.",keywords:["menu restaurant Abidjan","pizza Abidjan","grillades Abidjan","LA SHISH menu"]},
+en:{title:"LA SHISH Menu — Dishes, pizzas and drinks in Abidjan",description:"Explore 253 LA SHISH products: dishes, pizzas, grilled specialties, drinks and desserts.",keywords:["restaurant menu Abidjan","pizza Abidjan","grilled food Abidjan","LA SHISH menu"]},
+ar:{title:"قائمة LA SHISH — أطباق وبيتزا ومشروبات في أبيدجان",description:"اكتشف ٢٥٣ منتجاً من LA SHISH: أطباق وبيتزا ومشاوي ومشروبات وحلويات.",keywords:["قائمة مطعم أبيدجان","بيتزا أبيدجان","مشاوي أبيدجان","LA SHISH"]}
 },
 commande:{
-fr:{title:"Ma commande — LA SHISH",description:"Retrouvez votre panier La Shish et envoyez votre commande rapidement.",keywords:["commande La Shish","commande restaurant Abidjan"]},
-en:{title:"My Order — LA SHISH",description:"Review your La Shish cart and place your order quickly.",keywords:["La Shish order","restaurant order Abidjan"]},
-ar:{title:"طلبي — LA SHISH",description:"راجع سلة La Shish وأرسل طلبك بسرعة.",keywords:["طلب مطعم أبيدجان","La Shish"]}
+fr:{title:"Ma commande — LA SHISH",description:"Retrouvez votre panier LA SHISH et envoyez votre commande rapidement.",keywords:["commande LA SHISH","commande restaurant Abidjan"]},
+en:{title:"My Order — LA SHISH",description:"Review your LA SHISH cart and place your order quickly.",keywords:["LA SHISH order","restaurant order Abidjan"]},
+ar:{title:"طلبي — LA SHISH",description:"راجع سلة LA SHISH وأرسل طلبك بسرعة.",keywords:["طلب مطعم أبيدجان","LA SHISH"]}
 },
 compte:{
-fr:{title:"Compte client — LA SHISH",description:"Créez votre compte client pour retrouver commandes, réservations et fidélité.",keywords:["compte client restaurant","fidélité La Shish"]},
-en:{title:"Customer Account — LA SHISH",description:"Create your customer account to keep orders, reservations and loyalty in one place.",keywords:["restaurant customer account","La Shish loyalty"]},
-ar:{title:"حساب العميل — LA SHISH",description:"أنشئ حسابك للاحتفاظ بالطلبات والحجوزات ونقاط الولاء.",keywords:["حساب عميل مطعم","ولاء La Shish"]}
+fr:{title:"Compte client — LA SHISH",description:"Créez votre compte client pour retrouver commandes, réservations et fidélité.",keywords:["compte client restaurant","fidélité LA SHISH"]},
+en:{title:"Customer Account — LA SHISH",description:"Create your customer account to keep orders, reservations and loyalty in one place.",keywords:["restaurant customer account","LA SHISH loyalty"]},
+ar:{title:"حساب العميل — LA SHISH",description:"أنشئ حسابك للاحتفاظ بالطلبات والحجوزات ونقاط الولاء.",keywords:["حساب عميل مطعم","ولاء LA SHISH"]}
 },
 contact:{
-fr:{title:"Contact & localisation — La Shish Abidjan",description:"Contactez La Shish à Riviera Bonoumin, Abidjan : téléphone, WhatsApp, email et localisation.",keywords:["La Shish Riviera Bonoumin","contact restaurant Abidjan","restaurant Cocody"]},
-en:{title:"Contact & Location — La Shish Abidjan",description:"Contact La Shish in Riviera Bonoumin, Abidjan by phone, WhatsApp or email.",keywords:["La Shish Riviera Bonoumin","restaurant contact Abidjan","restaurant Cocody"]},
-ar:{title:"تواصل وموقع La Shish — أبيدجان",description:"تواصل مع La Shish في ريفييرا بونومين، أبيدجان عبر الهاتف وواتساب والبريد والخريطة.",keywords:["La Shish أبيدجان","مطعم كوكودي","التواصل مع المطعم"]}
+fr:{title:"Contact & localisation — LA SHISH Abidjan",description:"Contactez LA SHISH à Riviera Bonoumin, Abidjan : téléphone, WhatsApp, email et localisation.",keywords:["LA SHISH Riviera Bonoumin","contact restaurant Abidjan","restaurant Cocody"]},
+en:{title:"Contact & Location — LA SHISH Abidjan",description:"Contact LA SHISH in Riviera Bonoumin, Abidjan by phone, WhatsApp or email.",keywords:["LA SHISH Riviera Bonoumin","restaurant contact Abidjan","restaurant Cocody"]},
+ar:{title:"تواصل وموقع LA SHISH — أبيدجان",description:"تواصل مع LA SHISH في ريفييرا بونومين، أبيدجان عبر الهاتف وواتساب والبريد والخريطة.",keywords:["LA SHISH أبيدجان","مطعم كوكودي","التواصل مع المطعم"]}
 },
 favoris:{
-fr:{title:"Mes favoris — LA SHISH",description:"Retrouvez vos plats La Shish préférés et accédez directement à leur commande.",keywords:["favoris restaurant","La Shish favoris"]},
-en:{title:"My Favorites — LA SHISH",description:"Keep your favorite La Shish dishes close and order them again.",keywords:["restaurant favorites","La Shish favorites"]},
-ar:{title:"مفضلاتي — LA SHISH",description:"احتفظ بأطباق La Shish المفضلة لديك واطلبها من جديد.",keywords:["مفضلات المطعم","La Shish"]}
+fr:{title:"Mes favoris — LA SHISH",description:"Retrouvez vos plats LA SHISH préférés et accédez directement à leur commande.",keywords:["favoris restaurant","LA SHISH favoris"]},
+en:{title:"My Favorites — LA SHISH",description:"Keep your favorite LA SHISH dishes close and order them again.",keywords:["restaurant favorites","LA SHISH favorites"]},
+ar:{title:"مفضلاتي — LA SHISH",description:"احتفظ بأطباق LA SHISH المفضلة لديك واطلبها من جديد.",keywords:["مفضلات المطعم","LA SHISH"]}
 },
 fidelite:{
-fr:{title:"Fidélité — LA SHISH",description:"Suivez vos points de fidélité La Shish et retrouvez-les dans votre compte client.",keywords:["fidélité restaurant Abidjan","points La Shish"]},
-en:{title:"Loyalty — LA SHISH",description:"Track your La Shish loyalty points from your customer account.",keywords:["restaurant loyalty Abidjan","La Shish points"]},
-ar:{title:"الولاء — LA SHISH",description:"تابع نقاط ولائك لدى La Shish من خلال حساب العميل.",keywords:["برنامج ولاء مطعم","نقاط La Shish"]}
+fr:{title:"Fidélité — LA SHISH",description:"Suivez vos points de fidélité LA SHISH et retrouvez-les dans votre compte client.",keywords:["fidélité restaurant Abidjan","points LA SHISH"]},
+en:{title:"Loyalty — LA SHISH",description:"Track your LA SHISH loyalty points from your customer account.",keywords:["restaurant loyalty Abidjan","LA SHISH points"]},
+ar:{title:"الولاء — LA SHISH",description:"تابع نقاط ولائك لدى LA SHISH من خلال حساب العميل.",keywords:["برنامج ولاء مطعم","نقاط LA SHISH"]}
 },
 reserver:{
-fr:{title:"Réserver une table — La Shish Abidjan",description:"Réservez votre table chez La Shish à Riviera Bonoumin, Abidjan.",keywords:["réserver restaurant Abidjan","réservation La Shish","restaurant Cocody"]},
-en:{title:"Reserve a Table — La Shish Abidjan",description:"Reserve your table at La Shish in Riviera Bonoumin, Abidjan.",keywords:["restaurant reservation Abidjan","reserve La Shish","restaurant Cocody"]},
-ar:{title:"حجز طاولة — La Shish أبيدجان",description:"احجز طاولتك لدى La Shish في ريفييرا بونومين، أبيدجان.",keywords:["حجز مطعم أبيدجان","حجز La Shish","مطعم كوكودي"]}
+fr:{title:"Réserver une table — LA SHISH Abidjan",description:"Réservez votre table chez LA SHISH à Riviera Bonoumin, Abidjan.",keywords:["réserver restaurant Abidjan","réservation LA SHISH","restaurant Cocody"]},
+en:{title:"Reserve a Table — LA SHISH Abidjan",description:"Reserve your table at LA SHISH in Riviera Bonoumin, Abidjan.",keywords:["restaurant reservation Abidjan","reserve LA SHISH","restaurant Cocody"]},
+ar:{title:"حجز طاولة — LA SHISH أبيدجان",description:"احجز طاولتك لدى LA SHISH في ريفييرا بونومين، أبيدجان.",keywords:["حجز مطعم أبيدجان","حجز LA SHISH","مطعم كوكودي"]}
 },
 suivi:{
-fr:{title:"Suivi de commande — LA SHISH",description:"Suivez l’état de votre commande La Shish.",keywords:["suivi commande restaurant","La Shish commande"]},
-en:{title:"Order Tracking — LA SHISH",description:"Track the status of your La Shish order.",keywords:["restaurant order tracking","La Shish order"]},
-ar:{title:"تتبع الطلب — LA SHISH",description:"تابع حالة طلبك من La Shish.",keywords:["تتبع طلب مطعم","La Shish"]}
+fr:{title:"Suivi de commande — LA SHISH",description:"Suivez l’état de votre commande LA SHISH.",keywords:["suivi commande restaurant","LA SHISH commande"]},
+en:{title:"Order Tracking — LA SHISH",description:"Track the status of your LA SHISH order.",keywords:["restaurant order tracking","LA SHISH order"]},
+ar:{title:"تتبع الطلب — LA SHISH",description:"تابع حالة طلبك من LA SHISH.",keywords:["تتبع طلب مطعم","LA SHISH"]}
 }};
 export function localizedMetadata(locale:Locale,page:keyof typeof data,path:string):Metadata{
   const item=data[page][locale];
