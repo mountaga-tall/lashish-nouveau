@@ -16,7 +16,7 @@ export default function SiteFooter() {
     <footer className="site-footer px-5 py-14 pb-28 text-[color:var(--text)] sm:px-8 lg:px-12 lg:pb-14">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_1fr_1fr]">
         <div>
-          <div className="text-2xl font-black">MENU SHISH</div>
+          <div className="text-2xl font-black">LA SHISH</div>
           <p className="mt-3 max-w-sm text-sm leading-6 text-black/55">{t("footer.tag")}</p>
         </div>
         <div>
