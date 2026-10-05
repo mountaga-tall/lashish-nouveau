@@ -11,7 +11,7 @@ import { imageUrl } from "../lib/catalog";
 import { ProductName, ProductDescription } from "./product-text";
 import { productName, productDescription } from "../lib/product-localization";
 
-type Product={id:number;categorie:string;sousCategorie?:string;nom:string;description?:string;prix?:number;disponible:boolean;photo?:string;type?:string;tailles?:{nom:string;prix:number}[]};
+type Product={id:number;categorie:string;sousCategorie?:string;nom:string;description?:string;prix?:number;disponible:boolean;photo?:string;type?:string;tailles?:{nom:string;prix:number}[];choix?:{label:string;options:string[];required?:boolean;max?:number}};
 
 export default function MenuBrowser({products,categories}:{products:Product[];categories:string[]}) {
   const [query,setQuery]=useState(""); const [active,setActive]=useState("Tous"); const [addedId,setAddedId]=useState<number|null>(null);
@@ -32,7 +32,7 @@ export default function MenuBrowser({products,categories}:{products:Product[];ca
         <div className="relative aspect-[4/3] bg-black/[.04]"><FavoriteButton id={p.id}/><Image src={imageUrl(p.photo)} alt={p.nom} fill unoptimized sizes="(max-width:768px) 100vw, 33vw" className="object-cover"/></div>
         <div className="p-5"><div className="flex justify-between gap-4"><div><h2 className="text-lg font-black"><ProductName value={p.nom}/></h2>{sub?<p className="mt-1 text-xs font-semibold text-[#b68a42]">{sub}</p>:null}</div><span className="shrink-0 text-sm font-black">{money(Number.isFinite(price as number)?Number(price):0)}</span></div>
           <p className="mt-3 min-h-12 text-sm leading-6 text-black/55"><ProductDescription value={p.description}/></p>
-          <div className="mt-5 flex gap-2">{p.tailles?.length?<Link href={"/menu/produit/"+p.id} className="flex-1 rounded-2xl bg-[#11100e] px-4 py-3 text-center text-sm font-bold text-white hover:bg-[#b68a42] hover:text-[#11100e]">{t("menu.chooseSize")}</Link>:<button onClick={()=>{const value=Number(price);if(!Number.isFinite(value))return;add({id:p.id,nom:p.nom,prix:value,photo:p.photo});setAddedId(p.id);window.setTimeout(()=>setAddedId(null),700)}} className="flex-1 rounded-2xl bg-[#11100e] px-4 py-3 text-sm font-bold text-white hover:bg-[#b68a42] hover:text-[#11100e]">{addedId===p.id?t("menu.added"):t("menu.add")}</button>}<Link href={"/menu/produit/"+p.id} className="rounded-2xl border border-black/10 px-4 py-3 text-sm font-bold hover:border-[#b68a42] hover:text-[#7a5a19]">{t("menu.details")}</Link></div>
+          <div className="mt-5 flex gap-2">{p.tailles?.length||p.choix?.options?.length?<Link href={"/menu/produit/"+p.id} className="flex-1 rounded-2xl bg-[#11100e] px-4 py-3 text-center text-sm font-bold text-white hover:bg-[#b68a42] hover:text-[#11100e]">{t("menu.chooseSize")}</Link>:<button onClick={()=>{const value=Number(price);if(!Number.isFinite(value))return;add({id:p.id,nom:p.nom,prix:value,photo:p.photo});setAddedId(p.id);window.setTimeout(()=>setAddedId(null),700)}} className="flex-1 rounded-2xl bg-[#11100e] px-4 py-3 text-sm font-bold text-white hover:bg-[#b68a42] hover:text-[#11100e]">{addedId===p.id?t("menu.added"):t("menu.add")}</button>}<Link href={"/menu/produit/"+p.id} className="rounded-2xl border border-black/10 px-4 py-3 text-sm font-bold hover:border-[#b68a42] hover:text-[#7a5a19]">{t("menu.details")}</Link></div>
         </div>
       </article>})}
     </div>}
