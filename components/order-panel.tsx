@@ -61,7 +61,7 @@ export default function OrderPanel() {
             fulfillmentType: fulfillment,
             address,
             notes,
-            items: items.map((item) => ({ id: Number(item.id), quantity: item.qty })),
+            items: items.map((item) => ({ id: Number(item.id), quantity: item.qty, options: item.options || [] })),
           }),
         });
       } finally {
