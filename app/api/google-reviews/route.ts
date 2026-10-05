@@ -1,8 +1,6 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
-const PLACE_ID = "ChIJH_1DNLTswQ8RGDapIiJHCn4";
-const MAPS_URI = "https://www.google.com/maps/search/?api=1&query=La%20Shish%20Abidjan&query_place_id=" + PLACE_ID;
-const WRITE_REVIEW_URI = "https://search.google.com/local/writereview?placeid=" + PLACE_ID;
+const FALLBACK_MAPS_URI = "https://www.google.com/maps/search/?api=1&query=La%20Shish+Riviera+Bonoumin+Abidjan";
 
 type GoogleReview = {
   rating?: number;
@@ -31,10 +29,13 @@ export async function GET(request: Request) {
   const locale = localeToLanguage(new URL(request.url).searchParams.get("locale"));
 
   let apiKey = "";
+  let placeId = "";
   try {
     apiKey = String(getCloudflareContext().env.GOOGLE_PLACES_API_KEY || "").trim();
+    placeId = String(getCloudflareContext().env.GOOGLE_PLACE_ID || "").trim();
   } catch {
     apiKey = "";
+    placeId = "";
   }
 
   const base = {
@@ -42,8 +43,8 @@ export async function GET(request: Request) {
     placeName: "LA SHISH",
     rating: null as number | null,
     reviewCount: null as number | null,
-    googleMapsUri: MAPS_URI,
-    writeReviewUri: WRITE_REVIEW_URI,
+    googleMapsUri: FALLBACK_MAPS_URI,
+    writeReviewUri: FALLBACK_MAPS_URI,
     reviews: [] as Array<{
       rating: number;
       text: string;
@@ -53,9 +54,9 @@ export async function GET(request: Request) {
     }>,
   };
 
-  if (!apiKey) return json(base);
+  if (!apiKey || !placeId) return json(base);
 
-  const url = new URL("https://places.googleapis.com/v1/places/" + PLACE_ID);
+  const url = new URL("https://places.googleapis.com/v1/places/" + encodeURIComponent(placeId));
   url.searchParams.set("languageCode", locale);
   url.searchParams.set("regionCode", "CI");
 
@@ -84,7 +85,8 @@ export async function GET(request: Request) {
       placeName: place.displayName?.text || "LA SHISH",
       rating: typeof place.rating === "number" ? place.rating : null,
       reviewCount: typeof place.userRatingCount === "number" ? place.userRatingCount : null,
-      googleMapsUri: place.googleMapsUri || MAPS_URI,
+      googleMapsUri: place.googleMapsUri || FALLBACK_MAPS_URI,
+      writeReviewUri: "https://search.google.com/local/writereview?placeid=" + encodeURIComponent(placeId),
       reviews: (place.reviews || []).slice(0, 5).map((review) => ({
         rating: typeof review.rating === "number" ? review.rating : 0,
         text: review.text?.text || "",
