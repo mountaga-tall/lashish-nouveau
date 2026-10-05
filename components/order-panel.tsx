@@ -25,7 +25,7 @@ export default function OrderPanel() {
       const orderId=data.orderId||"LOCAL";
       const fulfillmentLabel=locale==="ar"?({pickup:"استلام خارجي",onsite:"في المطعم",delivery:"توصيل"} as Record<string,string>)[fulfillment]:locale==="en"?({pickup:"Takeaway",onsite:"Dine-in",delivery:"Delivery"} as Record<string,string>)[fulfillment]:({pickup:"À emporter",onsite:"Sur place",delivery:"Livraison"} as Record<string,string>)[fulfillment];
       const lines=items.map(item=>"- "+item.qty+"× "+productName(item.nom,locale)+" — "+money(item.qty*item.prix)).join("\n");
-      const tracking=orderId!=="LOCAL"?"\n"+(locale==="ar"?"تتبع الطلب: ":locale==="en"?"Order tracking: ":"Suivi de commande : ")+"https://menushish.ci/"+locale+"/commande/suivi/"+orderId:"";
+      const tracking=data.orderId?"\n"+(locale==="ar"?"تتبع الطلب: ":locale==="en"?"Order tracking: ":"Suivi de commande : ")+"https://menushish.ci/"+locale+"/commande/suivi/"+orderId:"";
       const message=orderMessage(locale,{lines:items.map(item=>"- "+item.qty+"× "+productName(item.nom,locale)+" — "+money(item.qty*item.prix)),total:money(total),orderId,trackingUrl:orderId!=="LOCAL"?"https://menushish.ci/"+locale+"/commande/suivi/"+orderId:undefined,name,phone,fulfillment:fulfillmentLabel||fulfillment,address,notes});
       const url=whatsappUrl(message);
       if(popup) popup.location.href=url; else window.location.assign(url);
