@@ -39,7 +39,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 
     if (!result.meta?.changes) {
       const existing = await db.prepare("SELECT id,status FROM reservations WHERE id=? LIMIT 1").bind(id).first();
-      if (!existing) return Response.json({ error: apiMessage(request, "orderMissing") }, { status: 404 });
+      if (!existing) return Response.json({ error: apiMessage(request, "reservationMissing") }, { status: 404 });
     }
 
     return Response.json({ ok: true, reservationId: id, status });
