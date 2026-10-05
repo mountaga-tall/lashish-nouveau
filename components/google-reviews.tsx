@@ -9,6 +9,7 @@ type Review = {
   relativeTime: string;
   author: { name: string; uri: string; photoUri: string };
   googleMapsUri: string;
+  flagContentUri: string;
 };
 
 type ReviewsResponse = {
@@ -26,37 +27,37 @@ const copy = {
     eyebrow: "Preuve sociale",
     title: "Ils en parlent mieux que nous.",
     description: "Des avis Google récents, directement liés à la fiche officielle de LA SHISH.",
-    google: "Google",
     reviews: "avis",
     view: "Voir tous les avis",
     write: "Laisser un avis",
     loading: "Chargement des avis…",
     unavailable: "Les avis Google seront affichés ici dès que l’accès sécurisé à Google Places sera activé.",
-    attribution: "Avis publiés sur Google Maps.",
+    attribution: "Google Maps · avis affichés selon leur pertinence.",
+    report: "Signaler",
   },
   en: {
     eyebrow: "Social proof",
     title: "They say it better than we do.",
     description: "Recent Google reviews, connected directly to LA SHISH’s official listing.",
-    google: "Google",
     reviews: "reviews",
     view: "See all reviews",
     write: "Leave a review",
     loading: "Loading reviews…",
     unavailable: "Google reviews will appear here as soon as secure Google Places access is enabled.",
-    attribution: "Reviews published on Google Maps.",
+    attribution: "Google Maps · reviews displayed by relevance.",
+    report: "Report",
   },
   ar: {
     eyebrow: "آراء العملاء",
     title: "هم أقدر على وصف التجربة.",
     description: "آراء حديثة من Google مرتبطة مباشرة بالصفحة الرسمية لـ LA SHISH.",
-    google: "Google",
     reviews: "مراجعة",
     view: "عرض كل الآراء",
     write: "اترك تقييماً",
     loading: "جارٍ تحميل الآراء…",
     unavailable: "ستظهر آراء Google هنا بعد تفعيل الوصول الآمن إلى Google Places.",
-    attribution: "آراء منشورة على Google Maps.",
+    attribution: "Google Maps · الآراء معروضة حسب مدى ملاءمتها.",
+    report: "إبلاغ",
   },
 } as const;
 
@@ -64,47 +65,46 @@ function Stars({ value }: { value: number }) {
   return (
     <span className="inline-flex gap-0.5" aria-label={value.toFixed(1) + " / 5"}>
       {[1, 2, 3, 4, 5].map((n) => (
-        <span key={n} aria-hidden="true" className={n <= Math.round(value) ? "text-[#d4b273]" : "text-white/20"}>
-          ★
-        </span>
+        <span key={n} aria-hidden="true" className={n <= Math.round(value) ? "text-[#d4b273]" : "text-white/20"}>★</span>
       ))}
     </span>
   );
 }
 
-function ReviewCard({ review }: { review: Review }) {
+function ReviewCard({ review, reportLabel }: { review: Review; reportLabel: string }) {
+  const author = review.author.uri ? (
+    <a href={review.author.uri} target="_blank" rel="noopener noreferrer" className="block truncate text-sm font-black text-white hover:text-[#e2c17e]">
+      {review.author.name}
+    </a>
+  ) : (
+    <p className="truncate text-sm font-black text-white">{review.author.name}</p>
+  );
+
   return (
     <article className="review-card group flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-white/[.055] p-5 backdrop-blur-xl transition duration-500 hover:-translate-y-1 hover:border-[#d4b273]/40 hover:bg-white/[.08]">
       <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex min-w-0 items-center gap-3">
           {review.author.photoUri ? (
-            <img
-              src={review.author.photoUri}
-              alt=""
-              width={40}
-              height={40}
-              loading="lazy"
-              referrerPolicy="no-referrer"
-              className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-white/10"
-            />
+            <img src={review.author.photoUri} alt="" width={40} height={40} loading="lazy" referrerPolicy="no-referrer" className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-white/10" />
           ) : (
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#d4b273]/15 text-sm font-black text-[#e2c17e]">
               {review.author.name.slice(0, 1).toUpperCase()}
             </span>
           )}
           <div className="min-w-0">
-            <a href={review.author.uri} target="_blank" rel="noopener noreferrer" className="block truncate text-sm font-black text-white hover:text-[#e2c17e]">
-              {review.author.name}
-            </a>
+            {author}
             <p className="mt-0.5 text-[11px] text-white/40">{review.relativeTime}</p>
           </div>
         </div>
         <Stars value={review.rating} />
       </div>
       <p className="mt-5 line-clamp-5 flex-1 text-sm leading-7 text-white/70">{review.text}</p>
-      <a href={review.googleMapsUri} target="_blank" rel="noopener noreferrer" className="mt-5 text-[11px] font-black uppercase tracking-[.18em] text-[#d4b273]">
-        Google Maps ↗
-      </a>
+      <div className="mt-5 flex items-center justify-between gap-3 text-[11px] font-black uppercase tracking-[.14em]">
+        <a href={review.googleMapsUri} target="_blank" rel="noopener noreferrer" className="text-[#d4b273] hover:text-white">Google Maps ↗</a>
+        {review.flagContentUri ? (
+          <a href={review.flagContentUri} target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white/70">{reportLabel}</a>
+        ) : null}
+      </div>
     </article>
   );
 }
@@ -116,14 +116,9 @@ export default function GoogleReviews() {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch("/api/google-reviews?locale=" + encodeURIComponent(locale), {
-      signal: controller.signal,
-      cache: "no-store",
-    })
+    fetch("/api/google-reviews?locale=" + encodeURIComponent(locale), { signal: controller.signal, cache: "no-store" })
       .then((response) => response.json() as Promise<ReviewsResponse>)
-      .then((next) => {
-        if (!controller.signal.aborted) setData(next);
-      })
+      .then((next) => { if (!controller.signal.aborted) setData(next); })
       .catch(() => undefined);
     return () => controller.abort();
   }, [locale]);
@@ -149,7 +144,7 @@ export default function GoogleReviews() {
                 <p className="mt-1 text-[11px] text-white/40">{data.reviewCount?.toLocaleString(locale === "ar" ? "ar-CI" : locale === "en" ? "en-US" : "fr-FR")} {t.reviews}</p>
               </div>
             ) : null}
-            <a href={data?.writeReviewUri} target="_blank" rel="noopener noreferrer" className="rounded-full bg-[#d4b273] px-5 py-3 text-xs font-black uppercase tracking-[.12em] text-[#11100e] transition hover:-translate-y-0.5 hover:bg-white">
+            <a href={data?.writeReviewUri || data?.googleMapsUri || FALLBACK_REVIEW_URL} target="_blank" rel="noopener noreferrer" className="rounded-full bg-[#d4b273] px-5 py-3 text-xs font-black uppercase tracking-[.12em] text-[#11100e] transition hover:-translate-y-0.5 hover:bg-white">
               {t.write}
             </a>
           </div>
@@ -161,7 +156,7 @@ export default function GoogleReviews() {
           </div>
         ) : data.reviews.length ? (
           <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {data.reviews.map((review, index) => <ReviewCard key={review.author.uri + review.relativeTime + index} review={review} />)}
+            {data.reviews.map((review, index) => <ReviewCard key={review.author.name + review.relativeTime + index} review={review} reportLabel={t.report} />)}
           </div>
         ) : (
           <div className="mt-10 rounded-[1.75rem] border border-white/10 bg-white/[.055] p-8 text-sm leading-7 text-white/55">
@@ -171,11 +166,11 @@ export default function GoogleReviews() {
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 text-[11px] text-white/35">
           <span>{t.attribution}</span>
-          <a href={data?.googleMapsUri} target="_blank" rel="noopener noreferrer" className="font-black text-[#d4b273] hover:text-white">
-            {t.view} ↗
-          </a>
+          <a href={data?.googleMapsUri || FALLBACK_REVIEW_URL} target="_blank" rel="noopener noreferrer" className="font-black text-[#d4b273] hover:text-white">{t.view} ↗</a>
         </div>
       </div>
     </section>
   );
 }
+
+const FALLBACK_REVIEW_URL = "https://www.google.com/maps/search/?api=1&query=La%20Shish+Riviera+Bonoumin+Abidjan";
