@@ -8,6 +8,7 @@ type GoogleReview = {
   relativePublishTimeDescription?: string;
   authorAttribution?: { displayName?: string; uri?: string; photoUri?: string };
   googleMapsUri?: string;
+  flagContentUri?: string;
 };
 
 function localeToLanguage(value: string | null) {
@@ -39,7 +40,7 @@ export async function GET(request: Request) {
   }
 
   const base = {
-    configured: Boolean(apiKey),
+    configured: Boolean(apiKey && placeId),
     placeName: "LA SHISH",
     rating: null as number | null,
     reviewCount: null as number | null,
@@ -51,6 +52,7 @@ export async function GET(request: Request) {
       relativeTime: string;
       author: { name: string; uri: string; photoUri: string };
       googleMapsUri: string;
+      flagContentUri: string;
     }>,
   };
 
@@ -65,7 +67,7 @@ export async function GET(request: Request) {
       method: "GET",
       headers: {
         "X-Goog-Api-Key": apiKey,
-        "X-Goog-FieldMask": "displayName,rating,userRatingCount,reviews,googleMapsUri",
+        "X-Goog-FieldMask": "displayName,rating,userRatingCount,reviews,googleMapsUri,googleMapsLinks",
       },
     });
 
@@ -77,6 +79,11 @@ export async function GET(request: Request) {
       userRatingCount?: number;
       reviews?: GoogleReview[];
       googleMapsUri?: string;
+      googleMapsLinks?: {
+        placeUri?: string;
+        writeAReviewUri?: string;
+        reviewsUri?: string;
+      };
     };
 
     return json({
@@ -85,18 +92,19 @@ export async function GET(request: Request) {
       placeName: place.displayName?.text || "LA SHISH",
       rating: typeof place.rating === "number" ? place.rating : null,
       reviewCount: typeof place.userRatingCount === "number" ? place.userRatingCount : null,
-      googleMapsUri: place.googleMapsUri || FALLBACK_MAPS_URI,
-      writeReviewUri: "https://search.google.com/local/writereview?placeid=" + encodeURIComponent(placeId),
+      googleMapsUri: place.googleMapsLinks?.placeUri || place.googleMapsUri || FALLBACK_MAPS_URI,
+      writeReviewUri: place.googleMapsLinks?.writeAReviewUri || FALLBACK_MAPS_URI,
       reviews: (place.reviews || []).slice(0, 5).map((review) => ({
         rating: typeof review.rating === "number" ? review.rating : 0,
         text: review.text?.text || "",
         relativeTime: review.relativePublishTimeDescription || "",
         author: {
           name: review.authorAttribution?.displayName || "Google user",
-          uri: review.authorAttribution?.uri || MAPS_URI,
+          uri: review.authorAttribution?.uri || "",
           photoUri: review.authorAttribution?.photoUri || "",
         },
-        googleMapsUri: review.googleMapsUri || MAPS_URI,
+        googleMapsUri: review.googleMapsUri || place.googleMapsLinks?.reviewsUri || FALLBACK_MAPS_URI,
+        flagContentUri: review.flagContentUri || "",
       })).filter((review) => review.text),
     });
   } catch {
