@@ -2,14 +2,14 @@
 
 import { createContext,useContext,useEffect,useMemo,useState } from "react";
 
-export type CartItem={id:number;nom:string;prix:number;photo?:string;qty:number;key?:string};
+export type CartItem={id:number;nom:string;prix:number;photo?:string;options?:string[];qty:number;key?:string};
 type StoredItem=CartItem&{key:string};
 type CartContextValue={items:StoredItem[];count:number;total:number;add:(item:Omit<CartItem,"qty"|"key">)=>void;remove:(key:string)=>void;clear:()=>void};
 
 const CartContext=createContext<CartContextValue|null>(null);
 const STORAGE_KEY="menu-shish-cart-v3";
 
-function lineKey(item:Omit<CartItem,"qty"|"key">){return item.id+"|"+item.prix+"|"+item.nom}
+function lineKey(item:Omit<CartItem,"qty"|"key">){return item.id+"|"+item.prix+"|"+item.nom+"|"+JSON.stringify(item.options||[])}
 
 export function CartProvider({children}:{children:React.ReactNode}){
   const [items,setItems]=useState<StoredItem[]>([]);
