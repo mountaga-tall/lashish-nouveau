@@ -1,4 +1,4 @@
-name: Deploy Menu Shish to Cloudflare
+name: Deploy LA SHISH to Cloudflare
 
 on:
   push:
