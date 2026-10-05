@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - run: npm ci
+      - run: npm install
       - name: Apply remote D1 migrations
         run: npx wrangler d1 migrations apply menushish-db --remote
         env:
