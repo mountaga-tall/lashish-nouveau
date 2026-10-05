@@ -94,7 +94,7 @@ export default function ReservePage() {
       const url = whatsappUrl(message);
       if (popup) popup.location.href = url;
       else window.location.assign(url);
-      setError(e instanceof DOMException && e.name === "AbortError" ? t("reserve.timeout") : t("reserve.fallback"));
+      setError(e instanceof DOMException && e.name === "AbortError" ? t("reserve.timeout") : t("reserve.failed"));
     } finally {
       setBusy(false);
     }
@@ -117,7 +117,7 @@ export default function ReservePage() {
           </div>
           {error ? <p className="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800" role="status">{error}</p> : null}
           <button disabled={busy} type="submit" className="mt-7 min-h-12 rounded-full bg-[#11100e] px-6 py-3 text-sm font-bold text-white hover:bg-[#b68a42] hover:text-[#11100e] disabled:opacity-50">
-            {busy ? t("reserve.processing") : t("reserve.send")}
+            {busy ? t("account.processing") : t("reserve.send")}
           </button>
         </form>
       </div>
