@@ -6,6 +6,7 @@ import { useCart } from "./cart-store";
 import { useI18n } from "./i18n-provider";
 import { ProductName } from "./product-text";
 import { productName } from "../lib/product-localization";
+import { orderMessage,whatsappUrl } from "../lib/whatsapp";
 
 export default function OrderPanel() {
   const { items, total, remove, clear } = useCart();
@@ -14,6 +15,7 @@ export default function OrderPanel() {
 
   const checkout=async(e:React.FormEvent)=>{
     e.preventDefault(); if(!items.length)return; setBusy(true); setError("");
+    const popup=window.open("about:blank","_blank","noopener,noreferrer");
     try {
       const controller=new AbortController();
       const timeout=window.setTimeout(()=>controller.abort(),10000);
@@ -24,8 +26,9 @@ export default function OrderPanel() {
       const fulfillmentLabel=locale==="ar"?({pickup:"استلام خارجي",onsite:"في المطعم",delivery:"توصيل"} as Record<string,string>)[fulfillment]:locale==="en"?({pickup:"Takeaway",onsite:"Dine-in",delivery:"Delivery"} as Record<string,string>)[fulfillment]:({pickup:"À emporter",onsite:"Sur place",delivery:"Livraison"} as Record<string,string>)[fulfillment];
       const lines=items.map(item=>"- "+item.qty+"× "+productName(item.nom,locale)+" — "+money(item.qty*item.prix)).join("\n");
       const tracking=orderId!=="LOCAL"?"\n"+(locale==="ar"?"تتبع الطلب: ":locale==="en"?"Order tracking: ":"Suivi de commande : ")+"https://menushish.ci/"+locale+"/commande/suivi/"+orderId:"";
-      const message=(locale==="ar"?"مرحباً LA SHISH، أريد تقديم هذا الطلب.":locale==="en"?"Hello LA SHISH, I would like to place this order.":"Bonjour LA SHISH, je souhaite passer cette commande.")+"\n\n"+lines+"\n\n"+(locale==="ar"?"الإجمالي: ":locale==="en"?"Estimated total: ":"Total estimé : ")+money(total)+"\n"+(locale==="ar"?"رقم الطلب: ":locale==="en"?"Order number: ":"N° de commande : ")+orderId+tracking+"\n\n"+(locale==="ar"?"الاسم: ":locale==="en"?"Name: ":"Nom : ")+name+"\n"+(locale==="ar"?"الهاتف: ":locale==="en"?"Phone: ":"Téléphone : ")+phone+"\n"+(locale==="ar"?"طريقة الاستلام: ":locale==="en"?"Fulfillment: ":"Mode de retrait : ")+(fulfillmentLabel||fulfillment)+(address?"\n"+(locale==="ar"?"العنوان: ":locale==="en"?"Address: ":"Adresse : ")+address:"")+(notes?"\n"+(locale==="ar"?"ملاحظات: ":locale==="en"?"Notes: ":"Notes : ")+notes:"")+"\n\n"+(locale==="ar"?"شكراً لكم — LA SHISH":locale==="en"?"Thank you — LA SHISH":"Merci — LA SHISH");
-      window.open("https://wa.me/2250140555666?text="+encodeURIComponent(message),"_blank","noopener,noreferrer");
+      const message=orderMessage(locale,{lines:items.map(item=>"- "+item.qty+"× "+productName(item.nom,locale)+" — "+money(item.qty*item.prix)),total:money(total),orderId,trackingUrl:orderId!=="LOCAL"?"https://menushish.ci/"+locale+"/commande/suivi/"+orderId:undefined,name,phone,fulfillment:fulfillmentLabel||fulfillment,address,notes});
+      const url=whatsappUrl(message);
+      if(popup) popup.location.href=url; else window.location.assign(url);
     } catch(err){setError(err instanceof DOMException&&err.name==="AbortError"?t("order.timeout"):(err instanceof Error?err.message:t("order.failed")));}
     finally{setBusy(false);}
   };
