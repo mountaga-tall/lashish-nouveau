@@ -15,7 +15,7 @@ export async function generateMetadata({params}:{params:Promise<{locale:string;i
   const l = locale as "fr" | "en" | "ar";
   return {
     ...localizedMetadata(l, "menu", `/${locale}/menu/produit/${id}`),
-    title: productName(p.nom, l) + " — Menu Shish",
+    title: productName(p.nom, l) + " — LA SHISH",
     description: productDescription(p.description, l) || "La Shish Abidjan",
   };
 }
