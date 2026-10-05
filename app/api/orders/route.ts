@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     notes?: string;
     locale?: string;
     clientOrderId?: string;
-    items?: Array<{ id: number; quantity: number }>;
+    items?: Array<{ id: number; quantity: number; options?: string[] }>;
   } | null;
 
   const customerName = cleanText(body?.customerName, 80);
@@ -70,10 +70,10 @@ export async function POST(request: Request) {
 
     const placeholders = ids.map(() => "?").join(",");
     const result = await db.prepare(
-      "SELECT id, name, price, available FROM products WHERE id IN (" + placeholders + ")"
+      "SELECT id, name, price, available, data_json FROM products WHERE id IN (" + placeholders + ")"
     ).bind(...ids).all();
 
-    const products = result.results as Array<{ id: number; name: string; price: number | null; available: number }>;
+    const products = result.results as Array<{ id: number; name: string; price: number | null; available: number; data_json?: string | null }>;
     const byId = new Map(products.map((product) => [Number(product.id), product]));
     let total = 0;
 
@@ -81,9 +81,33 @@ export async function POST(request: Request) {
       const p = byId.get(Number(item.id));
       const quantity = Math.max(1, Math.min(50, Math.floor(Number(item.quantity))));
       if (!p || !p.available || typeof p.price !== "number" || !Number.isFinite(quantity)) return null;
+
+      let choiceConfig: { options: string[]; required: boolean; max: number } | null = null;
+      try {
+        const raw = p.data_json ? JSON.parse(p.data_json) as { choix?: { options?: unknown[]; required?: boolean; max?: number } } : null;
+        if (raw?.choix) {
+          choiceConfig = {
+            options: Array.isArray(raw.choix.options) ? raw.choix.options.filter((value): value is string => typeof value === "string").slice(0, 30) : [],
+            required: Boolean(raw.choix.required || raw.choix.options?.length),
+            max: Math.max(1, Number(raw.choix.max ?? 1)),
+          };
+        }
+      } catch {
+        choiceConfig = null;
+      }
+
+      const requestedOptions = Array.isArray(item.options)
+        ? [...new Set(item.options.filter((value): value is string => typeof value === "string").map(value => value.trim()).filter(Boolean))].slice(0, 5)
+        : [];
+
+      if (choiceConfig?.required && !requestedOptions.length) return null;
+      if (choiceConfig?.options.length && requestedOptions.some(option => !choiceConfig!.options.includes(option))) return null;
+      if (requestedOptions.length > Number(choiceConfig?.max ?? 1)) return null;
+
       total += p.price * quantity;
-      return { productId: p.id, name: p.name, price: p.price, quantity };
-    }).filter(Boolean) as Array<{ productId: number; name: string; price: number; quantity: number }>;
+      const displayName = p.name + (requestedOptions.length ? " — " + requestedOptions.join(", ") : "");
+      return { productId: p.id, name: displayName, price: p.price, quantity, options: requestedOptions };
+    }).filter(Boolean) as Array<{ productId: number; name: string; price: number; quantity: number; options: string[] }>;
 
     if (!normalized.length || !Number.isSafeInteger(total) || total <= 0) {
       return Response.json({ error: apiMessage(request, "noneAvailable") }, { status: 400 });
@@ -107,8 +131,8 @@ export async function POST(request: Request) {
       ),
       ...normalized.map((item) =>
         db.prepare(
-          "INSERT INTO order_items (order_id,product_id,name_snapshot,unit_price,quantity) VALUES (?,?,?,?,?)"
-        ).bind(id, item.productId, item.name, item.price, item.quantity)
+          "INSERT INTO order_items (order_id,product_id,name_snapshot,unit_price,quantity,options_json) VALUES (?,?,?,?,?,?)"
+        ).bind(id, item.productId, item.name, item.price, item.quantity, JSON.stringify(item.options))
       ),
     ];
 
