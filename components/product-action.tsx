@@ -14,7 +14,7 @@ export default function ProductAction({ product }: { product: Product }) {
   const [added, setAdded] = useState(false);
   const [selected, setSelected] = useState<Size | null>(product.tailles?.[0] ?? null);
   const price = selected?.prix ?? product.prix;
-  const displayName = selected ? productName(product.nom, locale) + " — " + productName(selected.nom, locale) : productName(product.nom, locale);
+  const displayName = selected ? product.nom + " — " + selected.nom : product.nom;
 
   return (
     <div className="flex flex-col items-end gap-3">
