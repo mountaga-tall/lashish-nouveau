@@ -8,12 +8,12 @@ const dictionaries: Record<Locale, Dict> = {
     "nav.menu":"Menu","nav.reserve":"Réserver","nav.favorites":"Favoris","nav.order":"Ma commande","nav.account":"Compte","nav.contact":"Contact",
     "nav.cart":"Panier","nav.call":"Appeler","nav.whatsapp":"WhatsApp","nav.loyalty":"Fidélité","nav.promos":"Promotions","nav.find":"Nous trouver",
     "nav.accountSpace":"Mon espace","theme.label":"Thème","theme.system":"Système","theme.light":"Clair","theme.dark":"Sombre","breadcrumb.label":"Fil d’Ariane","nav.close":"Fermer le menu","nav.open":"Ouvrir le menu","lang.label":"Langue",
-    "home.eyebrow":"La Shish • Abidjan","home.title1":"L’expérience","home.title2":"Shish commence ici.","home.description":"Un menu digital premium, rapide, élégant et pensé pour commander, réserver et retrouver vos favoris.",
+    "home.eyebrow":"LA SHISH • Abidjan","home.title1":"L’expérience","home.title2":"Shish commence ici.","home.description":"Un menu digital premium, rapide, élégant et pensé pour commander, réserver et retrouver vos favoris.",
     "home.menu":"Découvrir le menu","home.reserve":"Réserver une table","home.explore":"Explorer","home.menuElse":"Le menu, autrement.","home.allProducts":"Voir les 253 produits →",
-    "home.selection":"Sélection La Shish","home.exploreArrow":"Explorer →","home.tasting":"À goûter","home.favorites":"Nos favoris du moment","home.fullMenu":"Tout le menu →",
+    "home.selection":"Sélection LA SHISH","home.exploreArrow":"Explorer →","home.tasting":"À goûter","home.favorites":"Nos favoris du moment","home.fullMenu":"Tout le menu →",
     "home.moreThanMenu":"Plus qu’un menu","home.moreTitle":"Commandez, réservez, retrouvez vos favoris.","home.moreDesc":"Une seule expérience pour le menu, la commande, le compte client, la fidélité et la réservation.",
     "home.order":"Commander","home.find":"Nous trouver","home.goodToKnow":"Bon à savoir","home.mobile":"Mobile-first et ultra rapide","home.pwa":"PWA installable","home.products":"253 produits déjà récupérés","home.account":"Compte client + fidélité",
-    "menu.digital":"Carte digitale","menu.title":"Le menu La Shish.","menu.desc":"Recherche instantanée, catégories et accès direct à la commande. Les 253 produits existants sont déjà importés.",
+    "menu.digital":"Carte digitale","menu.title":"Le menu LA SHISH.","menu.desc":"Recherche instantanée, catégories et accès direct à la commande. Les 253 produits existants sont déjà importés.",
     "menu.search":"Rechercher un plat, une pizza, une boisson…","menu.all":"Tous","menu.result":"résultat","menu.results":"résultats","menu.myOrder":"Voir ma commande →",
     "menu.chooseSize":"Choisir une taille","menu.add":"Ajouter au panier","menu.added":"Ajouté ✓","menu.details":"Détails",
     "category.back":"← Toutes les catégories","category.label":"Catégorie","category.product":"produit","category.products":"produits","category.view":"Voir le produit →",
@@ -38,19 +38,19 @@ const dictionaries: Record<Locale, Dict> = {
     "reserve.name":"Nom","reserve.phone":"Téléphone","reserve.failed":"Impossible d’envoyer la réservation.","reserve.date":"Date","reserve.time":"Heure","reserve.people":"Nombre de personnes","reserve.special":"Demande particulière","reserve.specialPlaceholder":"Anniversaire, emplacement souhaité, etc.","reserve.send":"Envoyer la demande sur WhatsApp",
     "loyalty.eyebrow":"Programme client","loyalty.title":"Votre fidélité mérite plus.","loyalty.current":"Solde actuel","loyalty.desc":"Le moteur de points est relié à votre compte client et à l’historique des commandes.",
     "promos.eyebrow":"Offres","promos.title":"Les bons plans.","promos.soon":"Bientôt","promos.sub":"Des offres ciblées, pas du spam.","promos.desc":"Les promotions pourront être programmées par catégorie, produit, période ou profil client.",
-    "footer.tag":"La nouvelle expérience digitale La Shish. Menu, commande, réservation et fidélité dans un seul espace.","footer.nav":"Navigation","footer.contact":"Contact & réseaux","footer.legal":"© 2026 LA SHISH — Abidjan.","notfound.title":"Cette page n’existe pas.","notfound.desc":"Retournez au menu pour retrouver votre prochaine commande.","notfound.back":"Retour au menu",
+    "footer.tag":"La nouvelle expérience digitale LA SHISH. Menu, commande, réservation et fidélité dans un seul espace.","footer.nav":"Navigation","footer.contact":"Contact & réseaux","footer.legal":"© 2026 LA SHISH — Abidjan.","notfound.title":"Cette page n’existe pas.","notfound.desc":"Retournez au menu pour retrouver votre prochaine commande.","notfound.back":"Retour au menu",
     "brand":"LA SHISH"
   },
   en: {
     "nav.menu":"Menu","nav.reserve":"Reserve","nav.favorites":"Favorites","nav.order":"My order","nav.account":"Account","nav.contact":"Contact",
     "nav.cart":"Cart","nav.call":"Call","nav.whatsapp":"WhatsApp","nav.loyalty":"Loyalty","nav.promos":"Offers","nav.find":"Find us",
     "nav.accountSpace":"My space","theme.label":"Theme","theme.system":"System","theme.light":"Light","theme.dark":"Dark","breadcrumb.label":"Breadcrumb","nav.close":"Close menu","nav.open":"Open menu","lang.label":"Language",
-    "home.eyebrow":"La Shish • Abidjan","home.title1":"The Shish","home.title2":"experience starts here.","home.description":"A premium digital menu that is fast, elegant and built for ordering, reservations and favorites.",
+    "home.eyebrow":"LA SHISH • Abidjan","home.title1":"The Shish","home.title2":"experience starts here.","home.description":"A premium digital menu that is fast, elegant and built for ordering, reservations and favorites.",
     "home.menu":"Explore the menu","home.reserve":"Reserve a table","home.explore":"Explore","home.menuElse":"The menu, reimagined.","home.allProducts":"See all 253 products →",
-    "home.selection":"La Shish selection","home.exploreArrow":"Explore →","home.tasting":"Must-try","home.favorites":"Our favorites right now","home.fullMenu":"Full menu →",
+    "home.selection":"LA SHISH selection","home.exploreArrow":"Explore →","home.tasting":"Must-try","home.favorites":"Our favorites right now","home.fullMenu":"Full menu →",
     "home.moreThanMenu":"More than a menu","home.moreTitle":"Order, reserve, and keep your favorites.","home.moreDesc":"One experience for the menu, ordering, customer account, loyalty and reservations.",
     "home.order":"Order","home.find":"Find us","home.goodToKnow":"Good to know","home.mobile":"Mobile-first and ultra fast","home.pwa":"Installable PWA","home.products":"253 products imported","home.account":"Customer account + loyalty",
-    "menu.digital":"Digital menu","menu.title":"The La Shish menu.","menu.desc":"Instant search, categories and direct access to ordering. All 253 existing products are already imported.",
+    "menu.digital":"Digital menu","menu.title":"The LA SHISH menu.","menu.desc":"Instant search, categories and direct access to ordering. All 253 existing products are already imported.",
     "menu.search":"Search a dish, pizza, drink…","menu.all":"All","menu.result":"result","menu.results":"results","menu.myOrder":"View my order →",
     "menu.chooseSize":"Choose a size","menu.add":"Add to cart","menu.added":"Added ✓","menu.details":"Details",
     "category.back":"← All categories","category.label":"Category","category.product":"product","category.products":"products","category.view":"View product →",
@@ -75,19 +75,19 @@ const dictionaries: Record<Locale, Dict> = {
     "reserve.name":"Name","reserve.phone":"Phone","reserve.failed":"Unable to send the reservation.","reserve.date":"Date","reserve.time":"Time","reserve.people":"Number of people","reserve.special":"Special request","reserve.specialPlaceholder":"Birthday, preferred seating, etc.","reserve.send":"Send request on WhatsApp",
     "loyalty.eyebrow":"Customer program","loyalty.title":"Your loyalty deserves more.","loyalty.current":"Current balance","loyalty.desc":"Points are connected to your customer account and order history.",
     "promos.eyebrow":"Offers","promos.title":"Good deals.","promos.soon":"Coming soon","promos.sub":"Targeted offers, never spam.","promos.desc":"Promotions can be scheduled by category, product, period or customer profile.",
-    "footer.tag":"The new La Shish digital experience. Menu, ordering, reservations and loyalty in one place.","footer.nav":"Navigation","footer.contact":"Contact & social","footer.legal":"© 2026 LA SHISH — Abidjan.",
+    "footer.tag":"The new LA SHISH digital experience. Menu, ordering, reservations and loyalty in one place.","footer.nav":"Navigation","footer.contact":"Contact & social","footer.legal":"© 2026 LA SHISH — Abidjan.",
     "brand":"LA SHISH"
   },
   ar: {
     "nav.menu":"القائمة","nav.reserve":"احجز","nav.favorites":"المفضلة","nav.order":"طلبي","nav.account":"حسابي","nav.contact":"تواصل معنا",
     "nav.cart":"السلة","nav.call":"اتصل","nav.whatsapp":"واتساب","nav.loyalty":"الولاء","nav.promos":"العروض","nav.find":"موقعنا",
     "nav.accountSpace":"مساحتي","theme.label":"المظهر","theme.system":"النظام","theme.light":"فاتح","theme.dark":"داكن","breadcrumb.label":"مسار التنقل","nav.close":"إغلاق القائمة","nav.open":"فتح القائمة","lang.label":"اللغة",
-    "home.eyebrow":"La Shish • أبيدجان","home.title1":"تجربة","home.title2":"Shish تبدأ من هنا.","home.description":"قائمة رقمية راقية وسريعة وأنيقة للطلب والحجز وحفظ أطباقك المفضلة.",
+    "home.eyebrow":"LA SHISH • أبيدجان","home.title1":"تجربة","home.title2":"Shish تبدأ من هنا.","home.description":"قائمة رقمية راقية وسريعة وأنيقة للطلب والحجز وحفظ أطباقك المفضلة.",
     "home.menu":"اكتشف القائمة","home.reserve":"احجز طاولة","home.explore":"استكشف","home.menuElse":"القائمة بطريقة مختلفة.","home.allProducts":"عرض جميع المنتجات الـ ٢٥٣ →",
-    "home.selection":"اختيارات La Shish","home.exploreArrow":"استكشف →","home.tasting":"جرّبها","home.favorites":"مفضلاتنا الآن","home.fullMenu":"القائمة كاملة →",
+    "home.selection":"اختيارات LA SHISH","home.exploreArrow":"استكشف →","home.tasting":"جرّبها","home.favorites":"مفضلاتنا الآن","home.fullMenu":"القائمة كاملة →",
     "home.moreThanMenu":"أكثر من مجرد قائمة","home.moreTitle":"اطلب واحجز واحتفظ بمفضلاتك.","home.moreDesc":"تجربة واحدة تجمع القائمة والطلب وحساب العميل وبرنامج الولاء والحجوزات.",
     "home.order":"اطلب الآن","home.find":"موقعنا","home.goodToKnow":"معلومات مهمة","home.mobile":"مصممة للهاتف وسريعة جداً","home.pwa":"تطبيق PWA قابل للتثبيت","home.products":"تم استيراد ٢٥٣ منتجاً","home.account":"حساب العميل + الولاء",
-    "menu.digital":"القائمة الرقمية","menu.title":"قائمة La Shish.","menu.desc":"بحث فوري وفئات ووصول مباشر للطلب. تم استيراد جميع المنتجات الـ ٢٥٣.",
+    "menu.digital":"القائمة الرقمية","menu.title":"قائمة LA SHISH.","menu.desc":"بحث فوري وفئات ووصول مباشر للطلب. تم استيراد جميع المنتجات الـ ٢٥٣.",
     "menu.search":"ابحث عن طبق أو بيتزا أو مشروب…","menu.all":"الكل","menu.result":"نتيجة","menu.results":"نتائج","menu.myOrder":"عرض طلبي →",
     "menu.chooseSize":"اختر الحجم","menu.add":"أضف إلى السلة","menu.added":"تمت الإضافة ✓","menu.details":"التفاصيل",
     "category.back":"← كل الفئات","category.label":"الفئة","category.product":"منتج","category.products":"منتجات","category.view":"عرض المنتج →",
@@ -112,7 +112,7 @@ const dictionaries: Record<Locale, Dict> = {
     "reserve.name":"الاسم","reserve.phone":"رقم الهاتف","reserve.failed":"تعذر إرسال الحجز.","reserve.date":"التاريخ","reserve.time":"الوقت","reserve.people":"عدد الأشخاص","reserve.special":"طلب خاص","reserve.specialPlaceholder":"عيد ميلاد، مكان مفضل، إلخ.","reserve.send":"إرسال الطلب عبر واتساب",
     "loyalty.eyebrow":"برنامج العملاء","loyalty.title":"ولاؤك يستحق المزيد.","loyalty.current":"الرصيد الحالي","loyalty.desc":"النقاط مرتبطة بحساب العميل وسجل الطلبات.",
     "promos.eyebrow":"العروض","promos.title":"أفضل العروض.","promos.soon":"قريباً","promos.sub":"عروض مخصصة بلا إزعاج.","promos.desc":"يمكن جدولة العروض حسب الفئة أو المنتج أو الفترة أو ملف العميل.",
-    "footer.tag":"التجربة الرقمية الجديدة لـ La Shish. القائمة والطلبات والحجوزات والولاء في مساحة واحدة.","footer.nav":"التنقل","footer.contact":"التواصل والشبكات","footer.legal":"© ٢٠٢٦ LA SHISH — أبيدجان.","notfound.title":"هذه الصفحة غير موجودة.","notfound.desc":"ارجع إلى القائمة للعثور على طلبك القادم.","notfound.back":"العودة إلى القائمة",
+    "footer.tag":"التجربة الرقمية الجديدة لـ LA SHISH. القائمة والطلبات والحجوزات والولاء في مساحة واحدة.","footer.nav":"التنقل","footer.contact":"التواصل والشبكات","footer.legal":"© ٢٠٢٦ LA SHISH — أبيدجان.","notfound.title":"هذه الصفحة غير موجودة.","notfound.desc":"ارجع إلى القائمة للعثور على طلبك القادم.","notfound.back":"العودة إلى القائمة",
     "brand":"LA SHISH"
   }
 };
@@ -171,8 +171,8 @@ export default function I18nProvider({ children, initialLocale="fr" }: { childre
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
   const setLocale = (next: Locale) => {
     setLocaleState(next);
-    window.localStorage.setItem("menushish_locale", next);
-    document.cookie = "menushish_locale=" + next + "; Path=/; Max-Age=31536000; SameSite=Lax";
+    window.localStorage.setItem("la_shish_locale", next);
+    document.cookie = "la_shish_locale=" + next + "; Path=/; Max-Age=31536000; SameSite=Lax";
   };
   useEffect(() => {
     document.documentElement.dataset.locale = locale;

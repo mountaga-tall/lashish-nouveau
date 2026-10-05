@@ -19,7 +19,7 @@ const messages:Record<string,Record<ServerLocale,string>>={
   credentialsInvalid:{fr:"Identifiants incorrects.",en:"Incorrect credentials.",ar:"بيانات تسجيل الدخول غير صحيحة."},emailConfirm:{fr:"Les deux emails doivent être identiques.",en:"The two email addresses must match.",ar:"يجب أن يتطابق عنوانا البريد الإلكتروني."},emailDomain:{fr:"Le domaine email ne semble pas accepter les emails.",en:"The email domain does not appear to accept email.",ar:"يبدو أن نطاق البريد الإلكتروني لا يستقبل رسائل البريد."},phoneFormat:{fr:"Numéro de téléphone invalide pour cet indicatif.",en:"Phone number is invalid for this country code.",ar:"رقم الهاتف غير صالح لهذا الرمز."}
 };
 function localeFromRequest(request:Request):ServerLocale{
-  const match=request.headers.get("cookie")?.match(/(?:^|;\s*)menushish_locale=(fr|en|ar)(?:;|$)/)?.[1];
+  const match=request.headers.get("cookie")?.match(/(?:^|;\s*)la_shish_locale=(fr|en|ar)(?:;|$)/)?.[1];
   return match==="en"||match==="ar"?match:"fr";
 }
 export function apiMessage(request:Request,key:string){const l=localeFromRequest(request);return messages[key]?.[l]??messages[key]?.fr??key;}

@@ -2,7 +2,7 @@
 import { useEffect,useState } from "react";
 import { useI18n } from "./i18n-provider";
 type Theme="system"|"light"|"dark";
-const KEY="menushish_theme";
+const KEY="la_shish_theme";
 function resolve(theme:Theme){return theme==="system"?(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):theme}
 function apply(theme:Theme){const value=resolve(theme);document.documentElement.dataset.theme=value;document.documentElement.dataset.themePreference=theme;document.documentElement.style.colorScheme=value}
 export default function ThemeSwitcher({compact=false}:{compact?:boolean}){
