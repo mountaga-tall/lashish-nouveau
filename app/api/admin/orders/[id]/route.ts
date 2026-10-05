@@ -8,8 +8,7 @@ const STATUSES = new Set(["received", "preparing", "ready", "delivering", "compl
 function isAuthorized(request: Request) {
   try {
     const token = String(getCloudflareContext().env.LA_SHISH_ADMIN_TOKEN || "").trim();
-    const header = request.headers.get("authorization") || "";
-    return Boolean(token) && header === "Bearer " + token;
+    return Boolean(token) && request.headers.get("authorization") === "Bearer " + token;
   } catch {
     return false;
   }
@@ -46,56 +45,50 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     } | null;
 
     if (!order) return Response.json({ error: apiMessage(request, "orderMissing") }, { status: 404 });
-
     if (order.status === status) {
       return Response.json({ ok: true, orderId: id, status, loyaltyProcessed: Boolean(order.loyalty_awarded) });
     }
 
     const points = pointsForAmount(Number(order.total));
-    const statements = [
-      db.prepare("UPDATE orders SET status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(status, id),
-    ];
 
     if (status === "completed" && order.user_id && !Number(order.loyalty_awarded)) {
-      statements.push(
-        db.prepare("INSERT OR IGNORE INTO loyalty_accounts (user_id,points,lifetime_points) VALUES (?,0,0)")
-          .bind(order.user_id),
+      await db.batch([
+        db.prepare("UPDATE orders SET status=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status<>?").bind(status, id, status),
+        db.prepare("INSERT OR IGNORE INTO loyalty_accounts (user_id,points,lifetime_points) VALUES (?,0,0)").bind(order.user_id),
         db.prepare(
-          "UPDATE loyalty_accounts SET points=points+?,lifetime_points=lifetime_points+?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?"
-        ).bind(points, points, order.user_id),
+          "UPDATE loyalty_accounts SET points=points+?,lifetime_points=lifetime_points+?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND EXISTS (SELECT 1 FROM orders WHERE id=? AND loyalty_awarded=0)"
+        ).bind(points, points, order.user_id, id),
         db.prepare(
-          "INSERT INTO loyalty_events (user_id,points,reason,reference_id) VALUES (?,?,?,?)"
+          "INSERT OR IGNORE INTO loyalty_events (user_id,points,reason,reference_id) VALUES (?,?,?,?)"
         ).bind(order.user_id, points, "order_completed", id),
-        db.prepare("UPDATE orders SET loyalty_awarded=1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(id),
-      );
+        db.prepare("UPDATE orders SET loyalty_awarded=1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND loyalty_awarded=0").bind(id),
+      ]);
+      return Response.json({ ok: true, orderId: id, previousStatus: order.status, status, loyaltyPointsAwarded: points });
     }
 
     if (status === "cancelled" && order.user_id && Number(order.loyalty_awarded) === 1) {
       const award = await db.prepare(
-        "SELECT points FROM loyalty_events WHERE user_id=? AND reference_id=? AND reason=? ORDER BY id DESC LIMIT 1"
+        "SELECT points FROM loyalty_events WHERE user_id=? AND reference_id=? AND reason=? LIMIT 1"
       ).bind(order.user_id, id, "order_completed").first() as { points: number } | null;
       const awardedPoints = Math.max(0, Number(award?.points ?? points));
-
-      statements.push(
+      await db.batch([
+        db.prepare("UPDATE orders SET status=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status<>?").bind(status, id, status),
         db.prepare(
-          "UPDATE loyalty_accounts SET points=MAX(0,points-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=?"
-        ).bind(awardedPoints, order.user_id),
+          "UPDATE loyalty_accounts SET points=MAX(0,points-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND EXISTS (SELECT 1 FROM orders WHERE id=? AND loyalty_awarded=1)"
+        ).bind(awardedPoints, order.user_id, id),
         db.prepare(
-          "INSERT INTO loyalty_events (user_id,points,reason,reference_id) VALUES (?,?,?,?)"
-        ).bind(order.user_id, -awardedPoints, "order_cancelled_refund", id + ":refund:" + Date.now()),
-        db.prepare("UPDATE orders SET loyalty_awarded=0,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(id),
-      );
+          "INSERT OR IGNORE INTO loyalty_events (user_id,points,reason,reference_id) VALUES (?,?,?,?)"
+        ).bind(order.user_id, -awardedPoints, "order_cancelled_refund", id + ":refund"),
+        db.prepare("UPDATE orders SET loyalty_awarded=0,updated_at=CURRENT_TIMESTAMP WHERE id=? AND loyalty_awarded=1").bind(id),
+      ]);
+      return Response.json({ ok: true, orderId: id, previousStatus: order.status, status, loyaltyPointsRefunded: awardedPoints });
     }
 
-    await db.batch(statements);
+    await db.prepare(
+      "UPDATE orders SET status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?"
+    ).bind(status, id).run();
 
-    return Response.json({
-      ok: true,
-      orderId: id,
-      previousStatus: order.status,
-      status,
-      loyaltyPointsAwarded: status === "completed" && order.user_id && !Number(order.loyalty_awarded) ? points : 0,
-    });
+    return Response.json({ ok: true, orderId: id, previousStatus: order.status, status, loyaltyPointsAwarded: 0 });
   } catch {
     return Response.json({ error: apiMessage(request, "orderPersistence") }, { status: 503 });
   }
