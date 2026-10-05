@@ -10,6 +10,7 @@ const messages:Record<string,Record<ServerLocale,string>>={
   orderPersistence:{fr:"Impossible d’enregistrer la commande pour le moment.",en:"The order could not be saved right now.",ar:"تعذر حفظ الطلب حالياً."},
   invalidTracking:{fr:"Identifiant de suivi invalide.",en:"Invalid tracking identifier.",ar:"معرّف التتبع غير صالح."},
   incompleteReservation:{fr:"Informations de réservation incomplètes.",en:"Reservation information is incomplete.",ar:"معلومات الحجز غير مكتملة."},
+  reservationMissing:{fr:"Réservation introuvable.",en:"Reservation not found.",ar:"الحجز غير موجود."},
   invalidReservation:{fr:"Réservation invalide.",en:"Invalid reservation.",ar:"الحجز غير صالح."},
   dbReservation:{fr:"Demande prête pour WhatsApp.",en:"Reservation ready for WhatsApp.",ar:"طلب الحجز جاهز لواتساب."},
   reservationPersistence:{fr:"Impossible d’enregistrer la réservation pour le moment.",en:"The reservation could not be saved right now.",ar:"تعذر حفظ الحجز حالياً."},
