@@ -1,4 +1,4 @@
-# Menu Shish V2
+# LA SHISH
 
 Application web La Shish, construite avec Next.js 16, TypeScript et Tailwind CSS.
 
