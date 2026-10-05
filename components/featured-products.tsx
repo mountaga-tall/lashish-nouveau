@@ -19,7 +19,7 @@ export default function FeaturedProducts({ products }:{ products:Product[] }) {
         <div className="relative aspect-[4/3] bg-white/5">
           <FavoriteButton id={p.id} />
           <Image src={imageUrl(p.photo)} alt={p.nom} fill unoptimized sizes="(max-width:768px) 100vw, 33vw" className="object-cover transition duration-700 hover:scale-105" />
-          <span className="absolute left-4 top-4 rounded-full bg-black/55 px-3 py-1 text-[11px] font-bold uppercase tracking-wider backdrop-blur">La Shish</span>
+          <span className="absolute left-4 top-4 rounded-full bg-black/55 px-3 py-1 text-[11px] font-bold uppercase tracking-wider backdrop-blur">LA SHISH</span>
         </div>
         <div className="p-5">
           <div className="flex items-start justify-between gap-4">
