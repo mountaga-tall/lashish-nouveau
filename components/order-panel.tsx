@@ -118,7 +118,7 @@ export default function OrderPanel() {
       const url = whatsappUrl(message);
       if (popup) popup.location.href = url;
       else window.location.assign(url);
-      setError(e instanceof DOMException && e.name === "AbortError" ? t("order.timeout") : t("order.fallback"));
+      setError(e instanceof DOMException && e.name === "AbortError" ? t("order.timeout") : t("order.failed"));
     } finally {
       setBusy(false);
     }
@@ -176,7 +176,7 @@ export default function OrderPanel() {
         <div className="mt-3 flex items-center justify-between text-white/60"><span>{t("order.deliveryFee")}</span><span>{t("order.toConfirm")}</span></div>
         <div className="mt-6 border-t border-white/10 pt-6"><div className="flex items-end justify-between"><span className="text-white/60">{t("order.total")}</span><strong className="text-3xl">{money(total)}</strong></div></div>
         <button disabled={busy} type="submit" className="mt-7 w-full min-h-12 rounded-full bg-[#d4b273] px-5 py-3.5 text-sm font-black text-[#11100e] hover:bg-white disabled:opacity-50">
-          {busy ? t("order.processing") : t("order.whatsapp")}
+          {busy ? t("order.prepare") : t("order.whatsapp")}
         </button>
       </aside>
     </form>
